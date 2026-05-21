@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEOTERRA 2050 — Islamic Futuristic City on Mars</title>
+  <meta name="description" content="NEOTERRA 2050 — Une cité durable sur Mars, par la foi et le savoir. Projet de Haroun Jelassi, 6ᵉ B LPP.">
+
+  <!-- Favicon : dôme doré sur fond espace -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23050510'/><path d='M50 28 Q28 28 28 58 L28 72 L72 72 L72 58 Q72 28 50 28 Z' fill='none' stroke='%23f4c87a' stroke-width='3'/><circle cx='50' cy='18' r='2.5' fill='%23f4c87a'/><path d='M44 14 a6 6 0 1 0 6 6 a5 5 0 1 1 -6 -6' fill='%23f4c87a'/></svg>">
+
+  <!-- Polices : Orbitron (display futuriste) · Cinzel (décoratif/élégant) · Cormorant Garamond (corps) · Amiri (arabe) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       DESIGN TOKENS — NEOTERRA 2050
+       Palette : noir spatial / or martien / rouge Mars
+       ========================================================= */
+    :root {
+      --space-black:   #050510;
+      --space-deep:    #0a0a1a;
+      --space-medium:  #14141e;
+      --gold-pale:     #f5e6c4;
+      --gold-light:    #f4c87a;
+      --gold-bright:   #ffd98a;
+      --gold-deep:     #b8860b;
+      --gold-dark:     #8b6914;
+      --mars-red:      #c84d2f;
+      --mars-glow:     #e8623c;
+      --mars-deep:     #6b2a1a;
+      --starlight:     rgba(245, 230, 196, 0.92);
+      --gold-line:     rgba(244, 200, 122, 0.25);
+      --gold-line-mid: rgba(244, 200, 122, 0.45);
+      --gold-line-hi:  rgba(244, 200, 122, 0.75);
+
+      --font-display:    'Orbitron', 'Courier New', monospace;
+      --font-decorative: 'Cinzel', 'Georgia', serif;
+      --font-body:       'Cormorant Garamond', 'Georgia', serif;
+      --font-arabic:     'Amiri', 'Times New Roman', serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--space-black);
+      color: var(--starlight);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* =========================================================
+       BACKGROUND : nuages stellaires + lueurs martiennes
+       ========================================================= */
+    .starfield {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 20% 0%,  rgba(200, 77, 47, 0.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(244, 200, 122, 0.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(107, 42, 26, 0.08) 0%, transparent 70%),
+        var(--space-black);
+    }
+
+    .stars {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 20% 30%,  white, transparent),
+        radial-gradient(1px 1px at 50% 70%,  white, transparent),
+        radial-gradient(2px 2px at 80% 20%,  var(--gold-pale), transparent),
+        radial-gradient(1px 1px at 30% 80%,  white, transparent),
+        radial-gradient(1px 1px at 60% 40%,  white, transparent),
+        radial-gradient(2px 2px at 90% 60%,  var(--gold-pale), transparent),
+        radial-gradient(1px 1px at 10% 90%,  white, transparent),
+        radial-gradient(1px 1px at 70% 10%,  white, transparent),
+        radial-gradient(1px 1px at 45% 15%,  white, transparent),
+        radial-gradient(1px 1px at 5% 50%,   var(--gold-pale), transparent);
+      background-size: 800px 800px;
+      animation: starsDrift 240s linear infinite;
+      opacity: 0.65;
+    }
+    @keyframes starsDrift {
+      from { background-position: 0 0; }
+      to   { background-position: -800px 800px; }
+    }
+
+    /* =========================================================
+       BANDEAU ÉCOLE (tout en haut)
+       ========================================================= */
+    .school-banner {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 110;
+      height: 160px;
+      display: grid;
+      grid-template-columns: auto 1fr auto 1fr auto;
+      align-items: center;
+      padding: 0 40px;
+      background: #ffffff;
+      border-bottom: 1px solid #1a1a26;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+    /* === Blocs texte du bandeau (entre logos) === */
+    .banner-info {
+      text-align: center;
+      padding: 0 20px;
+      color: #2a2a40;
+      font-family: var(--font-display);
+    }
+    .banner-info-title {
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+      font-weight: 700;
+      color: #2a2a40;
+      white-space: nowrap;
+    }
+    .banner-info-title .diamond {
+      color: #b8860b;
+      margin: 0 8px;
+      font-size: 0.9em;
+    }
+    .banner-info-line {
+      width: 80px;
+      height: 1px;
+      margin: 7px auto;
+      background: linear-gradient(to right, transparent, #b8860b, transparent);
+    }
+    .banner-info-subtitle {
+      font-family: var(--font-decorative);
+      font-style: italic;
+      font-size: 0.78rem;
+      color: #666;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    /* Sous 1100px : pas assez de place pour le texte → on cache, on retombe sur les 3 logos */
+    @media (max-width: 1100px) {
+      .school-banner { grid-template-columns: 1fr auto 1fr !important; }
+      .banner-info { display: none !important; }
+    }
+
+    .banner-school { justify-self: center; }
+    .banner-school img {
+      height: 136px;
+      width: auto;
+      display: block;
+    }
+    .banner-author {
+      height: 128px;
+      width: 128px;
+      border-radius: 50%;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .banner-author:first-of-type { justify-self: start; }
+    .banner-author:last-of-type  { justify-self: end; }
+    .banner-author img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 50%;
+    }
+    .banner-author:hover {
+      transform: scale(1.06);
+    }
+
+    @media (max-width: 720px) {
+      .school-banner { height: 120px; padding: 0 14px; }
+      .banner-school img { height: 100px; }
+      .banner-author { height: 90px; width: 90px; }
+    }
+
+    /* =========================================================
+       BARRE HUD HAUTE (placée sous le bandeau école)
+       ========================================================= */
+    .hud-top {
+      position: fixed; top: 160px; left: 0; right: 0; z-index: 100;
+      padding: 14px 32px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(180deg, rgba(5,5,16,0.95) 0%, rgba(5,5,16,0.55) 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--gold-line);
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      color: var(--gold-light);
+    }
+    .hud-top-left, .hud-top-right { display: flex; align-items: center; gap: 22px; }
+    .hud-top-left { gap: 12px; }
+
+    .hud-dot {
+      width: 7px; height: 7px;
+      background: var(--gold-light);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--gold-light), 0 0 20px var(--mars-glow);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .hud-status .dim { color: var(--gold-deep); margin-left: 4px; }
+
+    @media (max-width: 720px) {
+      .hud-top { top: 120px; padding: 10px 16px; font-size: 0.5rem; letter-spacing: 0.15em; }
+      .hud-top-right .hud-status:nth-child(-n+2) { display: none; }
+    }
+
+    /* =========================================================
+       COINS DÉCORATIFS HUD (fixés à l'écran)
+       ========================================================= */
+    .hud-corner {
+      position: fixed; width: 28px; height: 28px;
+      z-index: 50; pointer-events: none;
+    }
+    .hud-corner::before, .hud-corner::after {
+      content: ''; position: absolute; background: var(--gold-light);
+      box-shadow: 0 0 6px rgba(244, 200, 122, 0.5);
+    }
+    .hud-corner.tl { top: 226px;  left: 24px; }
+    .hud-corner.tl::before { top: 0; left: 0; width: 18px; height: 1.5px; }
+    .hud-corner.tl::after  { top: 0; left: 0; width: 1.5px; height: 18px; }
+    .hud-corner.tr { top: 226px;  right: 24px; }
+    .hud-corner.tr::before { top: 0; right: 0; width: 18px; height: 1.5px; }
+    .hud-corner.tr::after  { top: 0; right: 0; width: 1.5px; height: 18px; }
+    .hud-corner.bl { bottom: 24px; left: 24px; }
+    .hud-corner.bl::before { bottom: 0; left: 0; width: 18px; height: 1.5px; }
+    .hud-corner.bl::after  { bottom: 0; left: 0; width: 1.5px; height: 18px; }
+    .hud-corner.br { bottom: 24px; right: 24px; }
+    .hud-corner.br::before { bottom: 0; right: 0; width: 18px; height: 1.5px; }
+    .hud-corner.br::after  { bottom: 0; right: 0; width: 1.5px; height: 18px; }
+    @media (max-width: 720px) { .hud-corner { display: none; } }
+
+    /* =========================================================
+       MAIN
+       ========================================================= */
+    main { position: relative; z-index: 10; padding-top: 220px; }
+    @media (max-width: 720px) { main { padding-top: 166px; } }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+    .hero {
+      min-height: calc(100vh - 60px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 60px 24px 100px;
+      position: relative;
+    }
+
+    /* Badge auteur (logo) en haut de page */
+    .author-badge {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      margin-bottom: 36px;
+      position: relative;
+      opacity: 0;
+      animation: badgeReveal 1.2s ease-out 0.1s forwards;
+      filter: drop-shadow(0 0 22px rgba(244, 200, 122, 0.25))
+              drop-shadow(0 0 50px rgba(200, 77, 47, 0.15));
+      transition: transform 0.4s ease, filter 0.4s ease;
+      cursor: pointer;
+    }
+    .author-badge img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 50%;
+    }
+    .author-badge::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1px solid var(--gold-line-mid);
+      pointer-events: none;
+    }
+    .author-badge:hover {
+      transform: scale(1.06);
+      filter: drop-shadow(0 0 28px rgba(244, 200, 122, 0.45))
+              drop-shadow(0 0 60px rgba(200, 77, 47, 0.25));
+    }
+    @keyframes badgeReveal {
+      from { opacity: 0; transform: scale(0.7) rotate(-10deg); }
+      to   { opacity: 1; transform: scale(1) rotate(0); }
+    }
+    @media (max-width: 720px) {
+      .author-badge { width: 176px; height: 176px; margin-bottom: 28px; }
+    }
+
+    .hero-label {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      letter-spacing: 0.45em;
+      color: var(--gold-light);
+      opacity: 0;
+      animation: fadeUp 1s ease-out 0.5s forwards;
+      margin-bottom: 32px;
+      display: flex; align-items: center; gap: 14px;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(244, 200, 122, 0.4);
+    }
+    .hero-label::before, .hero-label::after {
+      content: ''; width: 40px; height: 1px;
+      background: var(--gold-line-hi);
+    }
+
+    .hero-image-wrapper {
+      position: relative;
+      max-width: 680px;
+      width: 100%;
+      opacity: 0;
+      animation: revealImage 1.8s ease-out 0.6s forwards;
+    }
+    @keyframes revealImage {
+      from { opacity: 0; transform: scale(0.94); filter: blur(8px); }
+      to   { opacity: 1; transform: scale(1);    filter: blur(0); }
+    }
+
+    .hero-image-wrapper img {
+      width: 100%; height: auto; display: block;
+      border-radius: 4px;
+      box-shadow:
+        0 0 80px  rgba(244, 200, 122, 0.18),
+        0 0 200px rgba(200, 77, 47, 0.12),
+        0 20px 60px rgba(0, 0, 0, 0.6);
+      transition: box-shadow 0.6s ease;
+    }
+    .hero-image-wrapper:hover img {
+      box-shadow:
+        0 0 100px rgba(244, 200, 122, 0.3),
+        0 0 240px rgba(200, 77, 47, 0.2),
+        0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Cadre HUD autour de l'image */
+    .image-frame {
+      position: absolute;
+      width: 50px; height: 50px;
+      border: 1.5px solid var(--gold-light);
+      pointer-events: none;
+      opacity: 0;
+      animation: fadeIn 1.2s ease-out 1.8s forwards;
+      box-shadow: 0 0 12px rgba(244, 200, 122, 0.3);
+    }
+    .image-frame.tl { top: -12px; left: -12px;  border-right: none; border-bottom: none; }
+    .image-frame.tr { top: -12px; right: -12px; border-left: none;  border-bottom: none; }
+    .image-frame.bl { bottom: -12px; left: -12px;  border-right: none; border-top: none; }
+    .image-frame.br { bottom: -12px; right: -12px; border-left: none;  border-top: none; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Indicateur de scroll */
+    .scroll-indicator {
+      margin-top: 60px;
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      color: var(--gold-light);
+      opacity: 0;
+      animation: fadeIn 1s ease-out 2.2s forwards;
+      text-align: center;
+    }
+    .scroll-indicator span {
+      display: inline-block;
+      animation: bobble 2.6s ease-in-out 3s infinite;
+    }
+    .scroll-indicator::after {
+      content: '';
+      display: block;
+      width: 1px; height: 32px;
+      background: linear-gradient(to bottom, var(--gold-light), transparent);
+      margin: 14px auto 0;
+    }
+    @keyframes bobble {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(6px); }
+    }
+
+    /* =========================================================
+       SECTION VIDÉO
+       ========================================================= */
+    .video-section {
+      padding: 80px 24px 60px;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .video-wrapper {
+      position: relative;
+      max-width: 860px;
+      margin: 36px auto 0;
+      aspect-ratio: 16 / 9;
+      background: var(--space-deep);
+      border: 1px solid var(--gold-line-mid);
+      box-shadow: 0 0 60px rgba(244, 200, 122, 0.18),
+                  0 0 140px rgba(200, 77, 47, 0.12),
+                  0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: var(--space-deep);
+    }
+    .video-frame {
+      position: absolute;
+      width: 30px; height: 30px;
+      border: 1.5px solid var(--gold-light);
+      pointer-events: none;
+      box-shadow: 0 0 10px rgba(244, 200, 122, 0.4);
+    }
+    .video-frame.tl { top: -10px; left: -10px;  border-right: none; border-bottom: none; }
+    .video-frame.tr { top: -10px; right: -10px; border-left: none;  border-bottom: none; }
+    .video-frame.bl { bottom: -10px; left: -10px;  border-right: none; border-top: none; }
+    .video-frame.br { bottom: -10px; right: -10px; border-left: none;  border-top: none; }
+
+    .video-caption {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(245, 230, 196, 0.6);
+      margin-top: 20px;
+      letter-spacing: 0.02em;
+    }
+    @media (max-width: 720px) {
+      .video-section { padding: 60px 16px 40px; }
+      .video-frame { width: 22px; height: 22px; }
+    }
+
+    /* =========================================================
+       SECTION VISION (motto)
+       ========================================================= */
+    .vision {
+      padding: 120px 24px;
+      max-width: 880px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      color: var(--gold-light);
+      margin-bottom: 28px;
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+      text-shadow: 0 0 10px rgba(244, 200, 122, 0.3);
+    }
+    .section-label::before, .section-label::after {
+      content: ''; width: 50px; height: 1px;
+      background: var(--gold-line-hi);
+    }
+
+    .section-title {
+      font-family: var(--font-decorative);
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--gold-pale);
+      margin-bottom: 60px;
+      text-transform: uppercase;
+    }
+
+    .motto-arabic {
+      font-family: var(--font-arabic);
+      font-size: clamp(1.5rem, 4vw, 2.3rem);
+      color: var(--gold-light);
+      line-height: 1.9;
+      direction: rtl;
+      margin-bottom: 16px;
+      text-shadow: 0 0 30px rgba(244, 200, 122, 0.2);
+    }
+
+    .motto-divider {
+      width: 120px; height: 1px;
+      background: var(--gold-line-mid);
+      margin: 36px auto;
+      position: relative;
+    }
+    .motto-divider::before {
+      content: '✦';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--space-black);
+      padding: 0 14px;
+      color: var(--gold-light);
+      font-size: 0.85rem;
+      text-shadow: 0 0 10px var(--gold-light);
+    }
+
+    .motto-french {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+      color: var(--starlight);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+    }
+
+    .vision-text {
+      margin-top: 80px;
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      line-height: 1.9;
+      color: rgba(245, 230, 196, 0.82);
+      max-width: 680px;
+      margin-left: auto; margin-right: auto;
+    }
+
+    /* =========================================================
+       SECTION EXPLORATION (cartes)
+       ========================================================= */
+    .exploration {
+      padding: 80px 24px 120px;
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+    .exploration-header { text-align: center; margin-bottom: 60px; }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 18px;
+    }
+    /* Tablette : adapte automatiquement (3-4 colonnes selon largeur) */
+    @media (max-width: 1100px) {
+      .cards-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    }
+
+    .card {
+      position: relative;
+      padding: 38px 28px;
+      background: linear-gradient(135deg, rgba(20, 20, 30, 0.65), rgba(10, 10, 24, 0.4));
+      border: 1px solid var(--gold-line);
+      cursor: pointer;
+      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  border-color 0.5s,
+                  box-shadow 0.5s;
+      overflow: hidden;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 50%, rgba(244, 200, 122, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      top: -1px; left: -1px;
+      width: 22px; height: 22px;
+      border-top: 2px solid var(--gold-light);
+      border-left: 2px solid var(--gold-light);
+      opacity: 0;
+      transition: opacity 0.3s;
+      box-shadow: 0 0 10px rgba(244, 200, 122, 0.4);
+    }
+    .card:hover {
+      border-color: var(--gold-line-hi);
+      transform: translateY(-4px);
+      box-shadow: 0 14px 40px rgba(244, 200, 122, 0.12),
+                  0 0 60px rgba(200, 77, 47, 0.08);
+    }
+    .card:hover::before,
+    .card:hover::after { opacity: 1; }
+
+    .card-number {
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--gold-deep);
+      margin-bottom: 18px;
+    }
+    .card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      color: var(--gold-light);
+      filter: drop-shadow(0 0 12px rgba(244, 200, 122, 0.5));
+    }
+    .card-title {
+      font-family: var(--font-decorative);
+      font-size: 1.2rem;
+      letter-spacing: 0.06em;
+      color: var(--gold-pale);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .card-desc {
+      font-family: var(--font-body);
+      font-size: 0.98rem;
+      color: rgba(245, 230, 196, 0.7);
+      line-height: 1.6;
+      margin-bottom: 26px;
+    }
+    .card-link {
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--gold-light);
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: gap 0.3s;
+    }
+    .card:hover .card-link { gap: 16px; }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    footer {
+      border-top: 1px solid var(--gold-line);
+      padding: 50px 24px;
+      text-align: center;
+      background: rgba(5, 5, 16, 0.6);
+      position: relative; z-index: 10;
+    }
+    .footer-author {
+      font-family: var(--font-decorative);
+      font-size: 1.15rem;
+      letter-spacing: 0.2em;
+      color: var(--gold-light);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .footer-divider {
+      width: 80px; height: 1px;
+      background: var(--gold-line-mid);
+      margin: 14px auto 16px;
+      position: relative;
+    }
+    .footer-divider::before {
+      content: '✦';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--space-black);
+      padding: 0 10px;
+      color: var(--gold-deep);
+      font-size: 0.7rem;
+    }
+    .footer-meta {
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      color: var(--gold-deep);
+    }
+
+    /* =========================================================
+       PROTECTION IMAGES (logo Haroun + image cité)
+       Empêche le glisser-déposer et la sélection.
+       Note : aucune méthode ne bloque totalement le téléchargement.
+       ========================================================= */
+    .banner-author img,
+    .hero-image-wrapper img {
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-drag: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-touch-callout: none;
+      pointer-events: none;
+    }
+    /* Le wrapper du lien Haroun reste cliquable, l'image dessous est juste affichage */
+    .banner-author { cursor: pointer; }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+    @media (max-width: 720px) {
+      body { font-size: 16px; }
+      .hero { padding: 60px 16px 60px; }
+      .image-frame { width: 32px; height: 32px; }
+      .vision { padding: 80px 16px; }
+      .exploration { padding: 60px 16px 100px; }
+      .cards-grid { gap: 16px; }
+      .card { padding: 32px 24px; }
+    }
+  
+    /* ============ PLACEHOLDER POUR VIDÉO NON ENCORE UPLOADÉE ============ */
+    [data-video-slot] { position: relative; width: 100%; }
+    [data-video-slot] iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; display: block; }
+    [data-video-slot].video-empty { background: radial-gradient(ellipse at center, rgba(244,200,122,0.06), rgba(10,10,24,0.8)); border: 1px dashed var(--gold-line); }
+    .video-placeholder-content {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; padding: 20px; text-align: center;
+      color: var(--gold-light); font-family: var(--font-decorative); font-style: italic;
+    }
+    .video-placeholder-icon { font-size: 3rem; opacity: 0.6; }
+    .video-placeholder-text { font-size: 1.05rem; }
+    .video-placeholder-key { font-family: monospace; font-size: 0.75rem; opacity: 0.55; letter-spacing: 0.04em; }
+
+  </style>
+
+  <!-- NEOTERRA · Configuration et chargeur central (vidéos + GA) -->
+  <script src="videos-config.js"></script>
+  <script src="neoterra-init.js"></script>
+  <script src="neoterra-loader.js"></script>
+
+  </head>
+<body>
+
+  <!-- Fonds animés -->
+  <div class="starfield"></div>
+  <div class="stars"></div>
+
+  <!-- Bandeau école (tout en haut) -->
+  <div class="school-banner">
+    <a href="architecte.html" class="banner-author" aria-label="L'architecte : Haroun Jelassi">
+      <img src="images/haroun-logo.png" alt="Logo Haroun Jelassi — astronaute">
+    </a>
+    <div class="banner-info banner-info-left">
+      <div class="banner-info-title"><span class="diamond">◇</span>NEOTERRA 2050<span class="diamond">◇</span></div>
+      <div class="banner-info-line"></div>
+      <div class="banner-info-subtitle">Projet · Cité martienne</div>
+    </div>
+    <div class="banner-school">
+      <img src="images/lpp-logo.png" alt="La Petite Plume — LPP">
+    </div>
+    <div class="banner-info banner-info-right">
+      <div class="banner-info-title"><span class="diamond">◇</span>HAROUN JELASSI<span class="diamond">◇</span></div>
+      <div class="banner-info-line"></div>
+      <div class="banner-info-subtitle">Architecte · 6ᵉ B · 2025-26</div>
+    </div>
+    <a href="architecte.html" class="banner-author" aria-hidden="true" tabindex="-1">
+      <img src="images/haroun-logo.png" alt="">
+    </a>
+  </div>
+
+  <!-- Coins HUD décoratifs -->
+  <div class="hud-corner tl"></div>
+  <div class="hud-corner tr"></div>
+  <div class="hud-corner bl"></div>
+  <div class="hud-corner br"></div>
+
+  <!-- Barre HUD haute -->
+  <header class="hud-top">
+    <div class="hud-top-left">
+      <span class="hud-dot"></span>
+      <span>NEOTERRA · SECTEUR α</span>
+    </div>
+    <div class="hud-top-right">
+      <span class="hud-status">LAT<span class="dim">18.4°N</span></span>
+      <span class="hud-status">LON<span class="dim">226.7°E</span></span>
+      <span class="hud-status">AN<span class="dim">2050</span></span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+
+      <div class="hero-label">Islamic Futuristic City on Mars</div>
+
+      <div class="hero-image-wrapper">
+        <img src="images/neoterra-hero.png" alt="NEOTERRA 2050 — Cité islamique futuriste sur Mars">
+        <span class="image-frame tl"></span>
+        <span class="image-frame tr"></span>
+        <span class="image-frame bl"></span>
+        <span class="image-frame br"></span>
+      </div>
+
+      <div class="scroll-indicator"><span>EXPLORER LA CITÉ</span></div>
+    </section>
+
+    <!-- ============ VIDÉO INTRODUCTION ============ -->
+    <section class="video-section">
+      <div class="section-label">Introduction</div>
+      <h2 class="section-title">Découvrir le projet</h2>
+
+      <div class="video-wrapper">
+        <div data-video-slot="index-intro" data-video-label="Présentation NEOTERRA 2050" style="position: relative; padding-bottom: 56.25%; height: 0; background: var(--space-deep); border: 1px solid rgba(244, 200, 122, 0.25); overflow: hidden;"></div>
+        <span class="video-frame tl"></span>
+        <span class="video-frame tr"></span>
+        <span class="video-frame bl"></span>
+        <span class="video-frame br"></span>
+      </div>
+
+      <p class="video-caption">Présentation de NEOTERRA 2050 par son architecte</p>
+    </section>
+
+    <!-- ============ VISION ============ -->
+    <section class="vision">
+      <div class="section-label">La Vision</div>
+      <h2 class="section-title">Bâtir demain</h2>
+
+      <div class="motto-arabic">
+        على المريخ، نبنّي غدًا مدينةً مستدامةً بالإيمان والعلم، إن شاء الله
+      </div>
+
+      <div class="motto-divider"></div>
+
+      <div class="motto-french">
+        « Sur Mars, nous bâtissons demain une ville durable<br>
+        par la foi et le savoir, si Allah le veut. »
+      </div>
+
+      <p class="vision-text">
+        NEOTERRA 2050 est une cité imaginée pour devenir réalité dans une génération :
+        une ville autonome installée sur Mars, conçue pour accueillir la vie humaine
+        grâce à l'énergie solaire, à l'agriculture sous dômes, au recyclage de l'eau
+        et à l'intelligence artificielle. Une cité où la science et la foi avancent
+        ensemble, pour offrir un avenir durable à l'humanité.
+      </p>
+    </section>
+
+    <!-- ============ EXPLORATION ============ -->
+    <section class="exploration">
+      <div class="exploration-header">
+        <div class="section-label">Exploration</div>
+        <h2 class="section-title">Découvrir NEOTERRA</h2>
+      </div>
+
+      <div class="cards-grid">
+
+        <a class="card" href="projet.html">
+          <div class="card-number">00 / 06</div>
+          <div class="card-icon">📋</div>
+          <h3 class="card-title">Le Projet</h3>
+          <p class="card-desc">
+            Le cahier des charges, les 7 thématiques couvertes, l'équipe G2
+            et la démarche : tout sur la mission « Ville durable 2050 ».
+          </p>
+          <div class="card-link">COMPRENDRE →</div>
+        </a>
+
+        <a class="card" href="mars.html">
+          <div class="card-number">01 / 06</div>
+          <div class="card-icon">♂</div>
+          <h3 class="card-title">Mars</h3>
+          <p class="card-desc">
+            La planète rouge : son atmosphère, sa gravité, ses paysages,
+            ses défis — et pourquoi l'humanité rêve d'y vivre.
+          </p>
+          <div class="card-link">EN SAVOIR PLUS →</div>
+        </a>
+
+        <a class="card" href="cite.html">
+          <div class="card-number">02 / 06</div>
+          <div class="card-icon">⬡</div>
+          <h3 class="card-title">La Cité</h3>
+          <p class="card-desc">
+            Dômes pressurisés, tours résidentielles, mosquée centrale, agriculture
+            verticale. L'architecture de NEOTERRA en détail.
+          </p>
+          <div class="card-link">EXPLORER →</div>
+        </a>
+
+        <a class="card" href="maquette.html">
+          <div class="card-number">03 / 06</div>
+          <div class="card-icon">◈</div>
+          <h3 class="card-title">La Maquette</h3>
+          <p class="card-desc">
+            Le modèle physique de 70 × 70 cm : fiche technique, terrain martien,
+            6 bâtiments principaux, habitants et étapes de construction.
+          </p>
+          <div class="card-link">VOIR →</div>
+        </a>
+
+        <a class="card" href="technologie.html">
+          <div class="card-number">04 / 06</div>
+          <div class="card-icon">☀</div>
+          <h3 class="card-title">Technologie & Vie citadine</h3>
+          <p class="card-desc">
+            Énergie, eau, agriculture, transports, communication, médecine, sécurité,
+            sport, culture, spiritualité — tout ce qui fait vivre la cité au quotidien.
+          </p>
+          <div class="card-link">DÉCOUVRIR →</div>
+        </a>
+
+        <a class="card" href="architecte.html">
+          <div class="card-number">05 / 06</div>
+          <div class="card-icon">✦</div>
+          <h3 class="card-title">L'Architecte</h3>
+          <p class="card-desc">
+            Haroun Jelassi, classe de 6ᵉ B, LPP. L'idée, l'inspiration et le
+            cheminement du projet.
+          </p>
+          <div class="card-link">RENCONTRER →</div>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-author">HAROUN JELASSI</div>
+    <div class="footer-divider"></div>
+    <div class="footer-meta">6ᵉ B · LPP · 2026 · NEOTERRA 2050</div>
+  </footer>
+
+  <script>
+    // ===== PROTECTION LÉGÈRE DES IMAGES SENSIBLES =====
+    // Bloque le clic droit et le glisser-déposer sur :
+    //  - les logos Haroun (.banner-author img)
+    //  - l'image de la cité (.hero-image-wrapper img)
+    // Note : ne peut pas empêcher F12 / capture d'écran / vue du source.
+    (function() {
+      const selectors = ['.banner-author img', '.hero-image-wrapper img'];
+      selectors.forEach(sel => {
+        document.querySelectorAll(sel).forEach(img => {
+          img.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
+          img.addEventListener('dragstart',  e => { e.preventDefault(); return false; });
+        });
+      });
+
+      // Bloque aussi le clic droit sur les conteneurs (au cas où l'image
+      // serait recouverte par un overlay transparent)
+      document.querySelectorAll('.banner-author, .hero-image-wrapper').forEach(el => {
+        el.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
+      });
+    })();
+  </script>
+
+</body>
+</html>

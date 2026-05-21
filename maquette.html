@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Maquette · NEOTERRA 2050</title>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23050510'/><circle cx='50' cy='50' r='28' fill='none' stroke='%23f4c87a' stroke-width='4'/><circle cx='50' cy='50' r='6' fill='%23f4c87a'/></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --space-black: #050510; --space-deep: #0a0a1a;
+      --gold-pale: #f5e6c4; --gold-light: #f4c87a; --gold-bright: #ffd98a;
+      --gold-deep: #b8860b; --gold-dark: #8b6914;
+      --mars-red: #c84d2f; --mars-glow: #e8623c; --mars-deep: #6b2a1a;
+      --starlight: rgba(245, 230, 196, 0.92);
+      --gold-line: rgba(244, 200, 122, 0.25);
+      --gold-line-mid: rgba(244, 200, 122, 0.45);
+      --gold-line-hi: rgba(244, 200, 122, 0.75);
+      --font-display: 'Orbitron', monospace;
+      --font-decorative: 'Cinzel', serif;
+      --font-body: 'Cormorant Garamond', serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--space-black); color: var(--starlight);
+      font-family: var(--font-body); font-size: 18px; line-height: 1.6;
+      overflow-x: hidden; min-height: 100vh; position: relative;
+    }
+
+    .starfield {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(200, 77, 47, 0.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(244, 200, 122, 0.06) 0%, transparent 55%),
+        var(--space-black);
+    }
+    .stars {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 20% 30%, white, transparent),
+        radial-gradient(1px 1px at 50% 70%, white, transparent),
+        radial-gradient(2px 2px at 80% 20%, var(--gold-pale), transparent),
+        radial-gradient(1px 1px at 30% 80%, white, transparent),
+        radial-gradient(1px 1px at 60% 40%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, var(--gold-pale), transparent);
+      background-size: 800px 800px;
+      animation: starsDrift 240s linear infinite;
+      opacity: 0.65;
+    }
+    @keyframes starsDrift { from { background-position: 0 0; } to { background-position: -800px 800px; } }
+
+    /* BANNIÈRE + HUD (identique aux autres pages) */
+    .school-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 110;
+      height: 160px; display: grid; grid-template-columns: auto 1fr auto 1fr auto;
+      align-items: center; padding: 0 40px;
+      background: #ffffff; border-bottom: 1px solid #1a1a26;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+    /* === Blocs texte du bandeau (entre logos) === */
+    .banner-info {
+      text-align: center;
+      padding: 0 20px;
+      color: #2a2a40;
+      font-family: var(--font-display);
+    }
+    .banner-info-title {
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+      font-weight: 700;
+      color: #2a2a40;
+      white-space: nowrap;
+    }
+    .banner-info-title .diamond {
+      color: #b8860b;
+      margin: 0 8px;
+      font-size: 0.9em;
+    }
+    .banner-info-line {
+      width: 80px;
+      height: 1px;
+      margin: 7px auto;
+      background: linear-gradient(to right, transparent, #b8860b, transparent);
+    }
+    .banner-info-subtitle {
+      font-family: var(--font-decorative);
+      font-style: italic;
+      font-size: 0.78rem;
+      color: #666;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    /* Sous 1100px : pas assez de place pour le texte → on cache, on retombe sur les 3 logos */
+    @media (max-width: 1100px) {
+      .school-banner { grid-template-columns: 1fr auto 1fr !important; }
+      .banner-info { display: none !important; }
+    }
+
+    .banner-school { justify-self: center; }
+    .banner-school img { height: 136px; width: auto; display: block; }
+    .banner-author { height: 128px; width: 128px; border-radius: 50%; display: block; transition: transform 0.3s ease; }
+    .banner-author:first-of-type { justify-self: start; }
+    .banner-author:last-of-type { justify-self: end; }
+    .banner-author img { width: 100%; height: 100%; display: block; border-radius: 50%; }
+    .banner-author:hover { transform: scale(1.06); }
+
+    .hud-top {
+      position: fixed; top: 160px; left: 0; right: 0; z-index: 100;
+      padding: 14px 32px; display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(180deg, rgba(5,5,16,0.95) 0%, rgba(5,5,16,0.55) 100%);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--gold-line);
+      font-family: var(--font-display); font-size: 0.65rem;
+      letter-spacing: 0.25em; color: var(--gold-light);
+    }
+    .hud-back { color: var(--gold-light); text-decoration: none; transition: color 0.3s; }
+    .hud-back:hover { color: var(--gold-bright); }
+    .hud-status .dim { color: var(--gold-deep); margin-left: 4px; }
+    .hud-top-right { display: flex; gap: 22px; }
+
+    main { position: relative; z-index: 10; padding-top: 220px; }
+
+    /* HEADER PAGE */
+    .page-header { padding: 40px 24px 24px; max-width: 1200px; margin: 0 auto; text-align: center; }
+    .breadcrumb { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.4em; color: var(--gold-deep); margin-bottom: 18px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .breadcrumb a { color: var(--gold-light); text-decoration: none; transition: color 0.3s; }
+    .breadcrumb a:hover { color: var(--gold-bright); }
+    .breadcrumb-sep { opacity: 0.5; }
+    .page-title {
+      font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 900; letter-spacing: 0.06em; color: var(--gold-pale);
+      line-height: 1; margin-bottom: 12px;
+      text-shadow: 0 0 40px rgba(244, 200, 122, 0.4);
+    }
+    .page-subtitle { font-family: var(--font-decorative); font-style: italic; font-size: 1.1rem; color: var(--gold-light); letter-spacing: 0.05em; }
+
+    /* ============ FICHE TECHNIQUE ============ */
+    .spec-card-section { max-width: 920px; margin: 0 auto; padding: 30px 24px 50px; }
+    .spec-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(20, 20, 30, 0.85), rgba(10, 10, 24, 0.92));
+      border: 1px solid var(--gold-line-mid);
+      padding: 30px 32px;
+      box-shadow: 0 0 60px rgba(244, 200, 122, 0.10), 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    .spec-card-corner { position: absolute; width: 26px; height: 26px; border: 1.5px solid var(--gold-light); box-shadow: 0 0 10px rgba(244, 200, 122, 0.4); }
+    .spec-card-corner.tl { top: -8px; left: -8px;  border-right: none; border-bottom: none; }
+    .spec-card-corner.tr { top: -8px; right: -8px; border-left: none;  border-bottom: none; }
+    .spec-card-corner.bl { bottom: -8px; left: -8px;  border-right: none; border-top: none; }
+    .spec-card-corner.br { bottom: -8px; right: -8px; border-left: none;  border-top: none; }
+    .spec-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 18px; margin-bottom: 28px;
+      border-bottom: 1px solid var(--gold-line);
+      gap: 16px; flex-wrap: wrap;
+    }
+    .spec-stamp { font-family: var(--font-display); font-size: 0.8rem; letter-spacing: 0.35em; color: var(--gold-bright); text-transform: uppercase; font-weight: 700; }
+    .spec-number { font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.25em; color: var(--gold-deep); }
+
+    .spec-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 30px; }
+    .spec-field {
+      display: grid; grid-template-columns: 140px 1fr; gap: 14px;
+      padding: 12px 0; border-bottom: 1px dotted var(--gold-line);
+      align-items: baseline;
+    }
+    .spec-field .label {
+      font-family: var(--font-display); font-size: 0.6rem;
+      letter-spacing: 0.32em; color: var(--gold-deep);
+      text-transform: uppercase;
+    }
+    .spec-field .value {
+      font-family: var(--font-decorative); font-size: 1.1rem;
+      color: var(--gold-pale); letter-spacing: 0.04em;
+    }
+    .spec-field .value.highlight { color: var(--gold-bright); font-weight: 600; }
+
+    /* SECTIONS DE CONTENU */
+    .content-section {
+      max-width: 900px; margin: 60px auto 0; padding: 0 24px;
+    }
+    .section-label { font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.4em; color: var(--gold-light); margin-bottom: 14px; display: flex; align-items: center; gap: 14px; text-shadow: 0 0 10px rgba(244, 200, 122, 0.3); justify-content: center; }
+    .section-label::before, .section-label::after { content: ''; width: 50px; height: 1px; background: var(--gold-line-hi); }
+    .section-title-inner {
+      font-family: var(--font-decorative); font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 500; letter-spacing: 0.1em; color: var(--gold-pale);
+      margin-bottom: 28px; text-transform: uppercase; text-align: center;
+    }
+    .section-body { font-family: var(--font-body); font-size: 1.1rem; line-height: 1.75; color: var(--starlight); }
+    .section-body p { margin-bottom: 18px; }
+    .section-body strong { color: var(--gold-pale); font-weight: 600; }
+    .section-body em { color: var(--gold-light); font-style: italic; }
+    .highlight { color: var(--gold-bright); padding: 0 4px; }
+
+    /* FACT-BOX (encart "★ Le savais-tu ?") */
+    .fact-box {
+      background: rgba(244, 200, 122, 0.05);
+      border-left: 3px solid var(--gold-light);
+      padding: 18px 22px;
+      margin: 24px 0;
+      position: relative;
+    }
+    .fact-label {
+      font-family: var(--font-display); font-size: 0.7rem;
+      letter-spacing: 0.3em; color: var(--gold-bright);
+      text-transform: uppercase; margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .fact-text { color: var(--starlight); font-size: 1.05rem; line-height: 1.65; }
+
+    /* GRILLE BÂTIMENTS */
+    .buildings-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px; margin-top: 30px;
+    }
+    .building-card {
+      padding: 22px 20px;
+      background: rgba(10, 10, 24, 0.7);
+      border: 1px solid var(--gold-line);
+      transition: all 0.35s;
+    }
+    .building-card:hover {
+      border-color: var(--gold-light);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(244, 200, 122, 0.15);
+    }
+    .building-icon {
+      font-size: 2.2rem; margin-bottom: 10px;
+      display: block; text-align: center;
+    }
+    .building-name {
+      font-family: var(--font-display); font-size: 0.75rem;
+      letter-spacing: 0.25em; color: var(--gold-bright);
+      text-align: center; margin-bottom: 12px; text-transform: uppercase;
+    }
+    .building-desc { font-size: 0.95rem; color: rgba(245, 230, 196, 0.85); text-align: center; line-height: 1.55; }
+
+    /* GRILLE HABITANTS */
+    .inhabitants-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px; margin-top: 28px; max-width: 800px; margin-left: auto; margin-right: auto;
+    }
+    .inhabitant {
+      text-align: center; padding: 18px 14px;
+      background: rgba(20, 20, 30, 0.6);
+      border: 1px solid var(--gold-line);
+      transition: all 0.3s;
+    }
+    .inhabitant:hover { border-color: var(--gold-light); transform: scale(1.03); }
+    .inhabitant-figure {
+      font-size: 2.6rem; margin-bottom: 10px; display: block;
+    }
+    .inhabitant-name {
+      font-family: var(--font-decorative); font-size: 1.05rem;
+      color: var(--gold-pale); margin-bottom: 4px;
+    }
+    .inhabitant-role {
+      font-family: var(--font-display); font-size: 0.55rem;
+      letter-spacing: 0.25em; color: var(--gold-deep); text-transform: uppercase;
+    }
+
+    /* TIMELINE CONSTRUCTION */
+    .timeline { margin-top: 30px; }
+    .timeline-step {
+      display: grid; grid-template-columns: 60px 1fr; gap: 22px;
+      padding: 18px 0; border-bottom: 1px dotted var(--gold-line);
+      align-items: start;
+    }
+    .timeline-step:last-child { border-bottom: none; }
+    .timeline-num {
+      font-family: var(--font-display); font-size: 1.6rem;
+      color: var(--gold-bright); font-weight: 700;
+      text-align: center; line-height: 1;
+      border: 1px solid var(--gold-line-mid);
+      padding: 10px 0; background: rgba(10, 10, 24, 0.6);
+    }
+    .timeline-content h3 {
+      font-family: var(--font-decorative); font-size: 1.25rem;
+      color: var(--gold-pale); margin-bottom: 6px; font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+    .timeline-content p { color: rgba(245, 230, 196, 0.85); font-size: 1rem; line-height: 1.6; margin: 0; }
+
+    /* LIEN 3D */
+    .threed-link-section { max-width: 900px; margin: 60px auto 0; padding: 0 24px; text-align: center; }
+    .threed-link {
+      display: inline-flex; align-items: center; gap: 14px;
+      padding: 22px 36px;
+      background: linear-gradient(135deg, rgba(200, 77, 47, 0.15), rgba(244, 200, 122, 0.08));
+      border: 1px solid var(--gold-line-hi);
+      color: var(--gold-bright);
+      font-family: var(--font-display); font-size: 0.85rem;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      text-decoration: none; transition: all 0.4s;
+      box-shadow: 0 0 30px rgba(244, 200, 122, 0.15);
+    }
+    .threed-link:hover {
+      border-color: var(--gold-bright);
+      box-shadow: 0 0 50px rgba(244, 200, 122, 0.35);
+      transform: translateY(-3px);
+      color: var(--gold-bright);
+    }
+    .threed-link-icon { font-size: 1.5rem; }
+    .threed-note { margin-top: 14px; font-style: italic; color: var(--gold-light); font-size: 0.95rem; }
+
+    /* NAV / FOOTER */
+    .page-nav { max-width: 1200px; margin: 80px auto 40px; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .nav-btn { font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.3em; color: var(--gold-light); text-decoration: none; padding: 16px 28px; border: 1px solid var(--gold-line); transition: all 0.4s; text-transform: uppercase; }
+    .nav-btn:hover { border-color: var(--gold-line-hi); background: rgba(244, 200, 122, 0.06); transform: translateY(-2px); }
+    .nav-btn-next { color: var(--gold-bright); border-color: rgba(244, 200, 122, 0.4); }
+    .nav-btn-next:hover { border-color: var(--gold-bright); background: rgba(244, 200, 122, 0.1); }
+
+    footer { border-top: 1px solid var(--gold-line); padding: 50px 24px; text-align: center; background: rgba(5, 5, 16, 0.6); position: relative; z-index: 10; }
+    .footer-author { font-family: var(--font-decorative); font-size: 1.15rem; letter-spacing: 0.2em; color: var(--gold-light); margin-bottom: 10px; font-weight: 500; }
+    .footer-divider { width: 80px; height: 1px; background: var(--gold-line-mid); margin: 14px auto 16px; position: relative; }
+    .footer-divider::before { content: '✦'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--space-black); padding: 0 10px; color: var(--gold-deep); font-size: 0.7rem; }
+    .footer-meta { font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.35em; color: var(--gold-deep); }
+
+    /* RESPONSIVE */
+    @media (max-width: 720px) {
+      body { font-size: 16px; }
+      .school-banner { height: 120px; padding: 0 14px; }
+      .banner-school img { height: 100px; }
+      .banner-author { height: 90px; width: 90px; }
+      .hud-top { top: 120px; padding: 10px 16px; font-size: 0.5rem; letter-spacing: 0.15em; }
+      .hud-top-right .hud-status:nth-child(-n+2) { display: none; }
+      main { padding-top: 166px; }
+      .page-header { padding: 30px 16px 16px; }
+      .spec-card { padding: 22px 18px; }
+      .spec-grid { grid-template-columns: 1fr; gap: 0; }
+      .spec-field { grid-template-columns: 110px 1fr; gap: 12px; }
+      .spec-field .label { font-size: 0.5rem; letter-spacing: 0.2em; }
+      .spec-field .value { font-size: 1rem; }
+      .timeline-step { grid-template-columns: 44px 1fr; gap: 14px; }
+      .timeline-num { font-size: 1.2rem; }
+      .page-nav { flex-direction: column; }
+      .nav-btn { width: 100%; text-align: center; }
+      .threed-link { font-size: 0.7rem; padding: 18px 24px; letter-spacing: 0.15em; }
+    }
+  
+    /* ============ PLACEHOLDER POUR VIDÉO NON ENCORE UPLOADÉE ============ */
+    [data-video-slot] { position: relative; width: 100%; }
+    [data-video-slot] iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; display: block; }
+    [data-video-slot].video-empty { background: radial-gradient(ellipse at center, rgba(244,200,122,0.06), rgba(10,10,24,0.8)); border: 1px dashed var(--gold-line); }
+    .video-placeholder-content {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; padding: 20px; text-align: center;
+      color: var(--gold-light); font-family: var(--font-decorative); font-style: italic;
+    }
+    .video-placeholder-icon { font-size: 3rem; opacity: 0.6; }
+    .video-placeholder-text { font-size: 1.05rem; }
+    .video-placeholder-key { font-family: monospace; font-size: 0.75rem; opacity: 0.55; letter-spacing: 0.04em; }
+
+  
+    /* ============ VIDÉOS DE LA MAQUETTE ============ */
+    .maquette-video-section { max-width: 920px; margin: 50px auto 0; padding: 0 24px; }
+    .maquette-video-section .section-label { justify-content: center; margin-bottom: 14px; }
+    .maquette-video-section .section-title-inner { text-align: center; margin-bottom: 24px; }
+    .maquette-video-wrapper {
+      position: relative; padding-bottom: 56.25%; height: 0;
+      background: var(--space-deep);
+      border: 1px solid var(--gold-line);
+      overflow: hidden;
+    }
+    .maquette-video-wrapper [data-video-slot] {
+      position: absolute; inset: 0;
+    }
+    .maquette-video-caption {
+      margin-top: 14px; text-align: center;
+      font-family: var(--font-decorative); font-style: italic;
+      color: var(--gold-light); font-size: 0.95rem;
+    }
+
+  </style>
+
+  <!-- NEOTERRA · Configuration et chargeur central (vidéos + GA) -->
+  <script src="videos-config.js"></script>
+  <script src="neoterra-init.js"></script>
+  <script src="neoterra-loader.js"></script>
+
+  </head>
+<body>
+
+  <div class="starfield"></div>
+  <div class="stars"></div>
+
+  <div class="school-banner">
+    <a href="index.html" class="banner-author" aria-label="L'architecte : Haroun Jelassi">
+      <img src="images/haroun-logo.png" alt="Logo Haroun Jelassi — astronaute">
+    </a>
+    <div class="banner-info banner-info-left">
+      <div class="banner-info-title"><span class="diamond">◇</span>NEOTERRA 2050<span class="diamond">◇</span></div>
+      <div class="banner-info-line"></div>
+      <div class="banner-info-subtitle">Projet · Cité martienne</div>
+    </div>
+    <div class="banner-school">
+      <img src="images/lpp-logo.png" alt="La Petite Plume — LPP">
+    </div>
+    <div class="banner-info banner-info-right">
+      <div class="banner-info-title"><span class="diamond">◇</span>HAROUN JELASSI<span class="diamond">◇</span></div>
+      <div class="banner-info-line"></div>
+      <div class="banner-info-subtitle">Architecte · 6ᵉ B · 2025-26</div>
+    </div>
+    <a href="index.html" class="banner-author" aria-hidden="true" tabindex="-1">
+      <img src="images/haroun-logo.png" alt="">
+    </a>
+  </div>
+
+  <header class="hud-top">
+    <div class="hud-top-left">
+      <a href="index.html" class="hud-back">← NEOTERRA · ACCUEIL</a>
+    </div>
+    <div class="hud-top-right">
+      <span class="hud-status">SECTION<span class="dim">03 / 05</span></span>
+      <span class="hud-status">SUJET<span class="dim">LA MAQUETTE</span></span>
+    </div>
+  </header>
+
+  <main>
+
+    <header class="page-header">
+      <div class="breadcrumb">
+        <a href="index.html">NEOTERRA 2050</a>
+        <span class="breadcrumb-sep">/</span>
+        <span>LA MAQUETTE</span>
+      </div>
+      <h1 class="page-title">LA MAQUETTE</h1>
+      <p class="page-subtitle">La cité martienne en relief, à l'échelle 1/1000</p>
+    </header>
+
+    <!-- ============ FICHE TECHNIQUE ============ -->
+    <section class="spec-card-section">
+      <div class="spec-card">
+        <span class="spec-card-corner tl"></span><span class="spec-card-corner tr"></span>
+        <span class="spec-card-corner bl"></span><span class="spec-card-corner br"></span>
+
+        <div class="spec-header">
+          <div class="spec-stamp">Fiche technique</div>
+          <div class="spec-number">RÉF. NEOTERRA · 03 / 05</div>
+        </div>
+
+        <div class="spec-grid">
+          <div class="spec-field"><span class="label">Dimensions</span><span class="value highlight">70 × 70 cm</span></div>
+          <div class="spec-field"><span class="label">Échelle</span><span class="value">≈ 1 / 1000</span></div>
+          <div class="spec-field"><span class="label">Matière du plateau</span><span class="value">Bois MDF</span></div>
+          <div class="spec-field"><span class="label">Terrain</span><span class="value">Polystyrène + papier mâché</span></div>
+          <div class="spec-field"><span class="label">Bâtiments</span><span class="value">Carton, plastique, impression 3D</span></div>
+          <div class="spec-field"><span class="label">Figurines</span><span class="value">5 personnages à l'échelle</span></div>
+          <div class="spec-field"><span class="label">Couleurs</span><span class="value">Acrylique : ocre, rouille, blanc</span></div>
+          <div class="spec-field"><span class="label">Version numérique</span><span class="value highlight">3D Three.js en ligne</span></div>
+        </div>
+      </div>
+    </section>
+
+    
+    <!-- ============ VIDÉO TIME-LAPSE CONSTRUCTION ============ -->
+    <section class="maquette-video-section">
+      <div class="section-label">Time-lapse</div>
+      <h2 class="section-title-inner">La maquette en accéléré</h2>
+      <div class="maquette-video-wrapper">
+        <div data-video-slot="maquette-construction"></div>
+      </div>
+      <div class="maquette-video-caption">
+        Construction de la maquette filmée en accéléré · des heures de travail en quelques minutes
+      </div>
+    </section>
+
+    <!-- ============ PRÉSENTATION ============ -->
+    <section class="content-section">
+      <div class="section-label">Présentation</div>
+      <h2 class="section-title-inner">Le projet en relief</h2>
+      <div class="section-body">
+        <p>
+          La maquette de <strong>NEOTERRA 2050</strong> est une reproduction physique de la
+          cité martienne imaginée pour ce projet. Sur un plateau carré de
+          <strong>70 cm de côté</strong>, on retrouve à l'échelle approximative
+          <span class="highlight">1/1000</span> les éléments essentiels de la cité : le
+          terrain martien, les dômes d'habitation, la place centrale, les serres, et les
+          premiers habitants.
+        </p>
+        <p>
+          L'objectif est de rendre <em>tangible</em> ce qui n'existe pour l'instant que dans
+          des images de synthèse et des plans. Quand on tourne autour de la maquette, on
+          peut imaginer ce que verrait un visiteur de NEOTERRA en arrivant pour la première
+          fois sur Mars.
+        </p>
+        <div class="fact-box">
+          <div class="fact-label">★ Pourquoi une maquette ?</div>
+          <p class="fact-text">
+            Avant de construire un vrai bâtiment, les architectes font toujours une maquette.
+            Elle permet de <strong>voir en 3D</strong> ce qui était plat sur un plan, de
+            détecter les problèmes, et de présenter le projet à d'autres personnes.
+            NEOTERRA suit la même méthode que les grands cabinets d'architecture.
+          </p>
+        </div>
+        <div style="text-align: center; margin-top: 28px;">
+          <a href="projet.html" style="font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.3em; color: var(--gold-bright); text-transform: uppercase; text-decoration: none; border-bottom: 1px dashed var(--gold-line-mid); padding-bottom: 3px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='var(--gold-bright)'" onmouseout="this.style.borderColor='var(--gold-line-mid)'">→ Découvrir le projet en détail</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LE PLATEAU & LE TERRAIN ============ -->
+    <section class="content-section">
+      <div class="section-label">Le terrain martien</div>
+      <h2 class="section-title-inner">Cratères, dunes et roches rouges</h2>
+      <div class="section-body">
+        <p>
+          Le sol de Mars n'est pas plat — il est plein de <strong>cratères, de collines, de
+          canyons et de plaines</strong>. Pour reproduire ce relief, la maquette utilise
+          deux techniques classiques :
+        </p>
+        <p>
+          ▸ Des blocs de <strong>polystyrène</strong> sculpté pour les grandes formes
+          (collines, bord des cratères).<br>
+          ▸ Du <strong>papier mâché</strong> par-dessus, qui durcit en séchant et donne une
+          surface solide à peindre.
+        </p>
+        <p>
+          La couleur emblématique de Mars vient ensuite : un mélange d'<strong>ocre, de
+          rouille, et d'un peu de blanc</strong> pour les zones givrées, appliqué à
+          l'acrylique. Quelques zones plus sombres représentent les roches volcaniques.
+        </p>
+        <div class="fact-box">
+          <div class="fact-label">★ Le savais-tu ?</div>
+          <p class="fact-text">
+            Sur Mars, la poussière rouge recouvre tout. Mais sous la surface, les roches
+            sont parfois <strong>noires, grises, ou même bleutées</strong>. Les rovers ont
+            photographié des cailloux qui ne ressemblent pas du tout à ce qu'on imagine.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LA CITÉ ============ -->
+    <section class="content-section">
+      <div class="section-label">La cité</div>
+      <h2 class="section-title-inner">Les bâtiments principaux</h2>
+      <div class="section-body">
+        <p>
+          La maquette présente <strong>six éléments centraux</strong> de la cité NEOTERRA.
+          Chacun est construit en carton, parfois renforcé de plastique ou d'éléments
+          imprimés en 3D, et peint dans les couleurs du projet (blanc, or, terre cuite).
+        </p>
+        <div class="buildings-grid">
+          <div class="building-card">
+            <span class="building-icon">🕌</span>
+            <div class="building-name">Le grand dôme</div>
+            <div class="building-desc">Le cœur architectural et spirituel de la cité, inspiré des coupoles classiques.</div>
+          </div>
+          <div class="building-card">
+            <span class="building-icon">🏛</span>
+            <div class="building-name">La place centrale</div>
+            <div class="building-desc">Lieu de rassemblement, marché, et événements de la communauté.</div>
+          </div>
+          <div class="building-card">
+            <span class="building-icon">🏘</span>
+            <div class="building-name">Les habitations</div>
+            <div class="building-desc">Des modules d'habitation regroupés autour de la place, protégés des radiations.</div>
+          </div>
+          <div class="building-card">
+            <span class="building-icon">🌿</span>
+            <div class="building-name">Les serres</div>
+            <div class="building-desc">Sous coupole transparente : agriculture hydroponique et cultures vivrières.</div>
+          </div>
+          <div class="building-card">
+            <span class="building-icon">⚡</span>
+            <div class="building-name">L'usine d'énergie</div>
+            <div class="building-desc">Panneaux solaires et petit réacteur de fusion compact pour l'autonomie.</div>
+          </div>
+          <div class="building-card">
+            <span class="building-icon">🚀</span>
+            <div class="building-name">L'aire de lancement</div>
+            <div class="building-desc">À l'écart de la cité : aller-retours vers la Terre et exploration martienne.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LES HABITANTS ============ -->
+    <section class="content-section">
+      <div class="section-label">Les habitants</div>
+      <h2 class="section-title-inner">La population de NEOTERRA</h2>
+      <div class="section-body">
+        <p>
+          Pour donner vie à la maquette, <strong>cinq figurines à l'échelle</strong> ont été
+          réalisées. Elles représentent les premiers habitants de NEOTERRA — astronautes,
+          adultes et enfants — pour montrer que la cité est faite pour
+          <span class="highlight">vivre, pas seulement pour explorer</span>.
+        </p>
+        <div class="inhabitants-grid">
+          <div class="inhabitant">
+            <span class="inhabitant-figure">👨‍🚀</span>
+            <div class="inhabitant-name">L'astronaute</div>
+            <div class="inhabitant-role">Pionnier</div>
+          </div>
+          <div class="inhabitant">
+            <span class="inhabitant-figure">👨</span>
+            <div class="inhabitant-name">L'homme</div>
+            <div class="inhabitant-role">Colon adulte</div>
+          </div>
+          <div class="inhabitant">
+            <span class="inhabitant-figure">👩</span>
+            <div class="inhabitant-name">La femme</div>
+            <div class="inhabitant-role">Colonne adulte</div>
+          </div>
+          <div class="inhabitant">
+            <span class="inhabitant-figure">👦</span>
+            <div class="inhabitant-name">Le garçon</div>
+            <div class="inhabitant-role">Né sur Mars</div>
+          </div>
+          <div class="inhabitant">
+            <span class="inhabitant-figure">👧</span>
+            <div class="inhabitant-name">La fille</div>
+            <div class="inhabitant-role">Née sur Mars</div>
+          </div>
+        </div>
+        <p style="margin-top: 28px;">
+          Les enfants ne portent pas de combinaison : ils vivent <em>à l'intérieur</em> des
+          dômes, dans un air respirable. Les adultes en combinaison sortent pour les travaux
+          d'exploration et de maintenance à l'extérieur.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ CONSTRUCTION ============ -->
+    <section class="content-section">
+      <div class="section-label">Construction</div>
+      <h2 class="section-title-inner">Comment c'est fait, étape par étape</h2>
+      <div class="section-body">
+        <p>
+          La maquette a été construite en plusieurs étapes, sur plusieurs semaines. Voici les
+          grandes phases du chantier :
+        </p>
+        <div class="timeline">
+          <div class="timeline-step">
+            <div class="timeline-num">1</div>
+            <div class="timeline-content">
+              <h3>Le plateau</h3>
+              <p>Découpe d'une planche de bois MDF de 70 × 70 cm pour servir de support stable et de base.</p>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-num">2</div>
+            <div class="timeline-content">
+              <h3>Le relief</h3>
+              <p>Sculpture de blocs de polystyrène collés au plateau pour créer les collines, les cratères et les zones surélevées.</p>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-num">3</div>
+            <div class="timeline-content">
+              <h3>Le papier mâché</h3>
+              <p>Recouvrement du polystyrène par des bandes de papier journal trempées dans la colle. Une fois sec, on obtient une surface solide.</p>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-num">4</div>
+            <div class="timeline-content">
+              <h3>La peinture</h3>
+              <p>Coloration du terrain à l'acrylique : ocres, rouilles, et touches blanches pour les zones givrées. Plusieurs couches pour la profondeur.</p>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-num">5</div>
+            <div class="timeline-content">
+              <h3>Les bâtiments</h3>
+              <p>Assemblage des dômes, modules et structures en carton et plastique, peints aux couleurs de NEOTERRA, puis collés sur la maquette.</p>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-num">6</div>
+            <div class="timeline-content">
+              <h3>Les habitants</h3>
+              <p>Placement des cinq figurines aux endroits clés : place centrale, accès aux serres, sortie de sas. Chacune raconte un moment de vie sur Mars.</p>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-num">7</div>
+            <div class="timeline-content">
+              <h3>Finitions</h3>
+              <p>Détails finaux : petits panneaux, route entre les bâtiments, traces de pas dans la poussière, fil pour suspendre les drapeaux. Tout ce qui donne vie à la scène.</p>
+            </div>
+          </div>
+        </div>
+        <div class="fact-box">
+          <div class="fact-label">★ Temps total</div>
+          <p class="fact-text">
+            Comptez environ <strong>40 à 50 heures de travail</strong> réparties sur plusieurs
+            semaines pour terminer une maquette de ce niveau. Le séchage du papier mâché
+            entre chaque couche est ce qui prend le plus de temps.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    
+    <!-- ============ VIDÉO VISITE GUIDÉE ============ -->
+    <section class="maquette-video-section">
+      <div class="section-label">Visite guidée</div>
+      <h2 class="section-title-inner">Le tour de la maquette finie</h2>
+      <div class="maquette-video-wrapper">
+        <div data-video-slot="maquette-visite"></div>
+      </div>
+      <div class="maquette-video-caption">
+        Visite vidéo de la maquette terminée · vue d'ensemble et détails
+      </div>
+    </section>
+
+    <!-- ============ VERSION 3D ============ -->
+    <section class="threed-link-section">
+      <div class="section-label">Version numérique</div>
+      <h2 class="section-title-inner">Visiter la cité en 3D</h2>
+      <p style="margin-bottom: 26px;">
+        En complément de la maquette physique, NEOTERRA 2050 dispose d'une
+        <strong>version 3D interactive</strong> consultable sur n'importe quel navigateur.
+        Tu peux y tourner autour de la cité, te déplacer entre les bâtiments, et observer
+        l'architecture sous tous les angles.
+      </p>
+      <a href="https://jelramzy.github.io/mars-colony/" target="_blank" rel="noopener" class="threed-link">
+        <span class="threed-link-icon">🌐</span>
+        <span>Explorer NEOTERRA en 3D</span>
+      </a>
+      <p class="threed-note">
+        S'ouvre dans un nouvel onglet · Compatible mobile et ordinateur
+      </p>
+    </section>
+
+    <nav class="page-nav">
+      <a href="cite.html" class="nav-btn">← LA CITÉ</a>
+      <a href="technologie.html" class="nav-btn nav-btn-next">LA TECHNOLOGIE →</a>
+    </nav>
+
+  </main>
+
+  <footer>
+    <div class="footer-author">HAROUN JELASSI</div>
+    <div class="footer-divider"></div>
+    <div class="footer-meta">6ᵉ B · LPP · 2026 · NEOTERRA 2050</div>
+  </footer>
+
+  <script>
+    // Protection légère des logos de la bannière
+    document.querySelectorAll('.banner-author img').forEach(img => {
+      img.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
+      img.addEventListener('dragstart',  e => { e.preventDefault(); return false; });
+    });
+  </script>
+
+</body>
+</html>

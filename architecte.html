@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L'Architecte · NEOTERRA 2050</title>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23050510'/><circle cx='50' cy='50' r='28' fill='none' stroke='%23f4c87a' stroke-width='4'/><circle cx='50' cy='50' r='6' fill='%23f4c87a'/></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --space-black: #050510; --space-deep: #0a0a1a;
+      --gold-pale: #f5e6c4; --gold-light: #f4c87a; --gold-bright: #ffd98a;
+      --gold-deep: #b8860b; --gold-dark: #8b6914;
+      --mars-red: #c84d2f; --mars-glow: #e8623c; --mars-deep: #6b2a1a;
+      --starlight: rgba(245, 230, 196, 0.92);
+      --gold-line: rgba(244, 200, 122, 0.25);
+      --gold-line-mid: rgba(244, 200, 122, 0.45);
+      --gold-line-hi: rgba(244, 200, 122, 0.75);
+      --font-display: 'Orbitron', monospace;
+      --font-decorative: 'Cinzel', serif;
+      --font-body: 'Cormorant Garamond', serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--space-black); color: var(--starlight);
+      font-family: var(--font-body); font-size: 18px; line-height: 1.6;
+      overflow-x: hidden; min-height: 100vh; position: relative;
+    }
+
+    .starfield {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(200, 77, 47, 0.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(244, 200, 122, 0.06) 0%, transparent 55%),
+        var(--space-black);
+    }
+    .stars {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 20% 30%, white, transparent),
+        radial-gradient(1px 1px at 50% 70%, white, transparent),
+        radial-gradient(2px 2px at 80% 20%, var(--gold-pale), transparent),
+        radial-gradient(1px 1px at 30% 80%, white, transparent),
+        radial-gradient(1px 1px at 60% 40%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, var(--gold-pale), transparent);
+      background-size: 800px 800px;
+      animation: starsDrift 240s linear infinite;
+      opacity: 0.65;
+    }
+    @keyframes starsDrift { from { background-position: 0 0; } to { background-position: -800px 800px; } }
+
+    /* BANNIÈRE + HUD (identique aux autres pages) */
+    .school-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 110;
+      height: 160px; display: grid; grid-template-columns: auto 1fr auto 1fr auto;
+      align-items: center; padding: 0 40px;
+      background: #ffffff; border-bottom: 1px solid #1a1a26;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+    /* === Blocs texte du bandeau (entre logos) === */
+    .banner-info {
+      text-align: center;
+      padding: 0 20px;
+      color: #2a2a40;
+      font-family: var(--font-display);
+    }
+    .banner-info-title {
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+      font-weight: 700;
+      color: #2a2a40;
+      white-space: nowrap;
+    }
+    .banner-info-title .diamond {
+      color: #b8860b;
+      margin: 0 8px;
+      font-size: 0.9em;
+    }
+    .banner-info-line {
+      width: 80px;
+      height: 1px;
+      margin: 7px auto;
+      background: linear-gradient(to right, transparent, #b8860b, transparent);
+    }
+    .banner-info-subtitle {
+      font-family: var(--font-decorative);
+      font-style: italic;
+      font-size: 0.78rem;
+      color: #666;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    /* Sous 1100px : pas assez de place pour le texte → on cache, on retombe sur les 3 logos */
+    @media (max-width: 1100px) {
+      .school-banner { grid-template-columns: 1fr auto 1fr !important; }
+      .banner-info { display: none !important; }
+    }
+
+    .banner-school { justify-self: center; }
+    .banner-school img { height: 136px; width: auto; display: block; }
+    .banner-author { height: 128px; width: 128px; border-radius: 50%; display: block; transition: transform 0.3s ease; }
+    .banner-author:first-of-type { justify-self: start; }
+    .banner-author:last-of-type { justify-self: end; }
+    .banner-author img { width: 100%; height: 100%; display: block; border-radius: 50%; }
+    .banner-author:hover { transform: scale(1.06); }
+
+    .hud-top {
+      position: fixed; top: 160px; left: 0; right: 0; z-index: 100;
+      padding: 14px 32px; display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(180deg, rgba(5,5,16,0.95) 0%, rgba(5,5,16,0.55) 100%);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--gold-line);
+      font-family: var(--font-display); font-size: 0.65rem;
+      letter-spacing: 0.25em; color: var(--gold-light);
+    }
+    .hud-back { color: var(--gold-light); text-decoration: none; transition: color 0.3s; }
+    .hud-back:hover { color: var(--gold-bright); }
+    .hud-status .dim { color: var(--gold-deep); margin-left: 4px; }
+    .hud-top-right { display: flex; gap: 22px; }
+
+    main { position: relative; z-index: 10; padding-top: 220px; }
+
+    /* HEADER PAGE */
+    .page-header { padding: 40px 24px 24px; max-width: 1200px; margin: 0 auto; text-align: center; }
+    .breadcrumb { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.4em; color: var(--gold-deep); margin-bottom: 18px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .breadcrumb a { color: var(--gold-light); text-decoration: none; transition: color 0.3s; }
+    .breadcrumb a:hover { color: var(--gold-bright); }
+    .breadcrumb-sep { opacity: 0.5; }
+    .page-title {
+      font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 900; letter-spacing: 0.06em; color: var(--gold-pale);
+      line-height: 1; margin-bottom: 12px;
+      text-shadow: 0 0 40px rgba(244, 200, 122, 0.4);
+    }
+    .page-subtitle { font-family: var(--font-decorative); font-style: italic; font-size: 1.1rem; color: var(--gold-light); letter-spacing: 0.05em; }
+
+    /* ============ CARTE D'IDENTITÉ ============ */
+    .id-card-section { max-width: 920px; margin: 0 auto; padding: 30px 24px 50px; }
+
+    .id-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(20, 20, 30, 0.85), rgba(10, 10, 24, 0.92));
+      border: 1px solid var(--gold-line-mid);
+      padding: 30px 32px;
+      box-shadow: 0 0 60px rgba(244, 200, 122, 0.10), 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    .id-card-corner { position: absolute; width: 26px; height: 26px; border: 1.5px solid var(--gold-light); box-shadow: 0 0 10px rgba(244, 200, 122, 0.4); }
+    .id-card-corner.tl { top: -8px; left: -8px;  border-right: none; border-bottom: none; }
+    .id-card-corner.tr { top: -8px; right: -8px; border-left: none;  border-bottom: none; }
+    .id-card-corner.bl { bottom: -8px; left: -8px;  border-right: none; border-top: none; }
+    .id-card-corner.br { bottom: -8px; right: -8px; border-left: none;  border-top: none; }
+
+    .id-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 18px; margin-bottom: 28px;
+      border-bottom: 1px solid var(--gold-line);
+      gap: 16px; flex-wrap: wrap;
+    }
+    .id-stamp {
+      font-family: var(--font-display); font-size: 0.8rem;
+      letter-spacing: 0.35em; color: var(--gold-bright);
+      text-transform: uppercase; font-weight: 700;
+    }
+    .id-number {
+      font-family: var(--font-display); font-size: 0.6rem;
+      letter-spacing: 0.25em; color: var(--gold-deep);
+    }
+
+    .id-body { display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
+
+    .id-photo {
+      position: relative; aspect-ratio: 3 / 4;
+      background: linear-gradient(160deg, rgba(40, 30, 20, 0.5), rgba(20, 10, 5, 0.7));
+      border: 1px solid var(--gold-line-mid);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .id-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .id-photo.no-photo img { display: none; }
+    .id-photo-fallback { display: none; flex-direction: column; align-items: center; gap: 14px; color: var(--gold-deep); font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.3em; padding: 20px; text-align: center; }
+    .id-photo.no-photo .id-photo-fallback { display: flex; }
+    .id-photo-fallback svg { width: 90px; height: 90px; opacity: 0.55; }
+
+    .photo-corner { position: absolute; width: 18px; height: 18px; border: 1.5px solid var(--gold-light); }
+    .photo-corner.tl { top: 6px; left: 6px;  border-right: none; border-bottom: none; }
+    .photo-corner.tr { top: 6px; right: 6px; border-left: none;  border-bottom: none; }
+    .photo-corner.bl { bottom: 6px; left: 6px;  border-right: none; border-top: none; }
+    .photo-corner.br { bottom: 6px; right: 6px; border-left: none;  border-top: none; }
+
+    .id-fields { display: flex; flex-direction: column; gap: 0; }
+    .id-field {
+      display: grid; grid-template-columns: 170px 1fr; gap: 18px;
+      padding: 13px 0;
+      border-bottom: 1px dotted var(--gold-line);
+      align-items: baseline;
+    }
+    .id-field:last-child { border-bottom: none; padding-bottom: 0; }
+    .id-field .label {
+      font-family: var(--font-display); font-size: 0.6rem;
+      letter-spacing: 0.32em; color: var(--gold-deep);
+      text-transform: uppercase;
+    }
+    .id-field .value {
+      font-family: var(--font-decorative); font-size: 1.2rem;
+      color: var(--gold-pale); letter-spacing: 0.04em;
+    }
+    .id-field .value.highlight { color: var(--gold-bright); font-weight: 600; }
+
+    .id-footer {
+      margin-top: 28px; padding-top: 18px;
+      border-top: 1px solid var(--gold-line);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-display); font-size: 0.55rem;
+      letter-spacing: 0.3em; color: var(--gold-deep);
+      flex-wrap: wrap; gap: 10px;
+    }
+    .id-footer .seal {
+      padding: 6px 14px; border: 1px solid var(--gold-line-mid);
+      color: var(--gold-light);
+    }
+
+    /* SECTIONS BIO (placeholders) */
+    .bio-section, .inspirations-section, .gallery-section, .quote-section {
+      max-width: 900px; margin: 50px auto 0; padding: 0 24px;
+    }
+
+    .section-label { font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.4em; color: var(--gold-light); margin-bottom: 14px; display: flex; align-items: center; gap: 14px; text-shadow: 0 0 10px rgba(244, 200, 122, 0.3); justify-content: center; }
+    .section-label::before, .section-label::after { content: ''; width: 50px; height: 1px; background: var(--gold-line-hi); }
+    .section-title-inner {
+      font-family: var(--font-decorative); font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 500; letter-spacing: 0.1em; color: var(--gold-pale);
+      margin-bottom: 28px; text-transform: uppercase; text-align: center;
+    }
+
+    .empty-block {
+      text-align: center; padding: 60px 20px; min-height: 180px;
+      border: 1px dashed var(--gold-line);
+      background: rgba(20, 20, 30, 0.3);
+    }
+    .placeholder-label { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.35em; color: var(--gold-deep); margin-bottom: 14px; }
+    .placeholder-text { color: rgba(245, 230, 196, 0.5); font-style: italic; font-size: 1.05rem; }
+
+    /* NAV / FOOTER */
+    .page-nav { max-width: 1200px; margin: 60px auto 40px; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .nav-btn { font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.3em; color: var(--gold-light); text-decoration: none; padding: 16px 28px; border: 1px solid var(--gold-line); transition: all 0.4s; text-transform: uppercase; }
+    .nav-btn:hover { border-color: var(--gold-line-hi); background: rgba(244, 200, 122, 0.06); transform: translateY(-2px); }
+    .nav-btn-next { color: var(--gold-bright); border-color: rgba(244, 200, 122, 0.4); }
+    .nav-btn-next:hover { border-color: var(--gold-bright); background: rgba(244, 200, 122, 0.1); }
+
+    footer { border-top: 1px solid var(--gold-line); padding: 50px 24px; text-align: center; background: rgba(5, 5, 16, 0.6); position: relative; z-index: 10; }
+    .footer-author { font-family: var(--font-decorative); font-size: 1.15rem; letter-spacing: 0.2em; color: var(--gold-light); margin-bottom: 10px; font-weight: 500; }
+    .footer-divider { width: 80px; height: 1px; background: var(--gold-line-mid); margin: 14px auto 16px; position: relative; }
+    .footer-divider::before { content: '✦'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--space-black); padding: 0 10px; color: var(--gold-deep); font-size: 0.7rem; }
+    .footer-meta { font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.35em; color: var(--gold-deep); }
+
+    /* RESPONSIVE */
+    @media (max-width: 720px) {
+      body { font-size: 16px; }
+      .school-banner { height: 120px; padding: 0 14px; }
+      .banner-school img { height: 100px; }
+      .banner-author { height: 90px; width: 90px; }
+      .hud-top { top: 120px; padding: 10px 16px; font-size: 0.5rem; letter-spacing: 0.15em; }
+      .hud-top-right .hud-status:nth-child(-n+2) { display: none; }
+      main { padding-top: 166px; }
+      .page-header { padding: 30px 16px 16px; }
+      .id-card { padding: 22px 18px; }
+      .id-body { grid-template-columns: 1fr; gap: 24px; }
+      .id-photo { max-width: 240px; margin: 0 auto; }
+      .id-field { grid-template-columns: 110px 1fr; gap: 12px; }
+      .id-field .label { font-size: 0.5rem; letter-spacing: 0.2em; }
+      .id-field .value { font-size: 1rem; }
+      .page-nav { flex-direction: column; }
+      .nav-btn { width: 100%; text-align: center; }
+    }
+  
+    /* ========== ANIMATION FADE-IN ========== */
+    @keyframes archi-fade-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .page-header, .id-card-section, .bio-section, .inspirations-section,
+    .gallery-section, .quote-section, .page-nav {
+      animation: archi-fade-in 0.9s ease-out backwards;
+    }
+    .id-card-section { animation-delay: 0.15s; }
+    .bio-section { animation-delay: 0.25s; }
+    .inspirations-section { animation-delay: 0.35s; }
+    .gallery-section { animation-delay: 0.45s; }
+    .quote-section { animation-delay: 0.55s; }
+    @media (prefers-reduced-motion: reduce) {
+      .page-header, .id-card-section, .bio-section, .inspirations-section,
+      .gallery-section, .quote-section, .page-nav { animation: none; }
+    }
+
+    /* ========== BOUTON IMPRIMER ========== */
+    .print-nav { max-width: 920px; margin: 30px auto 0; padding: 0 24px; text-align: right; }
+    .print-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-display); font-size: 0.65rem;
+      letter-spacing: 0.3em; color: var(--gold-light);
+      background: transparent; border: 1px solid var(--gold-line);
+      padding: 10px 18px; cursor: pointer;
+      transition: all 0.35s; text-transform: uppercase;
+    }
+    .print-btn:hover {
+      border-color: var(--gold-light); color: var(--gold-bright);
+      background: rgba(244, 200, 122, 0.05);
+    }
+
+    /* ========== SOMMAIRE FLOTTANT ========== */
+    .content-toc {
+      position: fixed;
+      top: 240px;
+      right: 24px;
+      width: 230px;
+      max-height: calc(100vh - 280px);
+      overflow-y: auto;
+      background: rgba(10, 10, 24, 0.85);
+      border: 1px solid var(--gold-line);
+      padding: 16px 18px;
+      z-index: 120;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 40px rgba(244, 200, 122, 0.12), 0 10px 30px rgba(0, 0, 0, 0.5);
+      font-family: var(--font-display);
+    }
+    .content-toc-label {
+      font-size: 0.65rem; letter-spacing: 0.35em;
+      color: var(--gold-bright); text-transform: uppercase;
+      margin-bottom: 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--gold-line); font-weight: 600;
+    }
+    .content-toc-list { list-style: none; padding: 0; margin: 0; }
+    .content-toc-list .toc-item {
+      font-size: 0.7rem; letter-spacing: 0.04em;
+      color: var(--gold-light);
+      padding: 7px 6px 7px 20px;
+      cursor: pointer; transition: all 0.2s;
+      position: relative; display: block;
+      text-decoration: none; line-height: 1.35;
+      border-left: 2px solid transparent;
+      font-family: var(--font-decorative); font-weight: 400;
+    }
+    .content-toc-list .toc-item:hover {
+      color: var(--gold-bright); background: rgba(244, 200, 122, 0.05);
+    }
+    .content-toc-list .toc-item.active {
+      color: var(--gold-bright);
+      background: rgba(244, 200, 122, 0.08);
+      border-left-color: var(--gold-bright);
+    }
+    .content-toc-list .toc-item.active::before {
+      content: '▶';
+      position: absolute; left: 7px; top: 8px;
+      font-size: 0.5rem; color: var(--gold-bright);
+    }
+    @media (max-width: 1200px) { .content-toc { display: none !important; } }
+
+    /* ========== IMPRESSION ========== */
+    @media print {
+      body { background: white !important; color: black !important; }
+      .school-banner, .hud-top, .page-nav, .print-nav, .content-toc,
+      .starfield, .stars { display: none !important; }
+      .page-title, .section-title-inner, .section-label, h1, h2, h3, p, .value {
+        color: black !important; text-shadow: none !important;
+      }
+      .id-card { background: white !important; border: 1px solid #888 !important; box-shadow: none !important; }
+      .empty-block { background: white !important; }
+      main { padding-top: 20px !important; }
+      a { color: black !important; text-decoration: underline; }
+    }
+
+  
+    /* ============ CHAMPS ÉDITABLES (à remplir plus tard) ============ */
+    .editable {
+      display: inline-block;
+      background: rgba(244, 200, 122, 0.12);
+      border-bottom: 1px dashed var(--gold-light);
+      padding: 1px 10px;
+      color: var(--gold-bright);
+      font-style: italic;
+      font-size: 0.95em;
+      letter-spacing: 0.02em;
+    }
+    .editable::before { content: '✎ '; font-style: normal; opacity: 0.6; font-size: 0.85em; }
+
+    /* ============ CADRE PÉDAGOGIQUE ============ */
+    .cadre-section { max-width: 920px; margin: 50px auto 0; padding: 0 24px; }
+    .cadre-card {
+      border: 1px solid var(--gold-line);
+      background: rgba(20, 20, 30, 0.6);
+      padding: 30px 32px;
+      position: relative;
+    }
+    .cadre-card-stamp {
+      font-family: var(--font-display); font-size: 0.7rem;
+      letter-spacing: 0.32em; color: var(--gold-bright);
+      text-transform: uppercase; font-weight: 700;
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--gold-line);
+    }
+    .cadre-fields {
+      display: grid; grid-template-columns: 160px 1fr; gap: 14px 24px;
+      margin-bottom: 28px;
+      align-items: baseline;
+    }
+    .cadre-fields .label {
+      font-family: var(--font-display); font-size: 0.6rem;
+      letter-spacing: 0.3em; color: var(--gold-deep);
+      text-transform: uppercase;
+    }
+    .cadre-fields .value {
+      font-family: var(--font-decorative); font-size: 1.05rem;
+      color: var(--gold-pale); letter-spacing: 0.04em;
+    }
+    .enonce-block {
+      text-align: center;
+      padding-top: 22px;
+      border-top: 1px solid var(--gold-line);
+    }
+    .enonce-label {
+      font-family: var(--font-display); font-size: 0.65rem;
+      letter-spacing: 0.3em; color: var(--gold-light);
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    .enonce-image-wrapper {
+      display: inline-block;
+      max-width: 100%;
+      border: 1px solid var(--gold-line);
+      background: rgba(10, 10, 24, 0.85);
+      padding: 6px;
+      position: relative;
+    }
+    .enonce-image-wrapper img {
+      max-width: 100%; height: auto; display: block;
+      max-height: 400px;
+    }
+    .enonce-placeholder {
+      width: 480px; max-width: 100%; height: 280px;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      gap: 14px;
+      background: linear-gradient(135deg, rgba(244, 200, 122, 0.04), rgba(10, 10, 24, 0.4));
+      border: 2px dashed var(--gold-line);
+      color: var(--gold-light);
+      font-family: var(--font-decorative); font-style: italic;
+      padding: 30px;
+      text-align: center;
+    }
+    .enonce-placeholder-icon {
+      font-size: 2.5rem; opacity: 0.7;
+    }
+    .enonce-caption {
+      margin-top: 14px;
+      font-family: var(--font-decorative); font-style: italic;
+      color: var(--gold-light); font-size: 0.95rem;
+    }
+
+    /* ============ VIDÉO DE PRÉSENTATION ============ */
+    .intro-video-section { max-width: 800px; margin: 50px auto 0; padding: 0 24px; }
+    .intro-video-section .section-label { justify-content: center; margin-bottom: 14px; }
+    .intro-video-section .section-title-inner { text-align: center; margin-bottom: 24px; }
+    .intro-video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      background: var(--space-deep);
+      border: 1px solid var(--gold-line);
+      overflow: hidden;
+    }
+    .intro-video-wrapper video,
+    .intro-video-wrapper iframe {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+    .intro-video-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 16px;
+      color: var(--gold-light);
+      font-family: var(--font-decorative); font-style: italic;
+      background: radial-gradient(ellipse at center, rgba(244,200,122,0.06), transparent);
+      text-align: center; padding: 30px;
+    }
+    .intro-video-placeholder-icon {
+      font-size: 4rem; opacity: 0.6;
+    }
+    .video-caption {
+      margin-top: 14px;
+      font-family: var(--font-decorative); font-style: italic;
+      color: var(--gold-light); font-size: 0.95rem;
+      text-align: center;
+    }
+
+    /* ============ GALERIE — phases du projet ============ */
+    .phases-list { margin-top: 30px; }
+    .phase-item {
+      display: grid; grid-template-columns: 80px 1fr 280px; gap: 24px;
+      padding: 20px 0;
+      border-bottom: 1px dotted var(--gold-line);
+      align-items: center;
+    }
+    .phase-item:last-child { border-bottom: none; }
+    .phase-num {
+      font-family: var(--font-display); font-size: 0.7rem;
+      letter-spacing: 0.3em; color: var(--gold-bright);
+      text-align: center;
+      border: 1px solid var(--gold-line-mid);
+      padding: 14px 0;
+      background: rgba(10, 10, 24, 0.6);
+    }
+    .phase-content h3 {
+      font-family: var(--font-decorative); font-size: 1.15rem;
+      color: var(--gold-pale); margin-bottom: 4px; font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+    .phase-content p { color: rgba(245, 230, 196, 0.85); font-size: 0.97rem; line-height: 1.55; margin: 0; }
+    .phase-photo {
+      width: 100%; aspect-ratio: 4 / 3;
+      background: rgba(10, 10, 24, 0.7);
+      border: 1px dashed var(--gold-line);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-decorative); font-style: italic; font-size: 0.85rem;
+      color: var(--gold-light); text-align: center; padding: 14px;
+      position: relative; overflow: hidden;
+    }
+    .phase-photo img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .phase-photo.has-photo { border-style: solid; padding: 0; }
+    .phase-photo.has-photo .phase-photo-fallback { display: none; }
+    @media (max-width: 720px) {
+      .phase-item { grid-template-columns: 1fr; gap: 12px; }
+      .phase-num { padding: 8px 14px; max-width: 140px; }
+      .cadre-fields { grid-template-columns: 110px 1fr; gap: 10px 14px; }
+      .cadre-fields .label { font-size: 0.5rem; letter-spacing: 0.18em; }
+    }
+
+  
+    /* ============ PLACEHOLDER POUR VIDÉO NON ENCORE UPLOADÉE ============ */
+    [data-video-slot] { position: relative; width: 100%; }
+    [data-video-slot] iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; display: block; }
+    [data-video-slot].video-empty { background: radial-gradient(ellipse at center, rgba(244,200,122,0.06), rgba(10,10,24,0.8)); border: 1px dashed var(--gold-line); }
+    .video-placeholder-content {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; padding: 20px; text-align: center;
+      color: var(--gold-light); font-family: var(--font-decorative); font-style: italic;
+    }
+    .video-placeholder-icon { font-size: 3rem; opacity: 0.6; }
+    .video-placeholder-text { font-size: 1.05rem; }
+    .video-placeholder-key { font-family: monospace; font-size: 0.75rem; opacity: 0.55; letter-spacing: 0.04em; }
+
+  </style>
+
+  <!-- NEOTERRA · Configuration et chargeur central (vidéos + GA) -->
+  <script src="videos-config.js"></script>
+  <script src="neoterra-init.js"></script>
+  <script src="neoterra-loader.js"></script>
+
+  </head>
+<body>
+
+  <div class="starfield"></div>
+  <div class="stars"></div>
+
+  <div class="school-banner">
+    <a href="index.html" class="banner-author" aria-label="L'architecte : Haroun Jelassi">
+      <img src="images/haroun-logo.png" alt="Logo Haroun Jelassi — astronaute">
+    </a>
+    <div class="banner-info banner-info-left">
+      <div class="banner-info-title"><span class="diamond">◇</span>NEOTERRA 2050<span class="diamond">◇</span></div>
+      <div class="banner-info-line"></div>
+      <div class="banner-info-subtitle">Projet · Cité martienne</div>
+    </div>
+    <div class="banner-school">
+      <img src="images/lpp-logo.png" alt="La Petite Plume — LPP">
+    </div>
+    <div class="banner-info banner-info-right">
+      <div class="banner-info-title"><span class="diamond">◇</span>HAROUN JELASSI<span class="diamond">◇</span></div>
+      <div class="banner-info-line"></div>
+      <div class="banner-info-subtitle">Architecte · 6ᵉ B · 2025-26</div>
+    </div>
+    <a href="index.html" class="banner-author" aria-hidden="true" tabindex="-1">
+      <img src="images/haroun-logo.png" alt="">
+    </a>
+  </div>
+
+  <header class="hud-top">
+    <div class="hud-top-left">
+      <a href="index.html" class="hud-back">← NEOTERRA · ACCUEIL</a>
+    </div>
+    <div class="hud-top-right">
+      <span class="hud-status">SECTION<span class="dim">05 / 05</span></span>
+      <span class="hud-status">SUJET<span class="dim">L'ARCHITECTE</span></span>
+    </div>
+  </header>
+
+  <main>
+
+    <aside class="content-toc" id="content-toc" aria-label="Sommaire de la page">
+      <div class="content-toc-label">Sommaire</div>
+      <ul class="content-toc-list" id="content-toc-list"></ul>
+    </aside>
+
+    <header class="page-header">
+      <div class="breadcrumb">
+        <a href="index.html">NEOTERRA 2050</a>
+        <span class="breadcrumb-sep">/</span>
+        <span>L'ARCHITECTE</span>
+      </div>
+      <h1 class="page-title">L'ARCHITECTE</h1>
+      <p class="page-subtitle">Le concepteur de NEOTERRA 2050</p>
+    </header>
+
+    <div class="print-nav">
+      <button class="print-btn" id="print-btn" type="button" title="Imprimer / PDF (Ctrl+P)">
+        🖨 IMPRIMER
+      </button>
+    </div>
+
+    <!-- ============ CARTE D'IDENTITÉ ============ -->
+    <section class="id-card-section">
+      <div class="id-card">
+        <span class="id-card-corner tl"></span><span class="id-card-corner tr"></span>
+        <span class="id-card-corner bl"></span><span class="id-card-corner br"></span>
+
+        <div class="id-header">
+          <div class="id-stamp">Dossier Architecte</div>
+          <div class="id-number">RÉF. NEOTERRA · 05 / 05</div>
+        </div>
+
+        <div class="id-body">
+          <!-- Photo placeholder (sera remplacée automatiquement quand le fichier images/haroun-portrait.jpg existera) -->
+          <div class="id-photo no-photo" id="id-photo">
+            <img src="images/haroun-portrait.jpg" alt="Portrait de Haroun Jelassi"
+                 onload="this.parentNode.classList.remove('no-photo');"
+                 onerror="this.parentNode.classList.add('no-photo');">
+            <div class="id-photo-fallback">
+              <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="32" cy="22" r="11"/>
+                <path d="M12 56 Q12 38 32 38 Q52 38 52 56"/>
+              </svg>
+              <div>Photo à ajouter</div>
+            </div>
+            <span class="photo-corner tl"></span><span class="photo-corner tr"></span>
+            <span class="photo-corner bl"></span><span class="photo-corner br"></span>
+          </div>
+
+          <div class="id-fields">
+            <div class="id-field"><span class="label">Nom</span><span class="value">JELASSI</span></div>
+            <div class="id-field"><span class="label">Prénom</span><span class="value">Haroun</span></div>
+            <div class="id-field"><span class="label">Classe</span><span class="value">6ᵉ B</span></div>
+            <div class="id-field"><span class="label">Établissement</span><span class="value">La Petite Plume — LPP</span></div>
+            <div class="id-field"><span class="label">Année scolaire</span><span class="value">2025 — 2026</span></div>
+            <div class="id-field"><span class="label">Projet</span><span class="value highlight">NEOTERRA 2050</span></div>
+            <div class="id-field"><span class="label">Rôle</span><span class="value">Architecte en chef</span></div>
+          </div>
+        </div>
+
+        <div class="id-footer">
+          <span>◇ Dossier officiel · Document confidentiel</span>
+          <span class="seal">VALIDÉ · NEOTERRA</span>
+        </div>
+      </div>
+    </section>
+    <!-- ============ CADRE PÉDAGOGIQUE ============ -->
+    <section class="cadre-section">
+      <div class="cadre-card">
+        <div class="cadre-card-stamp">◇ Cadre pédagogique</div>
+        <div class="cadre-fields">
+          <span class="label">Enseignant·e</span>
+          <span class="value"><span class="editable">Mme / M. — à compléter</span></span>
+          <span class="label">Matière</span>
+          <span class="value"><span class="editable">Matière enseignée — à compléter</span></span>
+          <span class="label">Niveau</span>
+          <span class="value">Classe de 6ᵉ B</span>
+          <span class="label">Année</span>
+          <span class="value">2025 — 2026</span>
+        </div>
+        <div class="enonce-block">
+          <div class="enonce-label">Énoncé du sujet (cahier des charges)</div>
+          <div class="enonce-image-wrapper">
+            <img src="images/enonce-projet.jpg" alt="Énoncé du sujet donné par l'enseignante"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="enonce-placeholder" style="display:none;">
+              <div class="enonce-placeholder-icon">📜</div>
+              <div>Dépose l'image dans <code>images/enonce-projet.jpg</code></div>
+            </div>
+          </div>
+          <div class="enonce-caption">
+            Document fourni par l'enseignante au lancement du projet
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIDÉO DE PRÉSENTATION ============ -->
+    <section class="intro-video-section">
+      <div class="section-label">Présentation</div>
+      <h2 class="section-title-inner">L'architecte présente son projet</h2>
+      <div data-video-slot="architecte-intro" data-video-label="Présentation orale par Haroun" style="position: relative; padding-bottom: 56.25%; height: 0; background: var(--space-deep); border: 1px solid var(--gold-line); overflow: hidden;"></div>
+      <div class="video-caption">
+        Présentation orale du projet par Haroun · durée suggérée : 1 à 2 minutes
+      </div>
+      <div style="text-align: center; margin-top: 18px;">
+        <a href="projet.html" style="font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.3em; color: var(--gold-bright); text-transform: uppercase; text-decoration: none; border-bottom: 1px dashed var(--gold-line-mid); padding-bottom: 3px; transition: border-color 0.3s, color 0.3s;" onmouseover="this.style.borderColor='var(--gold-bright)'" onmouseout="this.style.borderColor='var(--gold-line-mid)'">→ Découvrir le projet en détail</a>
+      </div>
+    </section>
+
+
+    <!-- ============ MON PARCOURS (placeholder) ============ -->
+    <section class="bio-section">
+      <div class="section-label">Mon parcours</div>
+      <h2 class="section-title-inner">D'où je viens</h2>
+      <div class="section-body">
+        <p>
+          Je m'appelle <strong>Haroun Jelassi</strong> et j'ai
+          <span class="editable">11 / 12 ans</span>, en 6ᵉ B au collège
+          La Petite Plume.
+        </p>
+        <p>
+          Quand <span class="editable">Mme / M. ____</span>, ma professeure de
+          <span class="editable">matière enseignée</span>, nous a proposé le sujet de
+          notre grand projet de l'année — <em>imaginer et représenter une cité du futur</em> —
+          j'ai tout de suite eu envie d'<strong>aller plus loin que ce qui était demandé</strong>.
+          Pas juste une ville sur Terre. Pas juste un dessin. Un endroit où personne
+          n'a jamais vécu : <span class="highlight">Mars</span>.
+        </p>
+        <p>
+          Depuis tout petit, j'aime <strong>construire avec mes mains</strong> —
+          <span class="editable">Legos, cabanes, maquettes, plans dessinés…</span> — et
+          imaginer des mondes qui n'existent pas. À l'école, mes matières préférées
+          sont <span class="editable">à compléter (sciences, arts, techno, histoire…)</span>.
+          En dehors de l'école, j'aime <span class="editable">à compléter (sport, lecture, jeux vidéo…)</span>.
+        </p>
+        <p>
+          <strong>NEOTERRA 2050</strong>, c'est ma façon d'imaginer ce que serait la vie
+          loin de la Terre, dans un endroit où il faut <em>tout réinventer</em> :
+          les maisons, l'eau, l'air, la nourriture, et même la manière de vivre ensemble.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ MES INSPIRATIONS (placeholder) ============ -->
+    <section class="inspirations-section">
+      <div class="section-label">Mes inspirations</div>
+      <h2 class="section-title-inner">Références &amp; parti pris</h2>
+      <div class="section-body">
+        <p>
+          Le parti pris de <strong>NEOTERRA 2050</strong> s'appuie sur
+          <strong>quatre familles de références</strong>, articulées de manière à
+          éviter l'écueil du pastiche tout en assumant une identité forte.
+        </p>
+
+        <p>
+          <strong>A. Références architecturales historiques.</strong>
+          Modénature des coupoles classiques — architecture islamique médiévale,
+          basiliques byzantines — pour leur <em>rationalité structurelle</em> face aux
+          pressions différentielles. Ce vocabulaire formel a été retenu pour son
+          adéquation aux contraintes de <span class="highlight">mise sous pression
+          des dômes martiens</span>.
+        </p>
+
+        <p>
+          <strong>B. Références architecturales contemporaines.</strong>
+          Travaux sur les architectures de l'extrême (bases polaires, habitats
+          désertiques, projets de bases lunaires).
+          <span class="editable">Préciser : architectes ou bureaux d'études —
+          ex. Foster + Partners (projet Mars), BIG-Bjarke Ingels, ICON (impression 3D)…</span>
+        </p>
+
+        <p>
+          <strong>C. Références scientifiques.</strong>
+          Publications NASA et ESA sur l'établissement humain durable hors-Terre,
+          notamment les contraintes liées aux <strong>radiations cosmiques</strong>,
+          à la <strong>gravité réduite</strong> (0,38 g) et à la
+          <strong>gestion thermique</strong>. Ces contraintes constituent le
+          cahier des charges programmatique du projet.
+        </p>
+
+        <p>
+          <strong>D. Références culturelles.</strong>
+          Littérature et iconographie de l'anticipation :
+          <span class="editable">Préciser : Bradbury, Kim Stanley Robinson, films ou romans…</span>
+          Ces sources informent la dimension <em>narrative et symbolique</em> du projet,
+          sans en compromettre la rigueur fonctionnelle.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ GALERIE PHOTOS (placeholder) ============ -->
+    <section class="gallery-section">
+      <div class="section-label">Galerie</div>
+      <h2 class="section-title-inner">Itinéraire de conception</h2>
+      <div class="section-body">
+        <p>
+          La maquette physique constitue le <strong>livrable principal</strong> du
+          projet, accompagnant les documents graphiques. Sa construction s'est
+          déroulée en <strong>sept phases distinctes</strong>, chacune documentée
+          photographiquement.
+        </p>
+      </div>
+
+      <div class="phases-list">
+        <div class="phase-item">
+          <div class="phase-num">PHASE 01</div>
+          <div class="phase-content">
+            <h3>Programmation</h3>
+            <p>Plan masse, échelle 1/1000. Définition du programme bâti et du parti pris d'implantation sur le plateau MDF de 70 × 70 cm.</p>
+          </div>
+          <div class="phase-photo" id="phase-photo-01">
+            <img src="images/phase-01.jpg" alt="Phase 01 — plateau nu & esquisses"
+                 onload="this.parentNode.classList.add('has-photo');"
+                 onerror="this.style.display='none';">
+            <span class="phase-photo-fallback">Photo à ajouter<br>(plateau nu &amp; esquisses)</span>
+          </div>
+        </div>
+
+        <div class="phase-item">
+          <div class="phase-num">PHASE 02</div>
+          <div class="phase-content">
+            <h3>Modelage du substrat</h3>
+            <p>Topographie martienne en polystyrène extrudé : collines, cratères, dénivelés.</p>
+          </div>
+          <div class="phase-photo" id="phase-photo-02">
+            <img src="images/phase-02.jpg" alt="Phase 02 — blocs sculptés"
+                 onload="this.parentNode.classList.add('has-photo');"
+                 onerror="this.style.display='none';">
+            <span class="phase-photo-fallback">Photo à ajouter<br>(blocs sculptés)</span>
+          </div>
+        </div>
+
+        <div class="phase-item">
+          <div class="phase-num">PHASE 03</div>
+          <div class="phase-content">
+            <h3>Consolidation</h3>
+            <p>Application du papier mâché : surface continue et solide, prête à recevoir la peinture.</p>
+          </div>
+          <div class="phase-photo" id="phase-photo-03">
+            <img src="images/phase-03.jpg" alt="Phase 03 — papier mâché en cours"
+                 onload="this.parentNode.classList.add('has-photo');"
+                 onerror="this.style.display='none';">
+            <span class="phase-photo-fallback">Photo à ajouter<br>(papier mâché en cours)</span>
+          </div>
+        </div>
+
+        <div class="phase-item">
+          <div class="phase-num">PHASE 04</div>
+          <div class="phase-content">
+            <h3>Traitement chromatique</h3>
+            <p>Peinture acrylique multi-couches : ocres, rouilles, blancs givrés. Trois passages pour la profondeur.</p>
+          </div>
+          <div class="phase-photo" id="phase-photo-04">
+            <img src="images/phase-04.jpg" alt="Phase 04 — peinture appliquée"
+                 onload="this.parentNode.classList.add('has-photo');"
+                 onerror="this.style.display='none';">
+            <span class="phase-photo-fallback">Photo à ajouter<br>(peinture appliquée)</span>
+          </div>
+        </div>
+
+        <div class="phase-item">
+          <div class="phase-num">PHASE 05</div>
+          <div class="phase-content">
+            <h3>Implantation du bâti</h3>
+            <p>Pose des volumes principaux : grand dôme, place centrale, modules d'habitation, serres, usine d'énergie, aire de lancement.</p>
+          </div>
+          <div class="phase-photo" id="phase-photo-05">
+            <img src="images/phase-05.jpg" alt="Phase 05 — bâtiments installés"
+                 onload="this.parentNode.classList.add('has-photo');"
+                 onerror="this.style.display='none';">
+            <span class="phase-photo-fallback">Photo à ajouter<br>(bâtiments installés)</span>
+          </div>
+        </div>
+
+        <div class="phase-item">
+          <div class="phase-num">PHASE 06</div>
+          <div class="phase-content">
+            <h3>Peuplement</h3>
+            <p>Placement des cinq figurines à l'échelle : astronaute, adultes et enfants, témoignant du caractère habité et pérenne de la cité.</p>
+          </div>
+          <div class="phase-photo" id="phase-photo-06">
+            <img src="images/phase-06.jpg" alt="Phase 06 — figurines en place"
+                 onload="this.parentNode.classList.add('has-photo');"
+                 onerror="this.style.display='none';">
+            <span class="phase-photo-fallback">Photo à ajouter<br>(figurines en place)</span>
+          </div>
+        </div>
+
+        <div class="phase-item">
+          <div class="phase-num">PHASE 07</div>
+          <div class="phase-content">
+            <h3>Finalisation</h3>
+            <p>Détails &amp; scénographie : panneaux, voie de circulation, signalétique, drapeau. La cité prend vie.</p>
+          </div>
+          <div class="phase-photo" id="phase-photo-07">
+            <img src="images/phase-07.jpg" alt="Phase 07 — vue finale"
+                 onload="this.parentNode.classList.add('has-photo');"
+                 onerror="this.style.display='none';">
+            <span class="phase-photo-fallback">Photo à ajouter<br>(vue finale)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-body" style="margin-top: 30px;">
+        <p style="text-align: center; font-style: italic; color: var(--gold-light);">
+          <strong>Durée totale de chantier</strong> :
+          <span class="editable">≈ 45 heures sur X semaines — à préciser</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ MOT FINAL (placeholder) ============ -->
+    <section class="quote-section">
+      <div class="section-label">Mot de l'architecte</div>
+      <h2 class="section-title-inner">Note d'intention</h2>
+      <div class="section-body">
+        <p>
+          Le présent projet répond à une question <em>éminemment programmatique</em> :
+          <strong>concevoir un habitat humain</strong> sur un site dépourvu d'atmosphère
+          respirable, soumis à des contraintes thermiques, radiatives et logistiques
+          extrêmes.
+        </p>
+
+        <p>
+          Le parti pris retenu — la <strong>ville-cité plutôt que la base scientifique</strong> —
+          assume un déplacement délibéré du cahier des charges habituel. Là où la
+          littérature spécialisée traite massivement de l'installation
+          <em>opérationnelle</em> (3 à 8 occupants, missions de 18 mois), NEOTERRA propose
+          une <span class="highlight">réponse domestique et culturelle</span>, à horizon
+          2050+, pour une population pérenne de plusieurs centaines d'habitants.
+        </p>
+
+        <p>
+          Ce déplacement de focale entraîne <strong>trois conséquences de conception</strong> :
+        </p>
+
+        <p>
+          <strong>1.</strong> L'<em>espace public</em> devient une composante prioritaire —
+          d'où la place centrale et la pluralité des programmes : serres,
+          lieu de culte, marché.<br>
+          <strong>2.</strong> La <em>modénature</em> s'autorise une dimension symbolique —
+          d'où les coupoles, dont la lecture excède la pure rationalité structurelle.<br>
+          <strong>3.</strong> Les <em>figurines</em> intègrent des <strong>enfants nés sur place</strong> —
+          actant le caractère multigénérationnel de l'occupation.
+        </p>
+
+        <p>
+          NEOTERRA 2050 ne prétend pas à la <em>faisabilité immédiate</em>. Il s'agit d'une
+          <strong>proposition</strong> — au sens architectural du terme — destinée à
+          <span class="highlight">élargir l'espace du pensable</span> pour une génération
+          qui pourrait, à terme, être amenée à habiter ailleurs que sur Terre.
+        </p>
+
+        <p style="margin-top: 36px; text-align: right; font-style: italic; font-family: var(--font-decorative); color: var(--gold-light);">
+          — <strong>JELASSI Haroun</strong><br>
+          <span style="font-size: 0.85em;">Architecte en chef · Projet NEOTERRA 2050</span>
+        </p>
+      </div>
+    </section>
+
+    <nav class="page-nav">
+      <a href="technologie.html" class="nav-btn">← TECHNOLOGIE</a>
+      <a href="index.html" class="nav-btn nav-btn-next">RETOUR ACCUEIL →</a>
+    </nav>
+
+  </main>
+
+  <footer>
+    <div class="footer-author">HAROUN JELASSI</div>
+    <div class="footer-divider"></div>
+    <div class="footer-meta">6ᵉ B · LPP · 2026 · NEOTERRA 2050</div>
+  </footer>
+
+  <script>
+    // Protection légère des logos de la bannière
+    document.querySelectorAll('.banner-author img').forEach(img => {
+      img.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
+      img.addEventListener('dragstart',  e => { e.preventDefault(); return false; });
+    });
+
+    // Bouton imprimer
+    const printBtn = document.getElementById('print-btn');
+    if (printBtn) printBtn.addEventListener('click', () => window.print());
+
+    // Construction du sommaire flottant
+    (function() {
+      const list = document.getElementById('content-toc-list');
+      const sections = document.querySelectorAll('main > section');
+      if (!list || sections.length === 0) return;
+      const items = [];
+      sections.forEach((s, idx) => {
+        // Cherche un libellé : section-label, id-stamp, ou cadre-card-stamp
+        const lbl = s.querySelector('.section-label, .id-stamp, .cadre-card-stamp');
+        if (!lbl) return;
+        if (!s.id) s.id = 'sec-' + idx;
+        // Nettoie le texte : enlève les ornements ◇
+        let text = lbl.textContent.trim().replace(/^[◇✦◆\s]+|[◇✦◆\s]+$/g, '').trim();
+        items.push({ id: s.id, text: text });
+      });
+      list.innerHTML = items.map(it =>
+        '<li><a href="#' + it.id + '" class="toc-item" data-target="' + it.id + '">' + it.text + '</a></li>'
+      ).join('');
+      list.querySelectorAll('.toc-item').forEach(a => {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          const target = document.getElementById(a.dataset.target);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+      if (window.IntersectionObserver) {
+        const obs = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              list.querySelectorAll('.toc-item').forEach(a =>
+                a.classList.toggle('active', a.dataset.target === entry.target.id));
+            }
+          });
+        }, { rootMargin: '-30% 0% -60% 0%', threshold: 0 });
+        sections.forEach(s => { if (s.id) obs.observe(s); });
+      }
+    })();
+  </script>
+
+</body>
+</html>
