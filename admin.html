@@ -174,6 +174,53 @@
 
       <div class="section">
         <div class="section-title">
+          <span class="section-title-icon">📣</span><span>Bannière globale</span>
+        </div>
+        <div class="page-group">
+          <div class="page-group-body">
+            <div class="slot-row" style="grid-template-columns: 220px 1fr;">
+              <div class="slot-label">État</div>
+              <label style="display:flex;align-items:center;gap:10px;color:var(--gold-pale);cursor:pointer;">
+                <input type="checkbox" id="banner-enabled" style="width:18px;height:18px;cursor:pointer;accent-color:var(--gold-bright);">
+                <span style="font-family:monospace;font-size:0.9rem;">Activer la bannière sur toutes les pages</span>
+              </label>
+            </div>
+            <div class="slot-row" style="grid-template-columns: 220px 1fr;">
+              <div class="slot-label">Mode</div>
+              <select id="banner-mode" class="slot-input">
+                <option value="countdown">Compte à rebours</option>
+                <option value="message">Message libre</option>
+              </select>
+            </div>
+            <div class="slot-row" style="grid-template-columns: 220px 1fr;" id="banner-date-row">
+              <div class="slot-label">Date cible</div>
+              <input type="datetime-local" id="banner-date" class="slot-input" value="2026-05-29T08:00">
+            </div>
+            <div class="slot-row" style="grid-template-columns: 220px 1fr;">
+              <div class="slot-label">Message</div>
+              <input type="text" id="banner-message" class="slot-input" placeholder="Présentation officielle le 29 mai 2026">
+            </div>
+            <div class="slot-row" style="grid-template-columns: 220px 1fr;">
+              <div class="slot-label">Style</div>
+              <select id="banner-style" class="slot-input">
+                <option value="info">Info (bleu)</option>
+                <option value="warning">Warning (jaune)</option>
+                <option value="success">Success (vert)</option>
+              </select>
+            </div>
+            <div class="slot-row" style="grid-template-columns: 220px 1fr;">
+              <div class="slot-label">Aperçu</div>
+              <div>
+                <button class="action-btn" id="btn-banner-preview" type="button">👁 Voir l'aperçu</button>
+              </div>
+            </div>
+            <div id="banner-preview-box" style="margin:14px 0 0;padding:0;display:none;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
           <span class="section-title-icon">🎬</span><span>Vidéos YouTube</span>
         </div>
         <div id="video-groups"></div>
@@ -299,7 +346,17 @@
     function loadDraft() { try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch (e) { return null; } }
     function saveDraft() { localStorage.setItem(DRAFT_KEY, JSON.stringify(collectConfig())); }
     function collectConfig() {
-      const cfg = { analytics: document.getElementById('ga-input').value.trim(), videos: {} };
+      const cfg = {
+        analytics: document.getElementById('ga-input').value.trim(),
+        banner: {
+          enabled: document.getElementById('banner-enabled').checked,
+          mode: document.getElementById('banner-mode').value,
+          targetDate: (document.getElementById('banner-date').value || '') + (document.getElementById('banner-date').value && document.getElementById('banner-date').value.length === 16 ? ':00' : ''),
+          message: document.getElementById('banner-message').value.trim(),
+          style: document.getElementById('banner-style').value
+        },
+        videos: {}
+      };
       SLOTS.forEach(g => g.slots.forEach(s => {
         const inp = document.getElementById('slot-' + s.key);
         cfg.videos[s.key] = inp ? inp.value.trim() : '';
@@ -383,11 +440,25 @@
 
     function populateInputs(cfg) {
       document.getElementById('ga-input').value = cfg.analytics || '';
+      const b = cfg.banner || {};
+      document.getElementById('banner-enabled').checked = !!b.enabled;
+      document.getElementById('banner-mode').value = b.mode || 'countdown';
+      // input datetime-local n'accepte pas les secondes : on tronque
+      const td = (b.targetDate || '2026-05-29T08:00:00').slice(0, 16);
+      document.getElementById('banner-date').value = td;
+      document.getElementById('banner-message').value = b.message || '';
+      document.getElementById('banner-style').value = b.style || 'info';
+      updateBannerModeVisibility();
       Object.keys(cfg.videos || {}).forEach(key => {
         const inp = document.getElementById('slot-' + key);
         if (inp) { inp.value = cfg.videos[key] || ''; inp.classList.toggle('has-value', !!cfg.videos[key]); }
       });
       updateStats();
+    }
+
+    function updateBannerModeVisibility() {
+      const mode = document.getElementById('banner-mode').value;
+      document.getElementById('banner-date-row').style.display = (mode === 'countdown') ? '' : 'none';
     }
 
     /* ════════════════════ PREVIEW MODAL ════════════════════ */
@@ -426,6 +497,14 @@
       out += 'window.NEOTERRA_CONFIG = {\n\n';
       out += '  /* Google Analytics */\n';
       out += "  analytics: '" + (cfg.analytics || '') + "',\n\n";
+      out += '  /* Bannière globale */\n';
+      out += '  banner: {\n';
+      out += '    enabled: ' + (cfg.banner.enabled ? 'true' : 'false') + ',\n';
+      out += "    mode: '" + (cfg.banner.mode || 'countdown') + "',\n";
+      out += "    targetDate: '" + (cfg.banner.targetDate || '') + "',\n";
+      out += "    message: '" + (cfg.banner.message || '').replace(/'/g, "\\'") + "',\n";
+      out += "    style: '" + (cfg.banner.style || 'info') + "'\n";
+      out += '  },\n\n';
       out += '  /* Vidéos YouTube */\n';
       out += '  videos: {\n';
       SLOTS.forEach((g, gi) => {
@@ -446,6 +525,8 @@
       const cfg = collectConfig();
       localStorage.setItem('NEOTERRA_VIDEO_OVERRIDES', JSON.stringify(cfg.videos));
       localStorage.setItem('NEOTERRA_GA_OVERRIDE', cfg.analytics);
+      localStorage.setItem('NEOTERRA_BANNER_OVERRIDE', JSON.stringify(cfg.banner));
+      sessionStorage.removeItem('NEOTERRA_BANNER_DISMISSED');
       toast('✅ Brouillon appliqué localement', 'success');
     });
     document.getElementById('btn-download').addEventListener('click', function() {
@@ -466,8 +547,83 @@
       localStorage.removeItem(DRAFT_KEY);
       localStorage.removeItem('NEOTERRA_VIDEO_OVERRIDES');
       localStorage.removeItem('NEOTERRA_GA_OVERRIDE');
+      localStorage.removeItem('NEOTERRA_BANNER_OVERRIDE');
       populateInputs(window.NEOTERRA_CONFIG);
       toast('🔄 Brouillon effacé', 'success');
+    });
+
+    /* Listeners pour les inputs bannière → sauvent le brouillon */
+    ['banner-enabled','banner-mode','banner-date','banner-message','banner-style'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const evt = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
+      el.addEventListener(evt, function() {
+        if (id === 'banner-mode') updateBannerModeVisibility();
+        saveDraft();
+      });
+    });
+
+    /* Bouton aperçu bannière */
+    document.getElementById('btn-banner-preview').addEventListener('click', function() {
+      const box = document.getElementById('banner-preview-box');
+      const cfg = collectConfig().banner;
+      if (!cfg.enabled) { toast('Active la bannière pour l\'apercevoir', 'error'); return; }
+
+      // Construit la prévisualisation HTML (mêmes classes que sur le site)
+      let html = '<div class="neoterra-banner style-' + cfg.style + '">';
+      if (cfg.mode === 'countdown') {
+        html += '<div class="neoterra-banner-jbox" data-prev-jbox>J-?</div>';
+        html += '<div class="neoterra-banner-msg">' + (cfg.message || 'Présentation') + '</div>';
+        html += '<div class="neoterra-banner-timer" data-prev-timer>--</div>';
+      } else {
+        html += '<div class="neoterra-banner-msg">' + (cfg.message || '') + '</div>';
+      }
+      html += '</div>';
+      box.innerHTML = html;
+      box.style.display = 'block';
+
+      // Injection CSS (uniquement la 1ère fois)
+      if (!document.getElementById('preview-banner-styles')) {
+        const css =
+          '.neoterra-banner{position:relative;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;' +
+          'padding:10px 24px;font-family:sans-serif;font-size:13px;border-bottom:1px solid rgba(244,200,122,0.3);line-height:1.4;' +
+          'background:linear-gradient(90deg,#0d1530 0%,#1a2050 50%,#0d1530 100%);color:#f5e6c4;border-radius:4px}' +
+          '.neoterra-banner.style-info{border-bottom-color:rgba(100,150,255,0.4)}' +
+          '.neoterra-banner.style-warning{border-bottom-color:rgba(255,180,60,0.4)}' +
+          '.neoterra-banner.style-success{border-bottom-color:rgba(94,214,112,0.4)}' +
+          '.neoterra-banner-jbox{background:rgba(244,200,122,0.15);border:1px solid #f4c87a;border-radius:6px;' +
+          'padding:4px 12px;color:#f4c87a;font-family:monospace;font-size:16px;font-weight:600;min-width:56px;text-align:center}' +
+          '.neoterra-banner.style-info .neoterra-banner-jbox{border-color:#88aaff;color:#88aaff;background:rgba(136,170,255,0.1)}' +
+          '.neoterra-banner.style-warning .neoterra-banner-jbox{border-color:#ffb43c;color:#ffb43c;background:rgba(255,180,60,0.12)}' +
+          '.neoterra-banner.style-success .neoterra-banner-jbox{border-color:#5ed670;color:#5ed670;background:rgba(94,214,112,0.12)}' +
+          '.neoterra-banner-timer{font-family:monospace;font-size:11px;color:rgba(245,230,196,0.7);padding-left:14px;border-left:1px solid rgba(244,200,122,0.25)}';
+        const s = document.createElement('style');
+        s.id = 'preview-banner-styles';
+        s.textContent = css;
+        document.head.appendChild(s);
+      }
+
+      // Compte à rebours live dans la preview
+      if (cfg.mode === 'countdown' && cfg.targetDate) {
+        const target = new Date(cfg.targetDate);
+        const jbox = box.querySelector('[data-prev-jbox]');
+        const timer = box.querySelector('[data-prev-timer]');
+        function tick() {
+          const diff = target - new Date();
+          if (diff <= 0) { jbox.textContent = 'J-0'; timer.textContent = "C'est aujourd'hui !"; return; }
+          const j = Math.floor(diff / 86400000);
+          const h = Math.floor((diff / 3600000) % 24);
+          const m = Math.floor((diff / 60000) % 60);
+          const sec = Math.floor((diff / 1000) % 60);
+          const pad = n => String(n).padStart(2, '0');
+          jbox.textContent = 'J-' + j;
+          timer.textContent = pad(j) + ' j · ' + pad(h) + ' h · ' + pad(m) + ' min · ' + pad(sec) + ' s';
+        }
+        tick();
+        if (window._bannerPreviewInterval) clearInterval(window._bannerPreviewInterval);
+        window._bannerPreviewInterval = setInterval(tick, 1000);
+      }
+      toast('👁 Aperçu mis à jour', 'success');
     });
 
     /* ════════════════════ INIT ════════════════════ */

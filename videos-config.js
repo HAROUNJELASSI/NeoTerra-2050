@@ -17,6 +17,23 @@ window.NEOTERRA_CONFIG = {
   analytics: 'G-HV8B1Q54YP',
 
   /* ─────────────────────────────────────────────────────────
+   * BANNIÈRE GLOBALE
+   * Affichée en haut de toutes les pages du site.
+   *   - enabled    : true/false → afficher ou non
+   *   - mode       : 'countdown' (compte à rebours) ou 'message' (texte fixe)
+   *   - targetDate : date cible ISO pour le countdown
+   *   - message    : texte affiché
+   *   - style      : 'info' (bleu) | 'warning' (jaune) | 'success' (vert)
+   * ───────────────────────────────────────────────────────── */
+  banner: {
+    enabled: true,
+    mode: 'countdown',
+    targetDate: '2026-05-29T08:00:00',
+    message: 'Présentation officielle le 29 mai 2026',
+    style: 'info'
+  },
+
+  /* ─────────────────────────────────────────────────────────
    * VIDÉOS YOUTUBE
    * Chaque clé est un emplacement vidéo dans le site.
    * La valeur est l'ID de la vidéo YouTube (les 11 caractères
