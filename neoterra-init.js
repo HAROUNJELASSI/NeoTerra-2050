@@ -52,6 +52,21 @@
   function injectBannerStyles() {
     if (document.getElementById('neoterra-banner-styles')) return;
     const css =
+      '@keyframes neoterra-banner-pulse{' +
+      '0%,100%{box-shadow:0 0 0 0 rgba(244,200,122,0.55);transform:scale(1)}' +
+      '50%{box-shadow:0 0 14px 4px rgba(244,200,122,0.5);transform:scale(1.06)}}' +
+      '@keyframes neoterra-banner-pulse-info{' +
+      '0%,100%{box-shadow:0 0 0 0 rgba(136,170,255,0.55);transform:scale(1)}' +
+      '50%{box-shadow:0 0 14px 4px rgba(136,170,255,0.5);transform:scale(1.06)}}' +
+      '@keyframes neoterra-banner-pulse-warning{' +
+      '0%,100%{box-shadow:0 0 0 0 rgba(255,180,60,0.55);transform:scale(1)}' +
+      '50%{box-shadow:0 0 14px 4px rgba(255,180,60,0.5);transform:scale(1.06)}}' +
+      '@keyframes neoterra-banner-pulse-success{' +
+      '0%,100%{box-shadow:0 0 0 0 rgba(94,214,112,0.55);transform:scale(1)}' +
+      '50%{box-shadow:0 0 14px 4px rgba(94,214,112,0.5);transform:scale(1.06)}}' +
+      '@keyframes neoterra-banner-pulse-danger{' +
+      '0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.7);transform:scale(1)}' +
+      '50%{box-shadow:0 0 16px 4px rgba(255,255,255,0.6);transform:scale(1.08)}}' +
       '.neoterra-banner{position:relative;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;' +
       'padding:10px 50px 10px 24px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px;' +
       'border-bottom:1px solid rgba(244,200,122,0.3);line-height:1.4;z-index:1000;' +
@@ -59,24 +74,39 @@
       '.neoterra-banner.style-info{border-bottom-color:rgba(100,150,255,0.4)}' +
       '.neoterra-banner.style-warning{border-bottom-color:rgba(255,180,60,0.4)}' +
       '.neoterra-banner.style-success{border-bottom-color:rgba(94,214,112,0.4)}' +
+      '.neoterra-banner.style-danger{background:linear-gradient(90deg,#7a0a0a 0%,#c41e3a 50%,#7a0a0a 100%);color:#fff;' +
+      'border-bottom:2px solid #ff5050}' +
       '.neoterra-banner-jbox{background:rgba(244,200,122,0.15);border:1px solid #f4c87a;border-radius:6px;' +
-      'padding:4px 12px;color:#f4c87a;font-family:"Courier New",monospace;font-size:16px;font-weight:600;min-width:56px;text-align:center}' +
-      '.neoterra-banner.style-info .neoterra-banner-jbox{border-color:#88aaff;color:#88aaff;background:rgba(136,170,255,0.1)}' +
-      '.neoterra-banner.style-warning .neoterra-banner-jbox{border-color:#ffb43c;color:#ffb43c;background:rgba(255,180,60,0.12)}' +
-      '.neoterra-banner.style-success .neoterra-banner-jbox{border-color:#5ed670;color:#5ed670;background:rgba(94,214,112,0.12)}' +
+      'padding:4px 12px;color:#f4c87a;font-family:"Courier New",monospace;font-size:16px;font-weight:600;min-width:56px;text-align:center;' +
+      'animation:neoterra-banner-pulse 1.6s ease-in-out infinite}' +
+      '.neoterra-banner.style-info .neoterra-banner-jbox{border-color:#88aaff;color:#88aaff;background:rgba(136,170,255,0.1);' +
+      'animation-name:neoterra-banner-pulse-info}' +
+      '.neoterra-banner.style-warning .neoterra-banner-jbox{border-color:#ffb43c;color:#ffb43c;background:rgba(255,180,60,0.12);' +
+      'animation-name:neoterra-banner-pulse-warning}' +
+      '.neoterra-banner.style-success .neoterra-banner-jbox{border-color:#5ed670;color:#5ed670;background:rgba(94,214,112,0.12);' +
+      'animation-name:neoterra-banner-pulse-success}' +
+      '.neoterra-banner.style-danger .neoterra-banner-jbox{border-color:#fff;color:#fff;background:rgba(0,0,0,0.25);' +
+      'font-weight:700;animation:neoterra-banner-pulse-danger 1.2s ease-in-out infinite}' +
       '.neoterra-banner-msg{letter-spacing:0.5px}' +
       '.neoterra-banner-msg strong{color:#f4c87a;font-weight:600}' +
       '.neoterra-banner.style-info .neoterra-banner-msg strong{color:#88aaff}' +
       '.neoterra-banner.style-warning .neoterra-banner-msg strong{color:#ffb43c}' +
       '.neoterra-banner.style-success .neoterra-banner-msg strong{color:#5ed670}' +
+      '.neoterra-banner.style-danger .neoterra-banner-msg{color:#fff;font-weight:500}' +
+      '.neoterra-banner.style-danger .neoterra-banner-msg strong{color:#fff;font-weight:700}' +
       '.neoterra-banner-timer{font-family:"Courier New",monospace;font-size:11px;color:rgba(245,230,196,0.7);' +
       'padding-left:14px;border-left:1px solid rgba(244,200,122,0.25);letter-spacing:0.5px}' +
+      '.neoterra-banner.style-danger .neoterra-banner-timer{color:rgba(255,255,255,0.9);border-left-color:rgba(255,255,255,0.3)}' +
       '.neoterra-banner-close{position:absolute;top:50%;right:14px;transform:translateY(-50%);background:transparent;' +
       'border:none;color:rgba(245,230,196,0.6);font-size:18px;cursor:pointer;padding:4px 8px;line-height:1}' +
       '.neoterra-banner-close:hover{color:#f4c87a}' +
+      '.neoterra-banner.style-danger .neoterra-banner-close{color:rgba(255,255,255,0.7)}' +
+      '.neoterra-banner.style-danger .neoterra-banner-close:hover{color:#fff}' +
       '@media (max-width:600px){.neoterra-banner{font-size:12px;padding:8px 40px 8px 14px;gap:10px}' +
       '.neoterra-banner-jbox{font-size:14px;padding:3px 10px;min-width:48px}' +
-      '.neoterra-banner-timer{display:none}}';
+      '.neoterra-banner-timer{display:none}}' +
+      '@media (prefers-reduced-motion:reduce){' +
+      '.neoterra-banner-jbox{animation:none!important}}';
     const style = document.createElement('style');
     style.id = 'neoterra-banner-styles';
     style.textContent = css;

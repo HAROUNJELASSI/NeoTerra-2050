@@ -206,6 +206,7 @@
                 <option value="info">Info (bleu)</option>
                 <option value="warning">Warning (jaune)</option>
                 <option value="success">Success (vert)</option>
+                <option value="danger">Danger (rouge)</option>
               </select>
             </div>
             <div class="slot-row" style="grid-template-columns: 220px 1fr;">
@@ -591,12 +592,16 @@
           '.neoterra-banner.style-info{border-bottom-color:rgba(100,150,255,0.4)}' +
           '.neoterra-banner.style-warning{border-bottom-color:rgba(255,180,60,0.4)}' +
           '.neoterra-banner.style-success{border-bottom-color:rgba(94,214,112,0.4)}' +
+          '.neoterra-banner.style-danger{background:linear-gradient(90deg,#7a0a0a 0%,#c41e3a 50%,#7a0a0a 100%);color:#fff;border-bottom:2px solid #ff5050}' +
           '.neoterra-banner-jbox{background:rgba(244,200,122,0.15);border:1px solid #f4c87a;border-radius:6px;' +
           'padding:4px 12px;color:#f4c87a;font-family:monospace;font-size:16px;font-weight:600;min-width:56px;text-align:center}' +
           '.neoterra-banner.style-info .neoterra-banner-jbox{border-color:#88aaff;color:#88aaff;background:rgba(136,170,255,0.1)}' +
           '.neoterra-banner.style-warning .neoterra-banner-jbox{border-color:#ffb43c;color:#ffb43c;background:rgba(255,180,60,0.12)}' +
           '.neoterra-banner.style-success .neoterra-banner-jbox{border-color:#5ed670;color:#5ed670;background:rgba(94,214,112,0.12)}' +
-          '.neoterra-banner-timer{font-family:monospace;font-size:11px;color:rgba(245,230,196,0.7);padding-left:14px;border-left:1px solid rgba(244,200,122,0.25)}';
+          '.neoterra-banner.style-danger .neoterra-banner-jbox{border-color:#fff;color:#fff;background:rgba(0,0,0,0.25);font-weight:700}' +
+          '.neoterra-banner.style-danger .neoterra-banner-msg{color:#fff;font-weight:500}' +
+          '.neoterra-banner-timer{font-family:monospace;font-size:11px;color:rgba(245,230,196,0.7);padding-left:14px;border-left:1px solid rgba(244,200,122,0.25)}' +
+          '.neoterra-banner.style-danger .neoterra-banner-timer{color:rgba(255,255,255,0.9);border-left-color:rgba(255,255,255,0.3)}';
         const s = document.createElement('style');
         s.id = 'preview-banner-styles';
         s.textContent = css;
