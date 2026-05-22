@@ -683,6 +683,24 @@
     }
     .bld-modal-close:hover { color: var(--gold-bright); border-color: var(--gold-bright); background: rgba(244,200,122,0.06); }
 
+    /* IMAGE en haut du modal */
+    .bld-modal-image-wrap {
+      width: calc(100% + 80px); margin: -36px -40px 28px;
+      aspect-ratio: 2 / 1; overflow: hidden; position: relative;
+      background: linear-gradient(135deg, #0d1530 0%, #1a2050 100%);
+      border-bottom: 1px solid var(--gold-line-hi);
+    }
+    .bld-modal-image-wrap.empty { display: none; }
+    .bld-modal-image {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.6s;
+    }
+    .bld-modal-image-wrap::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(5,7,20,0.6) 100%);
+      pointer-events: none;
+    }
+
     .bld-modal-header {
       display: flex; align-items: flex-start; gap: 24px;
       padding-bottom: 24px; margin-bottom: 28px;
@@ -1584,6 +1602,9 @@
   <div class="bld-modal-backdrop" id="bld-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="bld-modal-title">
     <div class="bld-modal" id="bld-modal">
       <button class="bld-modal-close" id="bld-modal-close" aria-label="Fermer">✕</button>
+      <div class="bld-modal-image-wrap empty" id="bld-modal-image-wrap">
+        <img class="bld-modal-image" id="bld-modal-image" alt="">
+      </div>
       <div class="bld-modal-header">
         <div class="bld-modal-icon" id="bld-modal-icon">⌬</div>
         <div class="bld-modal-titles">
@@ -1601,6 +1622,48 @@
   </div>
 
   <script>
+  /* ============ MAPPING TITRE → SLUG (pour fichiers images) ============
+     Chemin attendu : images/batiment-{slug}.jpg
+     Si le fichier n'existe pas → image cachée automatiquement, modal sans image.
+  */
+  const BUILDING_SLUGS = {
+    'La Grande Mosquée':                 'mosquee',
+    'Dômes Résidentiels':                'domes-residentiels',
+    'Dômes Agricoles':                   'domes-agricoles',
+    'Tour de Contrôle':                  'tour-controle',
+    'Parcs Solaires & Éoliens':          'parcs-solaires',
+    'Tunnels Pressurisés':               'tunnels',
+    'École & Collège':                   'ecole',
+    'Université de Mars':                'universite',
+    'Hôpital':                           'hopital',
+    'Poste de Police':                   'police',
+    'Caserne de Pompiers':               'pompiers',
+    'Laboratoires':                      'laboratoires',
+    'Station de Recherche':              'station-recherche',
+    'Centre Commercial':                 'centre-commercial',
+    'Gare Routière':                     'gare-routiere',
+    'Gare Spatiale':                     'gare-spatiale',
+    'Ferme Expérimentale':               'ferme-experimentale',
+    'Jardin du Souvenir':                'jardin-souvenir',
+    'Bibliothèque & Médiathèque':        'bibliotheque',
+    'Centre Culturel & Théâtre':         'centre-culturel',
+    'Centre Sportif & Gymnase':          'centre-sportif',
+    'Crèche':                            'creche',
+    'Mairie & Centre Administratif':     'mairie',
+    'Centre de Recyclage':               'recyclage',
+    'Centre de Traitement de l\'Eau':    'traitement-eau',
+    'Archives Numériques':               'archives',
+    'Tribunal de Justice':               'tribunal',
+    'Centre de Maintenance':             'maintenance',
+    'Centre de Production d\'Oxygène':   'oxygene',
+    'Atelier d\'Imprimerie 3D & Fabrication': 'atelier-3d',
+    'Centre d\'Élevage & Pisciculture':  'elevage-pisciculture',
+    'Hangar Robotique':                  'hangar-robotique',
+    'Observatoire Astronomique':         'observatoire',
+    'Centre de Santé Mentale':           'sante-mentale',
+    'Hôtel d\'Accueil':                  'hotel-accueil'
+  };
+
   /* ============ DONNÉES DÉTAILLÉES DES BÂTIMENTS ============
      Chaque entrée est indexée par le titre du bâtiment (sans &amp;).
      3 sections : role (à quoi ça sert), tech (comment ça marche), terre (référence terrestre).
@@ -1633,8 +1696,28 @@
     const titleEl = document.getElementById('bld-modal-title');
     const bodyEl = document.getElementById('bld-modal-body');
     const statsEl = document.getElementById('bld-modal-stats');
+    const imgWrap = document.getElementById('bld-modal-image-wrap');
+    const imgEl = document.getElementById('bld-modal-image');
 
     function decodeHtml(s) { const d = document.createElement('div'); d.innerHTML = s; return d.textContent; }
+
+    function tryLoadImage(slug, altText) {
+      // Cache l'image par défaut
+      imgWrap.classList.add('empty');
+      if (!slug) return;
+      const src = 'images/batiment-' + slug + '.jpg';
+      // Test si l'image existe avant de l'afficher
+      const probe = new Image();
+      probe.onload = function() {
+        imgEl.src = src;
+        imgEl.alt = altText;
+        imgWrap.classList.remove('empty');
+      };
+      probe.onerror = function() {
+        // Image absente : reste cachée, modal s'affiche sans image
+      };
+      probe.src = src;
+    }
 
     function openBuilding(card) {
       const titleRaw = card.querySelector('.building-title').textContent.trim();
@@ -1647,6 +1730,9 @@
       subEl.textContent = sub;
       titleEl.textContent = title;
       statsEl.innerHTML = statsHTML;
+
+      // Tente de charger l'image si elle existe
+      tryLoadImage(BUILDING_SLUGS[title], title);
 
       const details = BUILDING_DETAILS[title];
       if (details) {
