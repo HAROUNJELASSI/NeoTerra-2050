@@ -273,34 +273,6 @@
     .fact-label { font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.3em; color: var(--gold-light); margin-bottom: 10px; text-transform: uppercase; }
     .fact-text { font-size: 1.1rem; line-height: 1.7; color: var(--gold-pale); font-style: italic; }
 
-    /* CITE — Timeline de construction */
-    .cite-timeline {
-      display: grid; gap: 18px; margin: 30px 0 36px;
-      max-width: 760px;
-    }
-    .cite-phase {
-      position: relative;
-      padding: 18px 22px 18px 90px;
-      background: rgba(10, 10, 24, 0.55);
-      border: 1px solid var(--gold-line);
-      border-left: 3px solid var(--gold-light);
-    }
-    .cite-phase-year {
-      position: absolute; left: 18px; top: 18px;
-      font-family: var(--font-display); font-size: 0.7rem;
-      letter-spacing: 0.18em; color: var(--gold-bright);
-      text-transform: uppercase;
-    }
-    .cite-phase-title {
-      font-family: var(--font-decorative); font-size: 1.05rem; font-weight: 700;
-      color: var(--gold-light); margin: 0 0 6px; letter-spacing: 0.02em;
-    }
-    .cite-phase-text { font-size: 0.95rem; line-height: 1.55; color: var(--gold-pale); margin: 0; }
-    @media (max-width: 600px) {
-      .cite-phase { padding: 50px 18px 18px; }
-      .cite-phase-year { position: static; display: block; margin-bottom: 8px; }
-    }
-
     /* VIDEO */
     .video-wrapper { position: relative; max-width: 760px; margin: 0 auto; aspect-ratio: 16 / 9; background: var(--space-deep); border: 1px solid var(--gold-line-mid); box-shadow: 0 0 60px rgba(244, 200, 122, 0.18), 0 0 140px rgba(200, 77, 47, 0.12), 0 20px 60px rgba(0, 0, 0, 0.5); }
     .video-wrapper video { width: 100%; height: 100%; display: block; background: var(--space-deep); }
@@ -672,6 +644,100 @@
     .video-placeholder-text { font-size: 1.05rem; }
     .video-placeholder-key { font-family: monospace; font-size: 0.75rem; opacity: 0.55; letter-spacing: 0.04em; }
 
+    /* ============ CARTES CLIQUABLES + INDICATEUR ============ */
+    .building-card { cursor: pointer; }
+    .building-card-cta {
+      margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--gold-line);
+      font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.25em;
+      color: var(--gold-deep); text-transform: uppercase; text-align: right;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .building-card:hover .building-card-cta { color: var(--gold-bright); transform: translateX(4px); }
+
+    /* ============ MODAL BÂTIMENT ============ */
+    .bld-modal-backdrop {
+      position: fixed; inset: 0; background: rgba(5, 7, 20, 0.85);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      z-index: 10000; display: none; align-items: flex-start; justify-content: center;
+      padding: 4vh 16px; overflow-y: auto;
+      animation: bldFadeIn 0.3s ease;
+    }
+    .bld-modal-backdrop.visible { display: flex; }
+    @keyframes bldFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .bld-modal {
+      background: linear-gradient(180deg, #0d1530 0%, #0a0e26 100%);
+      border: 1px solid var(--gold-line-hi);
+      max-width: 760px; width: 100%; padding: 36px 40px 40px;
+      position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(244,200,122,0.1);
+      animation: bldSlideUp 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+    @keyframes bldSlideUp { from { opacity: 0; transform: translateY(30px) scale(0.96); } to { opacity: 1; transform: none; } }
+
+    .bld-modal-close {
+      position: absolute; top: 12px; right: 14px;
+      background: transparent; border: 1px solid var(--gold-line);
+      color: var(--gold-light); font-size: 1.2rem; cursor: pointer;
+      width: 38px; height: 38px; line-height: 1;
+      transition: all 0.3s;
+    }
+    .bld-modal-close:hover { color: var(--gold-bright); border-color: var(--gold-bright); background: rgba(244,200,122,0.06); }
+
+    .bld-modal-header {
+      display: flex; align-items: flex-start; gap: 24px;
+      padding-bottom: 24px; margin-bottom: 28px;
+      border-bottom: 1px solid var(--gold-line);
+    }
+    .bld-modal-icon {
+      font-size: 3.5rem; line-height: 1; color: var(--gold-bright);
+      flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(244,200,122,0.4));
+    }
+    .bld-modal-titles { flex: 1; min-width: 0; }
+    .bld-modal-sub {
+      font-family: var(--font-display); font-size: 0.65rem;
+      letter-spacing: 0.3em; color: var(--gold-deep);
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .bld-modal-title {
+      font-family: var(--font-decorative); font-size: 2rem;
+      letter-spacing: 0.06em; color: var(--gold-pale); margin: 0;
+      text-transform: uppercase; font-weight: 500; line-height: 1.1;
+    }
+
+    .bld-modal-section { margin-bottom: 24px; }
+    .bld-modal-section-label {
+      font-family: var(--font-display); font-size: 0.7rem;
+      letter-spacing: 0.28em; color: var(--gold-bright);
+      text-transform: uppercase; margin-bottom: 10px;
+      padding-left: 14px; border-left: 2px solid var(--gold-bright);
+    }
+    .bld-modal-section p {
+      font-size: 1.02rem; line-height: 1.75; color: rgba(245, 230, 196, 0.88);
+      margin: 0; padding-left: 16px;
+    }
+    .bld-modal-section p strong { color: var(--gold-light); font-weight: 600; }
+
+    .bld-modal-stats {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      padding-top: 22px; margin-top: 28px;
+      border-top: 1px solid var(--gold-line);
+    }
+    .bld-modal-stats .building-stat { font-size: 0.7rem; }
+
+    .bld-modal-placeholder {
+      padding: 30px; text-align: center;
+      color: var(--gold-deep); font-style: italic;
+      background: rgba(244,200,122,0.04);
+      border: 1px dashed var(--gold-line);
+    }
+
+    @media (max-width: 700px) {
+      .bld-modal { padding: 28px 22px 30px; }
+      .bld-modal-header { flex-direction: column; gap: 14px; }
+      .bld-modal-icon { font-size: 2.8rem; }
+      .bld-modal-title { font-size: 1.4rem; }
+    }
+
   </style>
 
   <!-- NEOTERRA · Configuration et chargeur central (vidéos + GA) -->
@@ -774,34 +840,6 @@
               et autosuffisante, organisée autour d'une grande mosquée centrale qui rappelle
               l'héritage culturel de ses bâtisseurs.
             </p>
-            <p class="plan-intro">
-              <strong>Comment lire le plan ?</strong> Au centre, la coupole <span class="highlight">dorée</span>
-              représente la Grande Mosquée — le cœur de la cité. Tout autour, les quatre cercles
-              <span class="highlight" style="color:#7eddef;">turquoise</span> sont les dômes
-              résidentiels où l'on vit. Aux quatre coins, les cercles
-              <span class="highlight" style="color:#9adb8e;">verts</span> abritent l'agriculture.
-              Les lignes dorées sont les tunnels souterrains qui relient tout. La forme circulaire
-              n'est pas un choix esthétique : c'est la plus solide pour résister à la pression
-              interne, et c'est aussi la plus juste — chaque habitant est à distance égale du centre.
-            </p>
-            <div class="fact-box">
-              <div class="fact-label">⌬ Une cité à taille humaine</div>
-              <p class="fact-text">
-                À pied, on traverse NEOTERRA d'un bord à l'autre en <strong>environ
-                20 minutes</strong>. La gravité martienne (<strong>0,38 G</strong>)
-                rend la marche un peu plus lente que sur Terre — il faut quelques
-                semaines à un nouveau colon pour s'adapter. Pas de voitures, pas de
-                bouchons, pas de pollution sonore : tout se fait à pied, à vélo, ou
-                en petite navette électrique souterraine.
-              </p>
-            </div>
-            <p class="plan-intro">
-              Ce que le plan ne montre pas : les <strong>sas de décompression</strong> à chaque
-              entrée de dôme (pour passer de l'extérieur martien à l'air respirable), les
-              <strong>refuges anti-tempête</strong> sous les places centrales, et les
-              <strong>zones tampons techniques</strong> entre les dômes — réserves d'oxygène,
-              recyclage, traitement de l'eau. La moitié de la cité est invisible.
-            </p>
           </div>
           <div class="plan-visual">
             <div class="plan-svg-label top">↑ NORD · PLAN VUE DE DESSUS</div>
@@ -875,12 +913,6 @@
       <div class="tab-panel" id="tab-chiffres">
         <div class="section-label">La cité en chiffres</div>
         <h2 class="section-title-inner">Dimensions et capacités</h2>
-        <p class="plan-intro" style="max-width: 760px; margin: 0 auto 30px;">
-          Chacun de ces chiffres a été pensé en partant des besoins d'un humain (eau, air, espace,
-          nourriture, soins) et multiplié par <strong>5 000 habitants</strong>. C'est la taille
-          d'un village terrestre — assez petit pour que tout le monde se connaisse, assez grand
-          pour que les services essentiels (école, hôpital, mosquée, marchés) tournent.
-        </p>
         <div class="stats-grid">
           <div class="stat"><div class="stat-label">Diamètre</div><div class="stat-value">1,4 km</div><div class="stat-unit">ville circulaire</div></div>
           <div class="stat"><div class="stat-label">Population</div><div class="stat-value">5 000</div><div class="stat-unit">habitants en 2050</div></div>
@@ -890,21 +922,6 @@
           <div class="stat"><div class="stat-label">Agriculture</div><div class="stat-value">Verticale</div><div class="stat-unit">dans 4 dômes</div></div>
           <div class="stat"><div class="stat-label">Pression interne</div><div class="stat-value">1 atm</div><div class="stat-unit">comme sur Terre</div></div>
           <div class="stat"><div class="stat-label">Année de fondation</div><div class="stat-value">2050</div><div class="stat-unit">première colonie</div></div>
-          <div class="stat"><div class="stat-label">Eau / jour</div><div class="stat-value">300 L</div><div class="stat-unit">par habitant (recyclée à 99 %)</div></div>
-          <div class="stat"><div class="stat-label">Oxygène / jour</div><div class="stat-value">2,5 t</div><div class="stat-unit">produits sur place</div></div>
-          <div class="stat"><div class="stat-label">Espace par habitant</div><div class="stat-value">35 m²</div><div class="stat-unit">logement + commun</div></div>
-          <div class="stat"><div class="stat-label">Écoles</div><div class="stat-value">3</div><div class="stat-unit">primaire, collège, lycée</div></div>
-          <div class="stat"><div class="stat-label">Hôpital</div><div class="stat-value">1</div><div class="stat-unit">+ téléchirurgie depuis Terre</div></div>
-          <div class="stat"><div class="stat-label">Lieux de loisirs</div><div class="stat-value">8</div><div class="stat-unit">salles, parcs, gym</div></div>
-        </div>
-        <div class="fact-box" style="max-width: 760px; margin: 30px auto 0;">
-          <div class="fact-label">⌬ Comparaison avec la Terre</div>
-          <p class="fact-text">
-            1,4 km de diamètre, c'est la surface du <strong>1ᵉʳ arrondissement de Paris</strong>
-            — pour <strong>5 000 habitants</strong> au lieu de 16 000. NEOTERRA est trois fois
-            moins peuplée que Paris au m², parce qu'il faut laisser de la place aux dômes
-            agricoles, aux espaces verts intérieurs et aux infrastructures techniques.
-          </p>
         </div>
       
         <div class="crosslinks-section">
@@ -940,26 +957,6 @@
             d'énergie</strong> (sur le périmètre, là où le vent et le soleil sont
             les plus forts).
           </p>
-          <p>
-            La forme circulaire n'est pas qu'une question de pression : elle est
-            aussi un <strong>outil de cohabitation</strong>. Tous les habitants se
-            retrouvent à <span class="highlight">distance égale du centre</span>,
-            qu'ils habitent un appartement compact ou un logement familial. Les
-            dômes résidentiels mélangent volontairement <strong>jeunes, anciens,
-            familles et célibataires</strong> sur les mêmes paliers, et les places
-            centrales servent de lieux de rencontre intergénérationnels. La cité
-            ronde efface la hiérarchie « centre prestigieux / périphérie reléguée »
-            qu'on connaît sur Terre.
-          </p>
-          <p>
-            Enfin, NEOTERRA est une cité <strong>100 % circulaire</strong> au sens
-            écologique du terme : <span class="highlight">rien ne sort, rien ne s'enterre</span>.
-            L'eau est recyclée à 99 %, l'air est régénéré par les plantes des dômes agricoles,
-            les déchets organiques nourrissent les serres, et les déchets solides sont
-            désassemblés pour récupérer chaque matériau. Cette logique n'est pas un luxe :
-            sur Mars, jeter quelque chose, c'est le perdre pour toujours. La rareté force
-            l'intelligence — et donne une leçon que la Terre devrait peut-être écouter.
-          </p>
           <div class="fact-box">
             <div class="fact-label">⌬ Inspiration historique</div>
             <p class="fact-text">
@@ -973,8 +970,6 @@
         <div class="crosslinks-section">
           <div class="crosslinks-label">→ Pour aller plus loin</div>
           <div class="crosslinks-list">
-          <a href="projet.html" class="crosslink">Le projet en détail</a>
-          <a href="technologie.html#cohabitation" class="crosslink">Mixité, Cohabitation &amp; Solidarité</a>
           <a href="maquette.html" class="crosslink">La cité incarnée</a>
           <a href="mars.html#colonisation" class="crosslink">Pourquoi coloniser Mars</a>
           </div>
@@ -984,93 +979,252 @@
       <!-- TAB BÂTIMENTS -->
       <div class="tab-panel" id="tab-batiments">
         <div class="section-label">Les bâtiments principaux</div>
-        <h2 class="section-title-inner">Sept éléments essentiels</h2>
-        <p class="plan-intro" style="max-width: 760px; margin: 0 auto 30px;">
-          NEOTERRA est organisée comme une <strong>cible</strong> : au centre, la
-          Grande Mosquée, qu'on voit de partout. Autour, en couronne, les dômes où
-          l'on vit. Aux angles, les fermes verticales. Au-dessus, la Tour de
-          Contrôle. À la périphérie, l'énergie. Et sous tout ça, les tunnels qui
-          relient l'ensemble. Chaque bâtiment a une fonction précise, et tous se
-          répondent. <span class="highlight">Pas de gaspillage d'espace</span>,
-          pas de zone oubliée.
-        </p>
+        <h2 class="section-title-inner">Six éléments essentiels</h2>
         <div class="buildings-grid">
           <article class="building-card dome-gold">
             <div class="building-icon">⌬</div>
             <div class="building-sub">CENTRE · 1 × CŒUR DE LA CITÉ</div>
             <h3 class="building-title">La Grande Mosquée</h3>
-            <p class="building-desc">Coupole dorée de 130 m de diamètre, encadrée d'un minaret de 80 m. Lieu de prière, mais aussi salle commune pour toute la cité : annonces, mariages, fêtes, discussions collectives. La coupole est faite d'un verre martien recouvert d'une fine couche d'or — une référence aux mosquées historiques de Bagdad et de Samarcande.</p>
+            <p class="building-desc">Coupole dorée de 130 m de diamètre, encadrée d'un minaret de 80 m. Lieu de prière, mais aussi salle commune pour toute la cité.</p>
             <div class="building-stats"><span class="building-stat">130 m Ø</span><span class="building-stat">3 000 places</span><span class="building-stat">Or & verre</span></div>
           </article>
           <article class="building-card dome-cyan">
             <div class="building-icon">⬢</div>
             <div class="building-sub">COURONNE · 4 × HABITATIONS</div>
             <h3 class="building-title">Dômes Résidentiels</h3>
-            <p class="building-desc">Quatre dômes de 80 m de diamètre abritent les appartements, les écoles et les commerces de proximité. Chacun loge environ 1 250 habitants sur 8 étages, avec des appartements mélangeant tailles et générations. Au rez-de-chaussée : crèche, école, boulangerie, médecin de quartier — tout est accessible à pied en 2 minutes.</p>
+            <p class="building-desc">Quatre dômes de 80 m de diamètre abritent les appartements, les écoles et les commerces. Chacun loge environ 1 250 habitants.</p>
             <div class="building-stats"><span class="building-stat">80 m Ø</span><span class="building-stat">×4</span><span class="building-stat">5 000 hab.</span></div>
           </article>
           <article class="building-card dome-green">
             <div class="building-icon">❀</div>
             <div class="building-sub">ANGLES · 4 × NOURRITURE</div>
             <h3 class="building-title">Dômes Agricoles</h3>
-            <p class="building-desc">Fermes verticales sous serres : tomates, salades, fraises, blé, herbes aromatiques. La cité produit <strong>100 %</strong> de ses légumes et 60 % de ses céréales. La lumière du soleil martien est complétée par des LED rouges et bleues. L'eau circule en circuit fermé : ce qui s'évapore est récupéré et réinjecté.</p>
+            <p class="building-desc">Fermes verticales sous serres : tomates, salades, fraises, blé, herbes. La cité produit <strong>100 %</strong> de ses légumes et 60 % de ses céréales.</p>
             <div class="building-stats"><span class="building-stat">60 m Ø</span><span class="building-stat">×4</span><span class="building-stat">12 niveaux</span></div>
           </article>
           <article class="building-card dome-gold">
             <div class="building-icon">▲</div>
             <div class="building-sub">VERTICAL · 1 × COMMANDEMENT</div>
             <h3 class="building-title">Tour de Contrôle</h3>
-            <p class="building-desc">Une tour de 200 m de haut, intégrée à la mosquée comme un minaret moderne. Elle abrite les serveurs informatiques, le centre de communication avec la Terre, la station météo martienne et le radar qui surveille les tempêtes de poussière. C'est aussi de là-haut que l'appel à la prière se fait entendre dans toute la cité.</p>
+            <p class="building-desc">Une tour de 200 m de haut, intégrée à la mosquée comme un minaret moderne. Elle abrite les serveurs, le centre de communication avec la Terre et la météo martienne.</p>
             <div class="building-stats"><span class="building-stat">200 m</span><span class="building-stat">35 étages</span><span class="building-stat">Antenne Terre</span></div>
           </article>
           <article class="building-card dome-cyan">
             <div class="building-icon">☀</div>
             <div class="building-sub">PÉRIMÈTRE · ÉNERGIE 100 %</div>
             <h3 class="building-title">Parcs Solaires & Éoliens</h3>
-            <p class="building-desc">Panneaux solaires et éoliennes martiennes (adaptées à l'atmosphère ténue) installés tout autour de la cité, hors des dômes. L'énergie est stockée dans des batteries géantes au lithium pour les nuits martiennes et les tempêtes de poussière qui peuvent durer plusieurs semaines. Une petite centrale à fusion de secours complète l'ensemble.</p>
+            <p class="building-desc">Panneaux solaires et éoliennes martiennes installés tout autour de la cité. L'énergie est stockée dans des batteries géantes pour les nuits et les tempêtes.</p>
             <div class="building-stats"><span class="building-stat">12 MW</span><span class="building-stat">2 ha de panneaux</span><span class="building-stat">8 éoliennes</span></div>
           </article>
           <article class="building-card dome-red">
             <div class="building-icon">⊝</div>
             <div class="building-sub">SOUTERRAIN · LIAISONS</div>
             <h3 class="building-title">Tunnels Pressurisés</h3>
-            <p class="building-desc">Tous les dômes sont reliés par des tunnels enterrés à 3 mètres sous la surface, à l'abri des radiations cosmiques et de la poussière. On y circule à pied, à vélo ou en petite navette électrique automatique. Les tunnels servent aussi de refuge en cas de tempête majeure — leur épaisseur de sol martien protège mieux qu'un dôme transparent.</p>
+            <p class="building-desc">Tous les dômes sont reliés par des tunnels enterrés, à l'abri des radiations et de la poussière. On y circule à pied, à vélo ou en petite navette électrique.</p>
             <div class="building-stats"><span class="building-stat">3,2 km total</span><span class="building-stat">−3 m profondeur</span><span class="building-stat">8 voies</span></div>
           </article>
-          <article class="building-card dome-gold">
-            <div class="building-icon">❉</div>
-            <div class="building-sub">PÉRIPHÉRIE OUEST · 2 × SÉPULTURES</div>
-            <h3 class="building-title">Les Cimetières</h3>
-            <p class="building-desc">Deux espaces contigus, séparés par un mur de pierre martienne : à l'ouest, le <strong>cimetière musulman</strong>, tombes orientées vers la Qibla recalculée par la station astronomique ; à l'est, l'<strong>espace pluri-confessionnel</strong> pour les sépultures chrétiennes, juives et les cérémonies laïques. Pas de crémation à NEOTERRA : le corps humain est la seule exception au principe « 100 % circulaire » de la cité.</p>
-            <div class="building-stats"><span class="building-stat">2 zones</span><span class="building-stat">Sans crémation</span><span class="building-stat">Qibla recalculée</span></div>
-          </article>
-        </div>
-        <h2 class="section-title-inner" style="margin-top: 50px;">Sous la cité : les infrastructures invisibles</h2>
-        <p class="plan-intro" style="max-width: 760px; margin: 0 auto 20px;">
-          Sous les pieds des habitants, une seconde cité fonctionne 24 h/24 — invisible
-          mais vitale. Sans elle, NEOTERRA ne tiendrait pas une semaine.
-        </p>
-        <div class="buildings-grid">
           <article class="building-card dome-cyan">
-            <div class="building-icon">💧</div>
-            <div class="building-sub">SOUS-SOL · TRAITEMENT EAU</div>
-            <h3 class="building-title">Station de Recyclage</h3>
-            <p class="building-desc">L'eau utilisée par les habitants (douches, lavabos, toilettes) est récupérée, filtrée, purifiée et remise en circulation. La station traite 1 500 m³ par jour avec une perte de 1 % seulement. Les pertes sont compensées par l'eau extraite du sol martien.</p>
-            <div class="building-stats"><span class="building-stat">1 500 m³/j</span><span class="building-stat">99 % recyclé</span></div>
+            <div class="building-icon">✎</div>
+            <div class="building-sub">ÉDUCATION · JEUNESSE</div>
+            <h3 class="building-title">École &amp; Collège</h3>
+            <p class="building-desc">Un dôme dédié à la formation des enfants martiens, de 6 à 15 ans. Sciences spatiales, langues, sport en gravité réduite, et culture générale.</p>
+            <div class="building-stats"><span class="building-stat">~600 élèves</span><span class="building-stat">12 classes</span><span class="building-stat">6 à 15 ans</span></div>
+          </article>
+          <article class="building-card dome-gold">
+            <div class="building-icon">✦</div>
+            <div class="building-sub">SAVOIR · ENSEIGNEMENT SUPÉRIEUR</div>
+            <h3 class="building-title">Université de Mars</h3>
+            <p class="building-desc">Premier établissement supérieur martien. Quatre facultés : ingénierie spatiale, biologie martienne, médecine de l'espace et sciences sociales.</p>
+            <div class="building-stats"><span class="building-stat">500 étudiants</span><span class="building-stat">4 facultés</span><span class="building-stat">Lien Terre</span></div>
+          </article>
+          <article class="building-card dome-red">
+            <div class="building-icon">✚</div>
+            <div class="building-sub">SANTÉ · OUVERT 24/7</div>
+            <h3 class="building-title">Hôpital</h3>
+            <p class="building-desc">Soins complets pour les 5 000 habitants. Médecine générale, urgences, bloc opératoire, soins spatiaux et traitement des radiations.</p>
+            <div class="building-stats"><span class="building-stat">50 lits</span><span class="building-stat">Bloc op.</span><span class="building-stat">Urgences 24/7</span></div>
+          </article>
+          <article class="building-card dome-cyan">
+            <div class="building-icon">◈</div>
+            <div class="building-sub">SÉCURITÉ CIVILE</div>
+            <h3 class="building-title">Poste de Police</h3>
+            <p class="building-desc">Maintien de la paix dans la cité. Médiation, sécurité civile, surveillance des sas et de la pressurisation.</p>
+            <div class="building-stats"><span class="building-stat">~20 agents</span><span class="building-stat">24/7</span><span class="building-stat">Central</span></div>
+          </article>
+          <article class="building-card dome-red">
+            <div class="building-icon">▽</div>
+            <div class="building-sub">URGENCES · ALERTE 3 MIN</div>
+            <h3 class="building-title">Caserne de Pompiers</h3>
+            <p class="building-desc">Équipée pour les risques martiens : fuites d'air, incendies dans dômes pressurisés, dépressurisations accidentelles, accidents techniques.</p>
+            <div class="building-stats"><span class="building-stat">15 pompiers</span><span class="building-stat">3 véhicules</span><span class="building-stat">Alerte 3 min</span></div>
+          </article>
+          <article class="building-card dome-cyan">
+            <div class="building-icon">⚛</div>
+            <div class="building-sub">RECHERCHE · 4 SPÉCIALITÉS</div>
+            <h3 class="building-title">Laboratoires</h3>
+            <p class="building-desc">Quatre unités de recherche : biologie martienne, chimie atmosphérique, géologie martienne, médecine spatiale. Reliés à l'université.</p>
+            <div class="building-stats"><span class="building-stat">4 spécialités</span><span class="building-stat">Lien université</span><span class="building-stat">Recherche martienne</span></div>
           </article>
           <article class="building-card dome-green">
-            <div class="building-icon">🌬</div>
-            <div class="building-sub">SOUS-SOL · ATMOSPHÈRE</div>
-            <h3 class="building-title">Générateurs d'Oxygène</h3>
-            <p class="building-desc">Les plantes des dômes agricoles ne suffisent pas à fournir tout l'oxygène. Des électrolyseurs séparent l'O₂ et l'H₂ de l'eau, et des extracteurs convertissent le CO₂ de l'atmosphère martienne en oxygène respirable. La cité produit 2,5 tonnes d'O₂ par jour.</p>
-            <div class="building-stats"><span class="building-stat">2,5 t/j</span><span class="building-stat">Toujours 21 %</span></div>
+            <div class="building-icon">◉</div>
+            <div class="building-sub">OBSERVATION · EXTÉRIEUR</div>
+            <h3 class="building-title">Station de Recherche</h3>
+            <p class="building-desc">Située hors de la cité pressurisée. Suit la sismologie martienne, la météo, et observe l'espace au moyen d'un télescope dédié.</p>
+            <div class="building-stats"><span class="building-stat">Sismomètres</span><span class="building-stat">Météo</span><span class="building-stat">Télescope</span></div>
           </article>
           <article class="building-card dome-gold">
-            <div class="building-icon">🔋</div>
-            <div class="building-sub">SOUS-SOL · STOCKAGE</div>
-            <h3 class="building-title">Réservoirs & Batteries</h3>
-            <p class="building-desc">Réserves stratégiques : 5 000 m³ d'eau, 30 jours d'oxygène, 20 jours d'énergie. Si une tempête solaire coupe les panneaux pendant 3 semaines, la cité tient sans rien sentir. La vraie sécurité, c'est la profondeur des réserves.</p>
-            <div class="building-stats"><span class="building-stat">30 j O₂</span><span class="building-stat">20 j énergie</span></div>
+            <div class="building-icon">⊞</div>
+            <div class="building-sub">COMMERCE · MARCHÉ CENTRAL</div>
+            <h3 class="building-title">Centre Commercial</h3>
+            <p class="building-desc">Marché central de la cité. Alimentation, vêtements, équipement personnel, services, lieu de rencontre. Ouvert 7 jours sur 7.</p>
+            <div class="building-stats"><span class="building-stat">7j/7</span><span class="building-stat">Alimentation</span><span class="building-stat">Équipement</span></div>
+          </article>
+          <article class="building-card dome-cyan">
+            <div class="building-icon">◐</div>
+            <div class="building-sub">TRANSPORT INTRA-CITÉ</div>
+            <h3 class="building-title">Gare Routière</h3>
+            <p class="building-desc">Hub central des navettes électriques qui circulent dans les tunnels pressurisés. Toutes les 5 minutes en heure de pointe.</p>
+            <div class="building-stats"><span class="building-stat">6 quais</span><span class="building-stat">Navettes 24/7</span><span class="building-stat">Hub central</span></div>
+          </article>
+          <article class="building-card dome-gold">
+            <div class="building-icon">▶</div>
+            <div class="building-sub">SPACEPORT · 2 KM DE LA CITÉ</div>
+            <h3 class="building-title">Gare Spatiale</h3>
+            <p class="building-desc">Plate-forme d'atterrissage située à 2 km de la cité. Accueille les navettes Terre-Mars : cargo, ravitaillement, nouveaux colons.</p>
+            <div class="building-stats"><span class="building-stat">2 km cité</span><span class="building-stat">Cargo + passagers</span><span class="building-stat">Terre↔Mars</span></div>
+          </article>
+          <article class="building-card dome-green">
+            <div class="building-icon">✿</div>
+            <div class="building-sub">AGRICULTURE EXTÉRIEURE</div>
+            <h3 class="building-title">Ferme Expérimentale</h3>
+            <p class="building-desc">Différente des Dômes Agricoles : ferme test sur surface martienne en gravité réduite. Cultures hors-sol pour adapter l'agriculture à Mars.</p>
+            <div class="building-stats"><span class="building-stat">Surface martienne</span><span class="building-stat">Hors-sol</span><span class="building-stat">Cultures test</span></div>
+          </article>
+          <article class="building-card dome-cyan">
+            <div class="building-icon">✧</div>
+            <div class="building-sub">MÉMOIRE · RECUEILLEMENT</div>
+            <h3 class="building-title">Jardin du Souvenir</h3>
+            <p class="building-desc">Lieu de recueillement pour rendre hommage aux pionniers disparus. Sépultures discrètes et jardin commémoratif sous dôme.</p>
+            <div class="building-stats"><span class="building-stat">Sépultures</span><span class="building-stat">Jardin</span><span class="building-stat">Recueillement</span></div>
+          </article>
+          <article class="building-card dome-cyan">
+            <div class="building-icon">◫</div>
+            <div class="building-sub">SAVOIR · ACCÈS LIBRE</div>
+            <h3 class="building-title">Bibliothèque &amp; Médiathèque</h3>
+            <p class="building-desc">Toute la connaissance de la Terre numérisée, plus une collection physique de livres précieux. Salles de lecture, cabines vidéo, espaces de travail.</p>
+            <div class="building-stats"><span class="building-stat">~50 000 ouvrages</span><span class="building-stat">Numérique + papier</span><span class="building-stat">7j/7</span></div>
+          </article>
+          <article class="building-card dome-gold">
+            <div class="building-icon">◊</div>
+            <div class="building-sub">CULTURE · SPECTACLES</div>
+            <h3 class="building-title">Centre Culturel &amp; Théâtre</h3>
+            <p class="building-desc">Théâtre, salle de concert, cinéma, expositions d'art. Maintient un lien fort avec la Terre via des retransmissions en direct (avec délai martien).</p>
+            <div class="building-stats"><span class="building-stat">400 places</span><span class="building-stat">Spectacles</span><span class="building-stat">Expositions</span></div>
+          </article>
+          <article class="building-card dome-cyan">
+            <div class="building-icon">◇</div>
+            <div class="building-sub">SPORT · GRAVITÉ 0,38 G</div>
+            <h3 class="building-title">Centre Sportif &amp; Gymnase</h3>
+            <p class="building-desc">Salles de musculation, gymnase, terrains de sport adaptés à la gravité martienne. Maintien essentiel de la masse musculaire et osseuse des colons.</p>
+            <div class="building-stats"><span class="building-stat">~2 000 m²</span><span class="building-stat">Sport 0,38 g</span><span class="building-stat">Tous âges</span></div>
+          </article>
+          <article class="building-card dome-green">
+            <div class="building-icon">❁</div>
+            <div class="building-sub">PETITE ENFANCE · 0 À 6 ANS</div>
+            <h3 class="building-title">Crèche</h3>
+            <p class="building-desc">Accueil des enfants de la naissance à 6 ans, avec éducateurs spécialisés. Apprentissage précoce de la vie en environnement pressurisé.</p>
+            <div class="building-stats"><span class="building-stat">~100 enfants</span><span class="building-stat">0 à 6 ans</span><span class="building-stat">Éducateurs</span></div>
+          </article>
+          <article class="building-card dome-gold">
+            <div class="building-icon">⚜</div>
+            <div class="building-sub">GOUVERNANCE · CONSEIL DE LA CITÉ</div>
+            <h3 class="building-title">Mairie &amp; Centre Administratif</h3>
+            <p class="building-desc">Siège du Conseil de la cité (12 membres élus). État civil, démarches administratives, registre des arrivées et départs entre Terre et Mars.</p>
+            <div class="building-stats"><span class="building-stat">Conseil 12 membres</span><span class="building-stat">État civil</span><span class="building-stat">Démarches</span></div>
+          </article>
+          <article class="building-card dome-green">
+            <div class="building-icon">♻</div>
+            <div class="building-sub">ÉCONOMIE CIRCULAIRE</div>
+            <h3 class="building-title">Centre de Recyclage</h3>
+            <p class="building-desc">À NEOTERRA, <strong>rien ne se perd</strong>. Tri, valorisation, retour matière. Plastiques, métaux, déchets organiques, eaux usées — tout est réemployé.</p>
+            <div class="building-stats"><span class="building-stat">100 % recyclage</span><span class="building-stat">Zéro déchet</span><span class="building-stat">Tri intelligent</span></div>
+          </article>
+          <article class="building-card dome-cyan">
+            <div class="building-icon">☵</div>
+            <div class="building-sub">EAU · GLACIERS POLAIRES</div>
+            <h3 class="building-title">Centre de Traitement de l'Eau</h3>
+            <p class="building-desc">L'eau de la cité vient des glaciers polaires martiens, extraite par convois automatisés. Filtrée, purifiée, distribuée dans tous les dômes via un réseau dédié.</p>
+            <div class="building-stats"><span class="building-stat">Glaciers polaires</span><span class="building-stat">Filtration</span><span class="building-stat">Distribution</span></div>
+          </article>
+          <article class="building-card dome-cyan">
+            <div class="building-icon">◙</div>
+            <div class="building-sub">MÉMOIRE NUMÉRIQUE</div>
+            <h3 class="building-title">Archives Numériques</h3>
+            <p class="building-desc">Sauvegarde redondante de toute la connaissance et l'histoire de NEOTERRA. Liaison sécurisée avec la Terre pour une copie de sauvegarde interplanétaire.</p>
+            <div class="building-stats"><span class="building-stat">Pétaoctets</span><span class="building-stat">Sauvegarde 3×</span><span class="building-stat">Lien Terre</span></div>
+          </article>
+          <article class="building-card dome-gold">
+            <div class="building-icon">⚖</div>
+            <div class="building-sub">JUSTICE · INSTITUTION</div>
+            <h3 class="building-title">Tribunal de Justice</h3>
+            <p class="building-desc">Institution juridique de la cité. Tranche les conflits entre colons, applique le code civil martien adapté de l'ONU, garantit l'équité dans la communauté.</p>
+            <div class="building-stats"><span class="building-stat">3 juges</span><span class="building-stat">Code martien</span><span class="building-stat">Médiation</span></div>
+          </article>
+          <article class="building-card dome-cyan">
+            <div class="building-icon">⚙</div>
+            <div class="building-sub">MAINTENANCE · INFRASTRUCTURE</div>
+            <h3 class="building-title">Centre de Maintenance</h3>
+            <p class="building-desc">Équipe technique qui assure la maintenance de tous les dômes, sas, tunnels, panneaux solaires, systèmes de pressurisation et de filtration. <strong>Crucial pour la survie.</strong></p>
+            <div class="building-stats"><span class="building-stat">~30 techniciens</span><span class="building-stat">24/7</span><span class="building-stat">Tous systèmes</span></div>
+          </article>
+          <article class="building-card dome-red">
+            <div class="building-icon">⊙</div>
+            <div class="building-sub">SURVIE · CO₂ → O₂</div>
+            <h3 class="building-title">Centre de Production d'Oxygène</h3>
+            <p class="building-desc">Extrait l'oxygène de l'atmosphère martienne (95 % CO₂) par électrolyse. Inspiré de l'instrument MOXIE de la NASA, mais à l'échelle industrielle. <strong>Sans lui, personne ne respire.</strong></p>
+            <div class="building-stats"><span class="building-stat">Technologie MOXIE</span><span class="building-stat">100 % besoins</span><span class="building-stat">Critique</span></div>
+          </article>
+          <article class="building-card dome-cyan">
+            <div class="building-icon">◰</div>
+            <div class="building-sub">FABRICATION · PIÈCES DÉTACHÉES</div>
+            <h3 class="building-title">Atelier d'Imprimerie 3D &amp; Fabrication</h3>
+            <p class="building-desc">Imprimantes 3D métal et plastique pour produire pièces détachées, outils, équipements. Indispensable : sur Mars, impossible d'attendre une livraison de la Terre.</p>
+            <div class="building-stats"><span class="building-stat">3D métal + plastique</span><span class="building-stat">Pièces détachées</span><span class="building-stat">Outils</span></div>
+          </article>
+          <article class="building-card dome-green">
+            <div class="building-icon">❍</div>
+            <div class="building-sub">PROTÉINES · ÉLEVAGE & POISSON</div>
+            <h3 class="building-title">Centre d'Élevage &amp; Pisciculture</h3>
+            <p class="building-desc">Aquaculture (tilapias, truites), élevage de poules pour les œufs, lapins pour la viande. Complète les dômes agricoles pour un régime alimentaire complet.</p>
+            <div class="building-stats"><span class="building-stat">Poissons + œufs + viande</span><span class="building-stat">Bassins fermés</span><span class="building-stat">Boucle eau</span></div>
+          </article>
+          <article class="building-card dome-cyan">
+            <div class="building-icon">⚒</div>
+            <div class="building-sub">ROBOTIQUE · CONSTRUCTION</div>
+            <h3 class="building-title">Hangar Robotique</h3>
+            <p class="building-desc">Abrite, recharge et entretient les <strong>~200 robots</strong> de NEOTERRA — ceux qui ont construit la cité avant l'arrivée des humains et qui continuent à étendre les structures.</p>
+            <div class="building-stats"><span class="building-stat">~200 robots</span><span class="building-stat">Recharge solaire</span><span class="building-stat">Atelier réparation</span></div>
+          </article>
+          <article class="building-card dome-gold">
+            <div class="building-icon">⌖</div>
+            <div class="building-sub">ASTRONOMIE · ESPACE PROFOND</div>
+            <h3 class="building-title">Observatoire Astronomique</h3>
+            <p class="building-desc">Télescope géant tirant profit de l'atmosphère ténue de Mars (160× moins dense que sur Terre). Vision exceptionnelle vers l'espace profond, recherche d'exoplanètes.</p>
+            <div class="building-stats"><span class="building-stat">Télescope géant</span><span class="building-stat">Espace profond</span><span class="building-stat">Exoplanètes</span></div>
+          </article>
+          <article class="building-card dome-cyan">
+            <div class="building-icon">☯</div>
+            <div class="building-sub">BIEN-ÊTRE · ISOLEMENT</div>
+            <h3 class="building-title">Centre de Santé Mentale</h3>
+            <p class="building-desc">L'isolement martien (loin de la Terre, sous dôme pressurisé) est un défi psychologique majeur. Psychologues, thérapeutes, groupes de parole, méditation en gravité 0,38 g.</p>
+            <div class="building-stats"><span class="building-stat">Psychologues</span><span class="building-stat">Groupes de parole</span><span class="building-stat">Méditation</span></div>
+          </article>
+          <article class="building-card dome-gold">
+            <div class="building-icon">⌂</div>
+            <div class="building-sub">ACCUEIL · NOUVEAUX ARRIVANTS</div>
+            <h3 class="building-title">Hôtel d'Accueil</h3>
+            <p class="building-desc">Premier toit des arrivants de la Terre, avant l'assignation d'un logement permanent. Période d'adaptation à la gravité réduite, formation aux protocoles de survie.</p>
+            <div class="building-stats"><span class="building-stat">~50 chambres</span><span class="building-stat">Adaptation 14 j</span><span class="building-stat">Formation survie</span></div>
           </article>
         </div>
       
@@ -1094,75 +1248,8 @@
           <p><strong>Les dômes transparents</strong> sont faits d'un plastique ultra-résistant (l'ETFE), bien plus léger que le verre, qui laisse passer la lumière du soleil tout en bloquant les rayonnements dangereux.</p>
           <p><strong>Les structures métalliques</strong> utilisent du fer extrait sur place — Mars en regorge, c'est ce qui lui donne sa couleur rouge !</p>
           <div class="fact-box">
-            <div class="fact-label">⌬ Pourquoi fabriquer sur place ?</div>
-            <p class="fact-text">
-              Apporter <strong>1 kg de matériau depuis la Terre coûte environ 1 million de dollars</strong>
-              (fusée, carburant, voyage de 6 mois). Le même kilo fabriqué sur Mars coûte environ
-              <strong>50 dollars</strong> — soit <strong>20 000 fois moins cher</strong>.
-              C'est pour ça que <span class="highlight">tout doit être construit sur Mars</span>,
-              avec ce qu'on trouve sur Mars. Les seuls objets venus de la Terre sont
-              les machines de précision (ordinateurs, capteurs, instruments médicaux).
-            </p>
-          </div>
-
-          <h2 class="section-title-inner" style="margin-top: 50px;">Une construction en 4 phases</h2>
-          <p>
-            Construire une cité sur une planète sans humains demande de l'organisation. Voici
-            les <strong>quatre grandes étapes</strong> de NEOTERRA, sur cinq années.
-          </p>
-          <div class="cite-timeline">
-            <div class="cite-phase">
-              <div class="cite-phase-year">2045–2048</div>
-              <div class="cite-phase-title">Phase 1 · Robots éclaireurs</div>
-              <p class="cite-phase-text">
-                Des dizaines de robots autonomes sont envoyés en avance, sans humains. Leur
-                mission : cartographier le site, analyser le sol, repérer les nappes d'eau
-                souterraines, et installer la première station d'énergie solaire qui alimentera
-                tout le chantier.
-              </p>
-            </div>
-            <div class="cite-phase">
-              <div class="cite-phase-year">2048–2049</div>
-              <div class="cite-phase-title">Phase 2 · Fondations et tunnels</div>
-              <p class="cite-phase-text">
-                Les robots commencent à creuser les tunnels et à fabriquer le « martien-crete »
-                sur place. Ils coulent les fondations des dômes et installent les premières
-                réserves d'oxygène. À ce stade, <strong>aucun humain n'est encore sur Mars</strong>
-                — tout se fait à distance, piloté depuis la Terre avec un délai de communication
-                de 12 minutes.
-              </p>
-            </div>
-            <div class="cite-phase">
-              <div class="cite-phase-year">2049–2050</div>
-              <div class="cite-phase-title">Phase 3 · Dômes et infrastructures</div>
-              <p class="cite-phase-text">
-                Les dômes sont assemblés, les fermes verticales installées, les premiers panneaux
-                solaires déployés sur le périmètre. La Grande Mosquée centrale est érigée la
-                dernière, comme symbole d'achèvement. Toute la cité est testée en pression avant
-                l'arrivée des humains.
-              </p>
-            </div>
-            <div class="cite-phase">
-              <div class="cite-phase-year">2050</div>
-              <div class="cite-phase-title">Phase 4 · Arrivée des humains</div>
-              <p class="cite-phase-text">
-                Les <strong>premiers 200 colons</strong> arrivent dans une cité déjà debout :
-                air respirable, eau coulante, fermes en production, premiers repas martiens
-                prêts à être servis. Les vagues suivantes arrivent par groupes de 500 chaque
-                six mois, jusqu'aux 5 000 habitants prévus.
-              </p>
-            </div>
-          </div>
-          <div class="fact-box">
-            <div class="fact-label">⌬ Une armée de robots</div>
-            <p class="fact-text">
-              <strong>200 robots autonomes</strong> participent à la construction : excavateurs,
-              imprimantes 3D géantes (qui « impriment » les murs en martien-crete), drones
-              cartographes, robots porteurs, soudeurs autonomes. Ils sont supervisés par
-              <strong>une seule équipe humaine de 30 personnes</strong> depuis un centre de
-              contrôle sur Terre. Quand les colons arrivent, les robots continuent à les
-              aider — pour la maintenance, les réparations, et les futurs agrandissements.
-            </p>
+            <div class="fact-label">⌬ Construction par robots</div>
+            <p class="fact-text">Les premières structures de NEOTERRA sont assemblées par des <strong>robots autonomes</strong> envoyés en avance, avant l'arrivée des humains. Quand les premiers colons posent le pied sur Mars, les dômes sont déjà debout.</p>
           </div>
         </div>
       
@@ -1259,20 +1346,8 @@
           + `</svg>`;
         return 'data:image/svg+xml;charset=UTF-8,' + svg;
       }
-      const PLACEHOLDER_1 = makePlaceholder(1);
       const PLACEHOLDER_2 = makePlaceholder(2);
       const PLACEHOLDER_3 = makePlaceholder(3);
-
-      // Charge une image avec fallback automatique sur le placeholder
-      // si le fichier n'existe pas (404, broken image, etc.)
-      function setImgWithFallback(imgEl, src, placeholder) {
-        if (!imgEl) return;
-        imgEl.onerror = function() {
-          imgEl.onerror = null;
-          imgEl.src = placeholder;
-        };
-        imgEl.src = src;
-      }
 
       // ============ SOMMAIRE FLOTTANT ============
       function buildToc(panel) {
@@ -1339,7 +1414,7 @@
         }
         if (activeBtn && activeBtn.dataset.image) {
           const img = document.getElementById('page-image');
-          setImgWithFallback(img, activeBtn.dataset.image, PLACEHOLDER_1);
+          if (img) img.src = activeBtn.dataset.image;
           buildThumbs(activeBtn);
         }
       }
@@ -1357,8 +1432,7 @@
           b.addEventListener('click', () => {
             const idx = parseInt(b.dataset.idx, 10);
             const mainImg = document.getElementById('page-image');
-            const placeholders = [PLACEHOLDER_1, PLACEHOLDER_2, PLACEHOLDER_3];
-            setImgWithFallback(mainImg, imgs[idx], placeholders[idx] || PLACEHOLDER_1);
+            if (mainImg) mainImg.src = imgs[idx];
             thumbsContainer.querySelectorAll('.image-thumb').forEach(t =>
               t.classList.toggle('active', t === b));
           });
@@ -1504,6 +1578,123 @@
         img.addEventListener('dragstart', e => { e.preventDefault(); return false; });
       });
     })();
+  </script>
+
+  <!-- ============ MODAL BÂTIMENT ============ -->
+  <div class="bld-modal-backdrop" id="bld-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="bld-modal-title">
+    <div class="bld-modal" id="bld-modal">
+      <button class="bld-modal-close" id="bld-modal-close" aria-label="Fermer">✕</button>
+      <div class="bld-modal-header">
+        <div class="bld-modal-icon" id="bld-modal-icon">⌬</div>
+        <div class="bld-modal-titles">
+          <div class="bld-modal-sub" id="bld-modal-sub">SUB · LABEL</div>
+          <h2 class="bld-modal-title" id="bld-modal-title">Titre du bâtiment</h2>
+        </div>
+      </div>
+      <div id="bld-modal-body">
+        <!-- Sections injectées par JS -->
+      </div>
+      <div class="bld-modal-stats" id="bld-modal-stats">
+        <!-- Stats clonées de la carte -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+  /* ============ DONNÉES DÉTAILLÉES DES BÂTIMENTS ============
+     Chaque entrée est indexée par le titre du bâtiment (sans &amp;).
+     3 sections : role (à quoi ça sert), tech (comment ça marche), terre (référence terrestre).
+  */
+  const BUILDING_DETAILS = {
+    'La Grande Mosquée': {
+      role: 'Cœur spirituel et social de NEOTERRA. Lieu de prière pour les 5 000 habitants, mais aussi salle commune pour les grandes annonces, les mariages, les cérémonies, et les rassemblements de toute la communauté. La coupole dorée de 130 m de diamètre est visible depuis tous les dômes — repère central de la cité.',
+      tech: 'Structure en martien-crete (béton local à base de régolithe), recouverte d\'un voile doré qui reflète le rayonnement solaire et protège l\'intérieur. Le minaret de 80 m intègre des capteurs de pression et de qualité d\'air pour toute la cité. La <strong>direction de La Mecque</strong> est calculée par les ingénieurs à partir des coordonnées astronomiques Terre-Mars.',
+      terre: 'Inspirée de la <strong>Mosquée bleue d\'Istanbul</strong> pour son architecture monumentale, et de la <strong>Grande Mosquée Sheikh Zayed d\'Abou Dabi</strong> pour le rôle de centre civique. Le concept de mosquée au centre d\'une cité radiale remonte à la <strong>Bagdad ronde du calife Al-Mansur (762)</strong>.'
+    },
+    'Hôpital': {
+      role: 'Soigne les 5 000 habitants 24 heures sur 24. Médecine générale, urgences, bloc opératoire, soins spatiaux, suivi de la perte musculaire et osseuse liée à la gravité martienne (0,38 g), traitement des expositions aux radiations cosmiques en cas de tempête solaire.',
+      tech: 'Chirurgie assistée par robot pour les interventions complexes. <strong>Banque de sang artificiel</strong> (impossible d\'attendre un donneur à 225 millions de km). IRM portable adaptée à la gravité réduite. Téléconsultation avec spécialistes terrestres malgré le délai de communication de 4 à 24 minutes par message.',
+      terre: 'Modèle inspiré du <strong>CHU de Toulouse</strong> pour son organisation médecine-recherche, et des projets <strong>Hospital of the Future de la NASA</strong> qui développent justement les outils chirurgicaux télérobotisés pour les missions martiennes.'
+    },
+    'Centre de Production d\'Oxygène': {
+      role: 'Le bâtiment <strong>le plus critique</strong> de NEOTERRA. Sans lui, personne ne respire. Produit l\'oxygène pour les 5 000 habitants en permanence, ainsi que des réserves stratégiques pour les sas, les combinaisons et les véhicules pressurisés.',
+      tech: 'Utilise la technologie <strong>MOXIE</strong> développée par la NASA et testée à bord du rover Perseverance depuis 2021 : électrolyse à haute température qui sépare le CO₂ de l\'atmosphère martienne (composée à 95 % de CO₂) en oxygène et monoxyde de carbone. Industrialisé à grande échelle pour NEOTERRA.',
+      terre: 'Inspiré directement de l\'<strong>instrument MOXIE de la NASA</strong> (Mars Oxygen In-Situ Resource Utilization Experiment) qui a produit avec succès de l\'oxygène sur Mars en 2021. Sur Terre, le procédé d\'électrolyse à haute température est étudié dans les laboratoires du <strong>MIT</strong> et du <strong>CEA français</strong>.'
+    }
+    /* TODO : 32 autres bâtiments à rédiger */
+  };
+
+  /* ============ LOGIQUE DU MODAL ============ */
+  (function() {
+    const backdrop = document.getElementById('bld-modal-backdrop');
+    const closeBtn = document.getElementById('bld-modal-close');
+    const iconEl = document.getElementById('bld-modal-icon');
+    const subEl = document.getElementById('bld-modal-sub');
+    const titleEl = document.getElementById('bld-modal-title');
+    const bodyEl = document.getElementById('bld-modal-body');
+    const statsEl = document.getElementById('bld-modal-stats');
+
+    function decodeHtml(s) { const d = document.createElement('div'); d.innerHTML = s; return d.textContent; }
+
+    function openBuilding(card) {
+      const titleRaw = card.querySelector('.building-title').textContent.trim();
+      const title = decodeHtml(titleRaw);
+      const icon = card.querySelector('.building-icon').textContent;
+      const sub = card.querySelector('.building-sub').textContent;
+      const statsHTML = card.querySelector('.building-stats').innerHTML;
+
+      iconEl.textContent = icon;
+      subEl.textContent = sub;
+      titleEl.textContent = title;
+      statsEl.innerHTML = statsHTML;
+
+      const details = BUILDING_DETAILS[title];
+      if (details) {
+        bodyEl.innerHTML =
+          '<div class="bld-modal-section">' +
+            '<div class="bld-modal-section-label">▸ À quoi ça sert exactement</div>' +
+            '<p>' + details.role + '</p>' +
+          '</div>' +
+          '<div class="bld-modal-section">' +
+            '<div class="bld-modal-section-label">▸ Comment ça marche</div>' +
+            '<p>' + details.tech + '</p>' +
+          '</div>' +
+          '<div class="bld-modal-section">' +
+            '<div class="bld-modal-section-label">▸ Sur Terre, ça ressemble à...</div>' +
+            '<p>' + details.terre + '</p>' +
+          '</div>';
+      } else {
+        bodyEl.innerHTML =
+          '<div class="bld-modal-placeholder">' +
+            'Contenu détaillé à rédiger pour ce bâtiment.<br>' +
+            'Les 3 sections (rôle, technologie, inspiration terrestre) seront disponibles bientôt.' +
+          '</div>';
+      }
+
+      backdrop.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeBuilding() {
+      backdrop.classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.building-card').forEach(card => {
+      // Ajoute un CTA visuel "En savoir plus"
+      if (!card.querySelector('.building-card-cta')) {
+        const cta = document.createElement('div');
+        cta.className = 'building-card-cta';
+        cta.textContent = 'En savoir plus →';
+        card.appendChild(cta);
+      }
+      card.addEventListener('click', () => openBuilding(card));
+    });
+
+    closeBtn.addEventListener('click', closeBuilding);
+    backdrop.addEventListener('click', e => { if (e.target === backdrop) closeBuilding(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && backdrop.classList.contains('visible')) closeBuilding(); });
+  })();
   </script>
 
 </body>
