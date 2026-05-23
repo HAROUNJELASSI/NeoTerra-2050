@@ -248,13 +248,17 @@
     }
     .building-card:hover { border-color: var(--gold-line-hi); transform: translateY(-4px); box-shadow: 0 14px 40px rgba(244, 200, 122, 0.1); }
     .building-card:hover::before { opacity: 1; }
-    .building-icon { font-size: 2.4rem; color: var(--gold-light); margin-bottom: 16px; filter: drop-shadow(0 0 10px rgba(244, 200, 122, 0.4)); width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; border-radius: 50%; overflow: hidden; line-height: 1; }
+    .building-icon { font-size: 3rem; color: var(--gold-light); margin: 0 auto 16px; filter: drop-shadow(0 0 10px rgba(244, 200, 122, 0.4)); width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; border-radius: 50%; overflow: hidden; line-height: 1; }
     .building-icon img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; }
     .building-card.has-thumbnail .building-icon { filter: drop-shadow(0 0 10px rgba(244, 200, 122, 0.3)); border: 2px solid var(--gold-light); padding: 0; }
     .building-card.dome-gold.has-thumbnail .building-icon { border-color: var(--gold-bright); }
     .building-card.dome-cyan.has-thumbnail .building-icon { border-color: var(--cyan-glow); }
     .building-card.dome-green.has-thumbnail .building-icon { border-color: var(--green-glow); }
     .building-card.dome-red.has-thumbnail .building-icon { border-color: var(--mars-glow); }
+    .building-icon.dual { width: auto; height: auto; overflow: visible; border-radius: 0; display: flex; gap: 10px; justify-content: center; align-items: center; border: none !important; padding: 0; filter: none; }
+    .building-icon.dual .thumb { width: 80px; height: 80px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; border: 2px solid var(--gold-light); }
+    .building-icon.dual .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; }
+    .building-card.dome-cyan .building-icon.dual .thumb { border-color: var(--cyan-glow); }
     .building-card.dome-gold .building-icon { color: var(--gold-bright); }
     .building-card.dome-cyan .building-icon { color: var(--cyan-glow); }
     .building-card.dome-green .building-icon { color: var(--green-glow); }
@@ -715,6 +719,12 @@
       pointer-events: none;
     }
     .bld-modal-image-placeholder.hidden { display: none; }
+    .bld-modal-image-wrap.dual { aspect-ratio: 2 / 1; }
+    .bld-modal-image-wrap.dual .modal-dual-grid { display: flex; gap: 4px; width: 100%; height: 100%; }
+    .bld-modal-image-wrap.dual .modal-dual-cell { flex: 1; position: relative; overflow: hidden; background: linear-gradient(135deg, #0d1530 0%, #1a2050 100%); }
+    .bld-modal-image-wrap.dual .modal-dual-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .bld-modal-image-wrap.dual .modal-dual-cell .dual-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--gold-bright); opacity: 0.5; font-size: 3.6rem; }
+    .bld-modal-image-wrap.dual .modal-dual-cell .dual-label { font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.8; }
     .placeholder-icon-big {
       font-size: 5rem; line-height: 1;
       color: var(--gold-bright); opacity: 0.45;
@@ -1145,10 +1155,10 @@
           </article>
           <article class="building-card dome-cyan">
             <div class="building-icon">✧</div>
-            <div class="building-sub">MÉMOIRE · RECUEILLEMENT</div>
-            <h3 class="building-title">Jardin du Souvenir</h3>
-            <p class="building-desc">Lieu de recueillement pour rendre hommage aux pionniers disparus. Sépultures discrètes et jardin commémoratif sous dôme.</p>
-            <div class="building-stats"><span class="building-stat">Sépultures</span><span class="building-stat">Jardin</span><span class="building-stat">Recueillement</span></div>
+            <div class="building-sub">MÉMOIRE · MULTI-CONFESSIONNEL</div>
+            <h3 class="building-title">Cimetières</h3>
+            <p class="building-desc">Espaces de recueillement pour rendre hommage aux pionniers disparus. Un espace musulman avec sépultures orientées vers La Mecque, et un espace pluri-confessionnel pour toutes les autres traditions.</p>
+            <div class="building-stats"><span class="building-stat">2 espaces</span><span class="building-stat">Halal + autres</span><span class="building-stat">Sépultures écologiques</span></div>
           </article>
           <article class="building-card dome-cyan">
             <div class="building-icon">◫</div>
@@ -1680,7 +1690,7 @@
     'Gare Routière':                     'gare-routiere',
     'Gare Spatiale':                     'gare-spatiale',
     'Ferme Expérimentale':               'ferme-experimentale',
-    'Jardin du Souvenir':                'jardin-souvenir',
+    'Cimetières':                        ['cimetiere-islam', 'cimetiere-autre'],
     'Bibliothèque & Médiathèque':        'bibliotheque',
     'Centre Culturel & Théâtre':         'centre-culturel',
     'Centre Sportif & Gymnase':          'centre-sportif',
@@ -1808,9 +1818,9 @@
       terre: 'La station <strong>Concordia en Antarctique</strong> abrite depuis 2018 des serres expérimentales de l\'ESA pour préparer Mars. L\'<strong>Université Wageningen</strong> (Pays-Bas) a réussi à faire pousser plusieurs espèces dans du régolithe martien simulé.'
     },
 
-    'Jardin du Souvenir': {
-      role: 'Cimetière et lieu de recueillement. Espace contemplatif sous un dôme dédié. Sépultures discrètes et grand jardin commémoratif.',
-      tech: 'Sépultures écologiques pour limiter l\'empreinte. Plantes résistantes au froid en intérieur sous dôme. Plaques commémoratives gravées.',
+    'Cimetières': {
+      role: 'Cimetières et lieux de recueillement multi-confessionnels. Deux espaces dédiés : un <strong>cimetière musulman</strong> avec sépultures orientées vers La Mecque (Qibla recalculée pour Mars), et un <strong>cimetière pluri-confessionnel</strong> ouvert à toutes les autres traditions (chrétienne, juive, laïque, etc.). Sépultures discrètes et grand jardin commémoratif.',
+      tech: 'Sépultures écologiques en matériaux biodégradables pour limiter l\'empreinte. Plantes résistantes au froid en intérieur sous dôme. Plaques commémoratives gravées.',
       terre: 'Le <strong>cimetière du Père-Lachaise</strong> (Paris) est emblématique du modèle cimetière-jardin du XIXᵉ siècle. Le <strong>National Memorial Arboretum</strong> (UK) consacre un arbre à chaque vie. Le <strong>compostage humain</strong> (natural organic reduction) est légal dans l\'État de Washington (USA) depuis 2019.'
     },
 
@@ -1940,12 +1950,38 @@
     function decodeHtml(s) { const d = document.createElement('div'); d.innerHTML = s; return d.textContent; }
 
     function tryLoadImage(slug, altText, icon) {
-      // État par défaut : placeholder visible, image cachée
+      // Reset : retire dual mode si présent
+      imgWrap.classList.remove('dual');
+      const existingDual = imgWrap.querySelector('.modal-dual-grid');
+      if (existingDual) existingDual.remove();
       imgEl.style.display = 'none';
       imgEl.removeAttribute('src');
       placeholderIcon.textContent = icon || '⌬';
       placeholderEl.classList.remove('hidden');
       if (!slug) return;
+
+      // Cas dual : slug est un tableau
+      if (Array.isArray(slug)) {
+        imgWrap.classList.add('dual');
+        placeholderEl.classList.add('hidden');
+        const labels = ['Cimetière musulman', 'Cimetière pluri-confessionnel'];
+        const grid = document.createElement('div');
+        grid.className = 'modal-dual-grid';
+        slug.forEach(function(s, idx) {
+          const cell = document.createElement('div');
+          cell.className = 'modal-dual-cell';
+          cell.innerHTML = '<div class="dual-placeholder"><div>' + (icon || '⌬') + '</div><div class="dual-label">' + (labels[idx] || altText) + '</div></div>';
+          const src = 'images/batiment-' + s + '.jpg';
+          const probe = new Image();
+          probe.onload = function() {
+            cell.innerHTML = '<img src="' + src + '" alt="' + (labels[idx] || altText) + '">';
+          };
+          probe.src = src;
+          grid.appendChild(cell);
+        });
+        imgWrap.appendChild(grid);
+        return;
+      }
 
       const src = 'images/batiment-' + slug + '.jpg';
       const probe = new Image();
@@ -1965,10 +2001,33 @@
         const iconEl = card.querySelector('.building-icon');
         if (!titleEl || !iconEl) return;
         const title = decodeHtml(titleEl.textContent.trim());
-        const slug = BUILDING_SLUGS[title];
-        if (!slug) return;
+        const slugValue = BUILDING_SLUGS[title];
+        if (!slugValue) return;
         const fallbackIcon = iconEl.textContent;
-        const src = 'images/batiment-' + slug + '.jpg';
+
+        // Cas dual : slugValue est un tableau (ex : Cimetières)
+        if (Array.isArray(slugValue)) {
+          iconEl.setAttribute('data-icon', fallbackIcon);
+          iconEl.classList.add('dual');
+          iconEl.innerHTML = slugValue.map(function(s) {
+            return '<div class="thumb" data-fallback="' + fallbackIcon + '"><span>' + fallbackIcon + '</span></div>';
+          }).join('');
+          // Probe chaque image, remplace par <img> si OK
+          slugValue.forEach(function(s, idx) {
+            const thumb = iconEl.children[idx];
+            const src = 'images/batiment-' + s + '.jpg';
+            const probe = new Image();
+            probe.onload = function() {
+              thumb.innerHTML = '<img src="' + src + '" alt="' + title + '">';
+            };
+            probe.src = src;
+          });
+          card.classList.add('has-thumbnail');
+          return;
+        }
+
+        // Cas standard : 1 slug
+        const src = 'images/batiment-' + slugValue + '.jpg';
         const probe = new Image();
         probe.onload = function() {
           iconEl.setAttribute('data-icon', fallbackIcon);
