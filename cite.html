@@ -248,7 +248,13 @@
     }
     .building-card:hover { border-color: var(--gold-line-hi); transform: translateY(-4px); box-shadow: 0 14px 40px rgba(244, 200, 122, 0.1); }
     .building-card:hover::before { opacity: 1; }
-    .building-icon { font-size: 2.4rem; color: var(--gold-light); margin-bottom: 16px; filter: drop-shadow(0 0 10px rgba(244, 200, 122, 0.4)); }
+    .building-icon { font-size: 2.4rem; color: var(--gold-light); margin-bottom: 16px; filter: drop-shadow(0 0 10px rgba(244, 200, 122, 0.4)); width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; border-radius: 50%; overflow: hidden; line-height: 1; }
+    .building-icon img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; }
+    .building-card.has-thumbnail .building-icon { filter: drop-shadow(0 0 10px rgba(244, 200, 122, 0.3)); border: 2px solid var(--gold-light); padding: 0; }
+    .building-card.dome-gold.has-thumbnail .building-icon { border-color: var(--gold-bright); }
+    .building-card.dome-cyan.has-thumbnail .building-icon { border-color: var(--cyan-glow); }
+    .building-card.dome-green.has-thumbnail .building-icon { border-color: var(--green-glow); }
+    .building-card.dome-red.has-thumbnail .building-icon { border-color: var(--mars-glow); }
     .building-card.dome-gold .building-icon { color: var(--gold-bright); }
     .building-card.dome-cyan .building-icon { color: var(--cyan-glow); }
     .building-card.dome-green .building-icon { color: var(--green-glow); }
@@ -1165,6 +1171,13 @@
             <p class="building-desc">Salles de musculation, gymnase, terrains de sport adaptés à la gravité martienne. Maintien essentiel de la masse musculaire et osseuse des colons.</p>
             <div class="building-stats"><span class="building-stat">~2 000 m²</span><span class="building-stat">Sport 0,38 g</span><span class="building-stat">Tous âges</span></div>
           </article>
+          <article class="building-card dome-gold">
+            <div class="building-icon">♛</div>
+            <div class="building-sub">LOISIRS · DÉTENTE &amp; JEUX</div>
+            <h3 class="building-title">Centre de Loisirs</h3>
+            <p class="building-desc">Espace dédié aux loisirs non sportifs et non culturels : jeux de société, e-sport, billard, baby-foot, ateliers créatifs, cafés, salles ados et animations parents-enfants.</p>
+            <div class="building-stats"><span class="building-stat">Tous âges</span><span class="building-stat">E-sport</span><span class="building-stat">Sans alcool</span></div>
+          </article>
           <article class="building-card dome-green">
             <div class="building-icon">❁</div>
             <div class="building-sub">PETITE ENFANCE · 0 À 6 ANS</div>
@@ -1671,6 +1684,7 @@
     'Bibliothèque & Médiathèque':        'bibliotheque',
     'Centre Culturel & Théâtre':         'centre-culturel',
     'Centre Sportif & Gymnase':          'centre-sportif',
+    'Centre de Loisirs':                 'centre-loisirs',
     'Crèche':                            'creche',
     'Mairie & Centre Administratif':     'mairie',
     'Centre de Recyclage':               'recyclage',
@@ -1818,6 +1832,12 @@
       terre: 'L\'<strong>INSEP de Paris</strong> (Institut National du Sport) forme les athlètes français. Le <strong>US Olympic Training Center</strong> à Colorado Springs joue le même rôle aux États-Unis. La <strong>NASA</strong> a développé des protocoles de contre-mesures pour maintenir la santé des astronautes en microgravité.'
     },
 
+    'Centre de Loisirs': {
+      role: 'Espace dédié aux loisirs de toutes les générations : jeux de société, jeux vidéo et e-sport, billard, baby-foot, ateliers créatifs, cafés, salles ados, animations parents-enfants. Complète le Centre Culturel (spectacles) et le Centre Sportif (sport) en offrant un lieu de <strong>détente quotidienne</strong>.',
+      tech: 'Espaces modulables. Salles insonorisées pour la musique. Plateforme e-sport avec serveurs locaux (faible latence). Cafés à boissons sans alcool — l\'alcool est règlementé sur Mars.',
+      terre: 'Inspiré des <strong>maisons des jeunes et de la culture (MJC)</strong> françaises et des <strong>community centers</strong> anglo-saxons. Au Japon, les <strong>karaoke boxes</strong> sont une institution sociale. <strong>Singapour</strong> et la <strong>Corée du Sud</strong> sont leaders mondiaux du <strong>e-sport</strong> depuis les années 2000.'
+    },
+
     'Crèche': {
       role: 'Accueille les très jeunes enfants de la naissance à environ 6 ans pendant la journée. Apprentissage précoce de la motricité en gravité réduite et des règles de vie en environnement pressurisé.',
       tech: 'Sols souples pour amortir les chutes (plus fréquentes en gravité 0,38 g). Liaison vidéo avec les parents au travail.',
@@ -1939,10 +1959,31 @@
       probe.src = src;
     }
 
+    function loadBuildingCardThumbnails() {
+      document.querySelectorAll('.building-card').forEach(function(card) {
+        const titleEl = card.querySelector('.building-title');
+        const iconEl = card.querySelector('.building-icon');
+        if (!titleEl || !iconEl) return;
+        const title = decodeHtml(titleEl.textContent.trim());
+        const slug = BUILDING_SLUGS[title];
+        if (!slug) return;
+        const fallbackIcon = iconEl.textContent;
+        const src = 'images/batiment-' + slug + '.jpg';
+        const probe = new Image();
+        probe.onload = function() {
+          iconEl.setAttribute('data-icon', fallbackIcon);
+          iconEl.innerHTML = '<img src="' + src + '" alt="' + title + '">';
+          card.classList.add('has-thumbnail');
+        };
+        probe.src = src;
+      });
+    }
+
     function openBuilding(card) {
       const titleRaw = card.querySelector('.building-title').textContent.trim();
       const title = decodeHtml(titleRaw);
-      const icon = card.querySelector('.building-icon').textContent;
+      const iconElLocal = card.querySelector('.building-icon');
+      const icon = iconElLocal.getAttribute('data-icon') || iconElLocal.textContent;
       const sub = card.querySelector('.building-sub').textContent;
       const statsHTML = card.querySelector('.building-stats').innerHTML;
 
@@ -1996,6 +2037,9 @@
       }
       card.addEventListener('click', () => openBuilding(card));
     });
+
+    // Charge les thumbnails de chaque carte (image au lieu d'icône Unicode si disponible)
+    loadBuildingCardThumbnails();
 
     closeBtn.addEventListener('click', closeBuilding);
     backdrop.addEventListener('click', e => { if (e.target === backdrop) closeBuilding(); });
