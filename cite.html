@@ -1232,8 +1232,8 @@
             <div class="building-icon">❍</div>
             <div class="building-sub">PROTÉINES · ÉLEVAGE & POISSON</div>
             <h3 class="building-title">Centre d'Élevage &amp; Pisciculture</h3>
-            <p class="building-desc">Aquaculture (tilapias, truites), élevage de poules pour les œufs, lapins pour la viande. Complète les dômes agricoles pour un régime alimentaire complet.</p>
-            <div class="building-stats"><span class="building-stat">Poissons + œufs + viande</span><span class="building-stat">Bassins fermés</span><span class="building-stat">Boucle eau</span></div>
+            <p class="building-desc">Élevages bovin, caprin, ovin, équin, volailles, lapins, pisciculture (tilapias, truites), plus insectes utiles (abeilles, coccinelles, vers à soie). Source complète de protéines animales.</p>
+            <div class="building-stats"><span class="building-stat">Tous types d'élevage</span><span class="building-stat">Aquaponie</span><span class="building-stat">Halal + casher</span></div>
           </article>
           <article class="building-card dome-cyan">
             <div class="building-icon">⚒</div>
@@ -1693,213 +1693,213 @@
   */
   const BUILDING_DETAILS = {
     'La Grande Mosquée': {
-      role: 'Cœur spirituel et social de NEOTERRA. Lieu de prière pour les 5 000 habitants, mais aussi salle commune pour les grandes annonces, les mariages, les cérémonies, et les rassemblements de toute la communauté. La coupole dorée de 130 m de diamètre est visible depuis tous les dômes — repère central de la cité.',
-      tech: 'Structure en martien-crete (béton local à base de régolithe), recouverte d\'un voile doré qui reflète le rayonnement solaire et protège l\'intérieur. Le minaret de 80 m intègre des capteurs de pression et de qualité d\'air pour toute la cité. La <strong>direction de La Mecque</strong> est calculée par les ingénieurs à partir des coordonnées astronomiques Terre-Mars.',
-      terre: 'Inspirée de la <strong>Mosquée bleue d\'Istanbul</strong> pour son architecture monumentale, et de la <strong>Grande Mosquée Sheikh Zayed d\'Abou Dabi</strong> pour le rôle de centre civique. Le concept de mosquée au centre d\'une cité radiale remonte à la <strong>Bagdad ronde du calife Al-Mansur (762)</strong>.'
-    },
-
-    'Hôpital': {
-      role: 'Soigne les 5 000 habitants 24 heures sur 24. Médecine générale, urgences, bloc opératoire, soins spatiaux, suivi de la perte musculaire et osseuse liée à la gravité martienne (0,38 g), traitement des expositions aux radiations cosmiques en cas de tempête solaire.',
-      tech: 'Chirurgie assistée par robot pour les interventions complexes. <strong>Banque de sang artificiel</strong> (impossible d\'attendre un donneur à 225 millions de km). IRM portable adaptée à la gravité réduite. Téléconsultation avec spécialistes terrestres malgré le délai de communication de 4 à 24 minutes par message.',
-      terre: 'Modèle inspiré du <strong>CHU de Toulouse</strong> pour son organisation médecine-recherche, et des projets <strong>Hospital of the Future de la NASA</strong> qui développent justement les outils chirurgicaux télérobotisés pour les missions martiennes.'
-    },
-
-    'Centre de Production d\'Oxygène': {
-      role: 'Le bâtiment <strong>le plus critique</strong> de NEOTERRA. Sans lui, personne ne respire. Produit l\'oxygène pour les 5 000 habitants en permanence, ainsi que des réserves stratégiques pour les sas, les combinaisons et les véhicules pressurisés.',
-      tech: 'Utilise la technologie <strong>MOXIE</strong> développée par la NASA et testée à bord du rover Perseverance depuis 2021 : électrolyse à haute température qui sépare le CO₂ de l\'atmosphère martienne (composée à 95 % de CO₂) en oxygène et monoxyde de carbone. Industrialisé à grande échelle pour NEOTERRA.',
-      terre: 'Inspiré directement de l\'<strong>instrument MOXIE de la NASA</strong> (Mars Oxygen In-Situ Resource Utilization Experiment) qui a produit avec succès de l\'oxygène sur Mars en 2021. Sur Terre, le procédé d\'électrolyse à haute température est étudié dans les laboratoires du <strong>MIT</strong> et du <strong>CEA français</strong>.'
+      role: 'Cœur spirituel de la communauté musulmane de NEOTERRA. 3 000 places intérieures, ouverte aux 5 prières quotidiennes. Sa coupole dorée de 130 m de diamètre est visible depuis tous les dômes — repère architectural majeur de la cité, même pour les non-musulmans.',
+      tech: 'Structure en martien-crete (béton local à base de régolithe martien). Coupole et minaret en or et verre. Le minaret de 80 m s\'élève au-dessus des autres bâtiments. La <strong>direction de La Mecque</strong> est calculée par les ingénieurs à partir des coordonnées astronomiques Terre-Mars — un défi inédit, puisque la boussole magnétique terrestre ne fonctionne pas sur Mars.',
+      terre: 'L\'architecture s\'inspire du <strong>Dôme du Rocher de Jérusalem</strong> (691 CE) et de la <strong>Mosquée Sheikh Zayed d\'Abou Dabi</strong> pour la coupole monumentale. Le concept d\'une mosquée au centre d\'une cité radiale remonte à la <strong>Bagdad ronde du calife Al-Mansur (762 CE)</strong>, où la grande mosquée et le palais étaient au cœur d\'un plan circulaire.'
     },
 
     'Dômes Résidentiels': {
-      role: 'Logent les 5 000 habitants répartis en 4 grands dômes pressurisés (1 250 personnes par dôme). Appartements modulaires, espaces communs partagés, jardins intérieurs, accès direct aux tunnels. Mélange volontaire de générations et de métiers dans chaque dôme pour favoriser la cohésion.',
-      tech: 'Structure géodésique triangulée (méthode <strong>Buckminster Fuller</strong>), couverte d\'ETFE — un plastique ultra-résistant 100 fois plus léger que le verre. Pressurisation à 1 atmosphère, recyclage de l\'air en boucle fermée, isolation contre les variations thermiques martiennes (-60 °C la nuit, jusqu\'à +20 °C le jour).',
-      terre: 'Inspirés des <strong>dômes géodésiques de Buckminster Fuller</strong> (biosphère Expo 67 Montréal), de l\'<strong>Eden Project</strong> en Cornouailles (plus grandes serres pressurisées du monde), et des projets habitat <strong>Foster + Partners pour la NASA Mars 3D-Printed Habitat Challenge</strong>.'
+      role: 'Quatre dômes pressurisés qui logent les 5 000 habitants de NEOTERRA. Chaque dôme combine logements, espaces communs et accès direct aux tunnels.',
+      tech: 'Structure géodésique triangulée (méthode <strong>Buckminster Fuller</strong>), couverte d\'ETFE — un polymère ultra-résistant beaucoup plus léger que le verre. Pressurisation à 1 atmosphère pour permettre de respirer sans combinaison.',
+      terre: 'Les dômes géodésiques sont une invention de <strong>Buckminster Fuller</strong> (biosphère Expo 67 Montréal). L\'<strong>Eden Project</strong> en Cornouailles (UK) utilise la technologie ETFE à grande échelle. <strong>Foster + Partners</strong> a participé au NASA 3D-Printed Habitat Challenge pour concevoir des habitats martiens.'
     },
 
     'Dômes Agricoles': {
-      role: 'Produisent 100 % des légumes et 60 % des céréales de la cité dans 4 dômes verticaux de 12 niveaux. Tomates, salades, fraises, blé, soja, herbes aromatiques. Une équipe d\'agriculteurs-ingénieurs travaille en boucle fermée. La cité ne dépend plus de la Terre pour son alimentation végétale.',
-      tech: 'Agriculture verticale hydroponique : pas de sol, racines dans une solution nutritive. LEDs roses pour la photosynthèse (rouge + bleu, le vert est gaspillé pour les plantes). Recyclage à 95 % de l\'eau. Capture du CO₂ émis par les humains pour la photosynthèse — boucle fermée intelligente.',
-      terre: 'Inspirés des fermes verticales <strong>AeroFarms</strong> (Newark, USA — la plus grande au monde, 70 000 m²) et <strong>Plenty</strong> (San Francisco, partenaire de Walmart). NASA développe le programme <strong>Veggie</strong> sur l\'ISS depuis 2014 pour cultiver des légumes en microgravité.'
+      role: 'Quatre dômes verticaux de 12 niveaux qui produisent les végétaux de la cité : légumes, herbes aromatiques, blé, soja. L\'objectif est de tendre vers l\'autonomie alimentaire végétale.',
+      tech: 'Agriculture verticale hydroponique — pas de sol, les racines plongent dans une solution nutritive. Éclairage LED ciblé sur les longueurs d\'onde utiles à la photosynthèse. Recyclage poussé de l\'eau.',
+      terre: 'La ferme verticale est démocratisée par <strong>AeroFarms</strong> (Newark, USA) et <strong>Plenty</strong> (San Francisco). La NASA cultive des végétaux en microgravité sur l\'ISS depuis 2014 (programme <strong>Veggie</strong>).'
     },
 
     'Tour de Contrôle': {
-      role: 'Centre nerveux de NEOTERRA. Tous les systèmes vitaux convergent ici : surveillance de la pression, qualité de l\'air, vent martien, météo, alertes sismiques. Antenne dédiée à la liaison avec la Terre. Équipes en rotation 24/7, surveillance permanente.',
-      tech: 'Structure de 200 m en acier martien et fibre de carbone, conçue pour résister aux tempêtes de poussière (vents jusqu\'à 100 km/h). Antenne parabolique X-band au sommet, alignée avec le <strong>Deep Space Network</strong> de la NASA. Délai Terre-Mars : 4 à 24 min selon position orbitale.',
-      terre: 'Inspirée des tours de contrôle aéroportuaires (<strong>KLIA Malaysia</strong>, <strong>Burj Khalifa Dubai</strong> pour la hauteur) et du <strong>Deep Space Network de la NASA</strong> (3 stations à Goldstone, Madrid, Canberra) qui assure toutes les communications avec les vaisseaux spatiaux.'
+      role: 'Centre nerveux de NEOTERRA. Surveille en permanence les systèmes vitaux : pression, qualité d\'air, vent, météo, alertes sismiques. Abrite l\'antenne dédiée à la liaison avec la Terre.',
+      tech: 'Structure verticale de 200 m, 35 étages. Antenne parabolique au sommet, alignée avec le Deep Space Network. Le délai de communication Terre-Mars varie de <strong>4 à 24 minutes</strong> selon la position orbitale des deux planètes.',
+      terre: 'Le <strong>Deep Space Network de la NASA</strong> (3 stations à Goldstone, Madrid, Canberra) assure les communications avec tous les vaisseaux spatiaux humains. Pour la hauteur, le <strong>Burj Khalifa de Dubaï</strong> (828 m) reste la référence des structures hautes.'
     },
 
     'Parcs Solaires & Éoliens': {
-      role: 'Source 100 % renouvelable d\'énergie pour les 5 000 habitants. 12 MW de photovoltaïque sur 2 ha + 8 éoliennes martiennes. Stockage dans batteries géantes pour les nuits (24 h 37) et les tempêtes de poussière qui peuvent durer plusieurs semaines.',
-      tech: 'Panneaux à revêtement anti-poussière (technologie héritée de <strong>Perseverance</strong> et <strong>InSight</strong>). Éoliennes à pales très allongées : l\'atmosphère martienne est <strong>160 fois moins dense</strong> que celle de la Terre, il faut plus de surface pour capter le vent. Batteries lithium-soufre fonctionnant jusqu\'à -60 °C.',
-      terre: 'Inspirés du <strong>Solar Star</strong> en Californie (579 MW, une des plus grandes centrales solaires au monde) et du <strong>Tehachapi Pass Wind Farm</strong>. Pour les batteries grand froid : recherches au <strong>MIT</strong> et au <strong>Toyota Research Institute</strong>.'
+      role: 'Source d\'énergie renouvelable pour la cité. 12 MW de panneaux solaires sur 2 hectares + 8 éoliennes martiennes. Stockage par batteries pour couvrir les nuits (Mars : 24 h 37) et les tempêtes de poussière qui peuvent durer plusieurs semaines.',
+      tech: 'Les éoliennes martiennes nécessitent des pales très allongées : <strong>l\'atmosphère martienne est environ 160 fois moins dense</strong> que celle de la Terre, il faut donc plus de surface pour capter le vent. Panneaux solaires recouverts d\'un revêtement anti-poussière.',
+      terre: '<strong>Solar Star</strong> en Californie (579 MW) est une des plus grandes centrales solaires au monde. Le <strong>Tehachapi Pass Wind Farm</strong> est une référence historique en éolien. Les batteries grand froid sont étudiées au MIT et au Toyota Research Institute.'
     },
 
     'Tunnels Pressurisés': {
-      role: 'Tous les dômes de NEOTERRA sont reliés par un réseau de tunnels enterrés à 3 m sous la surface, à l\'abri des radiations cosmiques et des tempêtes. 3,2 km au total, 8 voies parallèles. On y circule à pied, à vélo ou en navette électrique.',
-      tech: 'Tunnels creusés par des robots foreurs autonomes (technologie héritée de la <strong>Boring Company</strong> d\'Elon Musk). Parois en martien-crete (béton local). Éclairage LED à intensité variable simulant le cycle jour-nuit. Pressurisation maintenue par sas étanches entre chaque dôme.',
-      terre: 'Inspirés du <strong>Las Vegas Loop</strong> creusé par <strong>The Boring Company</strong> (3 km de tunnels sous le Convention Center), ainsi que du <strong>Tunnel sous la Manche</strong> (50 km, le plus long tunnel sous-marin du monde) pour les techniques de pressurisation et de sécurité.'
+      role: 'Réseau qui relie tous les dômes de la cité, à 3 m sous la surface — à l\'abri des radiations cosmiques, des tempêtes de poussière et des variations de température. 3,2 km de tunnels, 8 voies parallèles. On y circule <strong>à pied, à vélo, en navette électrique, ou en fauteuil</strong>. Des <strong>robots livreurs et drones intérieurs</strong> y assurent la logistique. Les sous-tunnels accueillent des <strong>convoyeurs automatisés</strong> pour les marchandises lourdes, hors des zones piétonnes.',
+      tech: 'Tunnels creusés par des robots foreurs autonomes. Parois en martien-crete (béton local). Pressurisation maintenue par sas étanches entre chaque dôme.',
+      terre: '<strong>The Boring Company</strong> a creusé le Las Vegas Loop, ~3 km de tunnels sous le Convention Center. Le <strong>Tunnel sous la Manche</strong> (50 km) est le plus long tunnel sous-marin du monde et une référence en techniques de sécurité.'
     },
 
     'École & Collège': {
-      role: 'Forme les ~600 enfants martiens de 6 à 15 ans. 12 classes : maths, sciences spatiales (obligatoire !), langues (français, anglais, arabe, mandarin), histoire de la Terre, sport en gravité 0,38 g. Programme commun avec l\'Éducation Nationale française mais adapté au contexte martien.',
-      tech: 'Salles immersives à écrans 360° pour visiter virtuellement les sites terrestres. Robots éducatifs assistants par classe. Sport adapté : trampolines géants pour rééducation gravitationnelle, salles de simulation pour préparer aux sorties en combinaison.',
-      terre: 'Modèle inspiré du <strong>Lycée Français Charles de Gaulle de Londres</strong> pour le format international, et des programmes <strong>STEM de la NASA</strong> qui forment les futurs astronautes-ingénieurs dès le collège. La pédagogie immersive s\'inspire de l\'<strong>école Singapour</strong>, leader mondial PISA.'
+      role: 'Forme les enfants martiens de 6 à 15 ans. Programme classique (maths, sciences, langues, histoire) enrichi de matières spécifiques à Mars : sciences spatiales, sport en gravité réduite, formation aux gestes de survie en environnement pressurisé.',
+      tech: 'Salles avec écrans immersifs pour visiter virtuellement des sites terrestres. Activités physiques adaptées à la gravité 0,38 g — les enfants grandissant sur Mars développent un squelette différent de celui de la Terre.',
+      terre: 'Le <strong>Lycée Français Charles de Gaulle de Londres</strong> est une référence pour l\'éducation française à l\'international. Les programmes <strong>STEM de la NASA</strong> encouragent l\'orientation vers les sciences spatiales dès le collège. La pédagogie singapourienne est leader mondial du classement PISA.'
     },
 
     'Université de Mars': {
-      role: '500 étudiants martiens et internationaux. 4 facultés : ingénierie spatiale, biologie martienne, médecine de l\'espace, sciences sociales martiennes. Cursus de 5 ans, double diplôme avec des universités terrestres. Recherche appliquée à la survie sur Mars.',
-      tech: 'Cours en présentiel + visioconférences avec professeurs terrestres (malgré le délai de 4 à 24 min, les cours sont enregistrés). Laboratoires de recherche connectés aux Laboratoires (voir bâtiment dédié). Bibliothèque numérique avec toute la production scientifique humaine.',
-      terre: 'Inspirée du <strong>MIT</strong> pour son volet ingénierie spatiale (laboratoire Mars Aeronautics & Astronautics), de <strong>Caltech</strong> pour la recherche martienne, et de l\'<strong>EPFL Lausanne</strong> pour le modèle européen multidisciplinaire. Partenariat de jumelage avec ces 3 institutions.'
+      role: 'Premier établissement supérieur martien. Plusieurs facultés : ingénierie spatiale, biologie martienne, médecine de l\'espace, sciences humaines.',
+      tech: 'Cours en présentiel complétés par des conférences de professeurs terrestres (en différé, à cause du délai de communication). Laboratoires de recherche connectés aux Laboratoires Scientifiques de la cité.',
+      terre: 'Le <strong>MIT</strong> (Boston) et <strong>Caltech</strong> (Pasadena) sont des références mondiales en ingénierie spatiale. L\'<strong>EPFL Lausanne</strong> est une grande université technique européenne. Ces institutions mènent toutes des recherches liées à la colonisation de Mars.'
+    },
+
+    'Hôpital': {
+      role: 'Soins de santé pour les habitants. Médecine générale, urgences, chirurgie, et surveillance des effets spécifiques à Mars : perte musculaire et osseuse liée à la gravité 0,38 g, exposition aux radiations cosmiques en cas de tempête solaire.',
+      tech: 'Chirurgie assistée par robots pour les interventions complexes. Téléconsultation avec spécialistes terrestres malgré le délai de communication. Production locale de médicaments essentiels — impossible d\'attendre une livraison de la Terre.',
+      terre: 'Les <strong>CHU français</strong> (Toulouse, Lyon, Bordeaux) sont des hôpitaux universitaires de référence. La <strong>NASA</strong> et l\'<strong>ESA</strong> développent les protocoles médicaux des missions longues, notamment via les recherches à la station <strong>Concordia en Antarctique</strong> (analogue martien terrestre).'
     },
 
     'Poste de Police': {
-      role: 'Maintien de la sécurité civile pour les 5 000 habitants. ~20 agents (femmes et hommes) sur 24/7. Médiation des conflits, surveillance des sas pressurisés (point critique de sécurité), contrôle des arrivées par la Gare Spatiale, lutte contre les fraudes administratives.',
-      tech: 'Pas d\'armes à feu (trop dangereux dans un environnement pressurisé — un tir pourrait perforer un dôme). Tasers et techniques de neutralisation non létales uniquement. Surveillance par caméras IA dans les zones publiques. Bracelets de tracking volontaires pour les enfants.',
-      terre: 'Inspiré de la <strong>Police Métropolitaine de Londres</strong> (sans armes à feu pour les agents de base — modèle britannique unique) et de la <strong>Police Nationale française</strong> pour son organisation administrative. Les techniques non létales viennent du <strong>Centre Européen de Recherche Police</strong>.'
+      role: 'Sécurité civile : médiation des conflits, surveillance des sas pressurisés (point critique), contrôle des arrivées par la Gare Spatiale, lutte contre les fraudes administratives.',
+      tech: '<strong>Pas d\'armes à feu</strong> — un tir dans un environnement pressurisé pourrait perforer un dôme. Techniques de neutralisation non létales uniquement. Surveillance par caméras dans les zones publiques.',
+      terre: 'La <strong>Police Métropolitaine de Londres</strong> est la plus connue des polices non armées : les agents de base ne portent pas d\'armes à feu (modèle britannique unique). La <strong>Police Nationale française</strong> intègre dans sa formation plusieurs cycles de techniques de désescalade.'
     },
 
     'Caserne de Pompiers': {
-      role: 'Équipe d\'urgence de 15 pompiers martiens, formés aux risques spécifiques : incendies dans dômes pressurisés (très rares grâce à l\'oxygène contrôlé), dépressurisations accidentelles, accidents techniques, secours à personnes en combinaison spatiale.',
-      tech: 'Véhicules spécialisés à roulement multi-terrain (sable martien fin). Combinaisons de protection pressurisées résistantes au feu jusqu\'à 800 °C. Extincteurs à gaz inerte (CO₂ et azote) pour ne pas perturber l\'atmosphère pressurisée. Alerte 3 minutes garantie partout dans la cité.',
-      terre: 'Inspirée de la <strong>Brigade de Sapeurs-Pompiers de Paris (BSPP)</strong>, unique en France car militaire, qui assure les secours dans la capitale 24/7. Les protocoles d\'urgence en environnement pressurisé viennent des <strong>équipes de la NASA et de l\'ESA</strong> pour l\'ISS.'
+      role: 'Équipe d\'urgence formée aux risques spécifiques à Mars : incendies dans dômes pressurisés (rares mais critiques), dépressurisations accidentelles, accidents techniques, secours à personnes en combinaison spatiale.',
+      tech: 'Combinaisons de protection adaptées au feu et à la pressurisation. Extincteurs à gaz inerte (CO₂, azote) pour ne pas perturber l\'atmosphère du dôme.',
+      terre: 'La <strong>Brigade de Sapeurs-Pompiers de Paris (BSPP)</strong>, militaire, assure les secours dans la capitale française 24 h/24. Les protocoles d\'urgence en environnement pressurisé viennent des équipes <strong>NASA</strong> et <strong>ESA</strong> pour la Station Spatiale Internationale.'
     },
 
     'Laboratoires': {
-      role: '4 unités spécialisées de recherche scientifique martienne. <strong>Biologie martienne</strong> (cherche les traces de vie passée et étudie les micro-organismes terrestres adaptés à Mars). <strong>Chimie atmosphérique</strong> (composition de l\'air). <strong>Géologie martienne</strong> (cartographie et minéraux). <strong>Médecine spatiale</strong> (effets de la gravité réduite et des radiations).',
-      tech: 'Microscopes électroniques, spectromètres de masse, séquenceurs ADN portables. Chambres climatiques simulant différents environnements martiens. Échantillons collectés par robots autonomes lors d\'expéditions hors cité. Reliés à l\'Université pour la formation des étudiants.',
-      terre: 'Inspirés du <strong>JPL (Jet Propulsion Laboratory) de la NASA</strong> en Californie qui dirige toutes les missions martiennes, du <strong>CERN</strong> pour la rigueur méthodologique, et de l\'<strong>INSERM</strong> français pour la médecine spatiale.'
+      role: 'Recherche scientifique martienne en plusieurs spécialités : biologie martienne (traces de vie passée), chimie atmosphérique, géologie martienne, médecine spatiale.',
+      tech: 'Microscopes électroniques, spectromètres de masse, séquenceurs ADN portables. Chambres climatiques simulant différents environnements martiens. Échantillons collectés lors d\'expéditions hors cité.',
+      terre: 'Le <strong>JPL (Jet Propulsion Laboratory) de la NASA</strong> en Californie dirige toutes les missions martiennes. Le <strong>CERN</strong> (Genève) est une référence en infrastructure scientifique partagée. L\'<strong>INSERM</strong> en France mène des recherches en médecine spatiale.'
     },
 
     'Station de Recherche': {
-      role: 'Située à 5 km hors de la cité pressurisée. Surveille la sismologie martienne (Mars a connu 1 319 séismes répertoriés par la mission <strong>InSight</strong> entre 2018 et 2022), la météo locale (tempêtes de poussière), et observe l\'espace via un télescope dédié.',
-      tech: 'Sismomètres ultrasensibles enterrés à 2 m. Stations météo automatiques mesurant pression, température, vent, humidité, opacité. Télescope optique de 2 m de diamètre profitant de l\'atmosphère ténue (160× moins dense que sur Terre = vision exceptionnelle).',
-      terre: 'Inspirée des <strong>stations de recherche de l\'ESO (European Southern Observatory)</strong> au Chili (Atacama, Cerro Paranal), et de la <strong>station franco-italienne Concordia</strong> en Antarctique qui est l\'analogue terrestre le plus proche des conditions martiennes (isolement, froid extrême, autonomie totale).'
+      role: 'Située hors de la cité pressurisée. Suit la sismologie martienne, la météo locale (tempêtes de poussière, vent), et observe l\'espace via un télescope dédié.',
+      tech: 'Sismomètres ultrasensibles enterrés, stations météo automatiques, télescope optique. La station est conçue pour fonctionner en autonomie totale.',
+      terre: 'La mission <strong>InSight de la NASA</strong> a détecté plus de 1 300 séismes martiens entre 2018 et 2022. La station franco-italienne <strong>Concordia en Antarctique</strong> est l\'analogue terrestre le plus proche des conditions martiennes : isolement, froid extrême, autonomie totale.'
     },
 
     'Centre Commercial': {
-      role: 'Marché central de NEOTERRA, ouvert 7j/7. Alimentation (produits locaux des dômes agricoles + importations rares de la Terre), vêtements martiens, équipements personnels, services (coiffure, réparations). Lieu de rencontre quotidien des familles.',
-      tech: 'Monnaie locale numérique liée à l\'effort de travail (chaque habitant gagne des crédits selon ses tâches dans la cité). Paiement sans contact universel. Tableau d\'affichage géant des dernières nouvelles de la Terre (avec délai de 4 à 24 min, comme partout).',
-      terre: 'Inspiré des <strong>souks de Marrakech</strong> pour la vie de quartier et la richesse des échanges, et des <strong>centres commerciaux Galeries Lafayette Haussmann</strong> pour l\'organisation moderne. La monnaie numérique locale s\'inspire du modèle <strong>Wir suisse</strong> (monnaie complémentaire B2B depuis 1934).'
+      role: 'Marché central de la cité, ouvert 7 jours sur 7. Alimentation (produits locaux + produits rares importés de la Terre), vêtements, équipements, services. Lieu de rencontre quotidien des habitants.',
+      tech: 'Paiement numérique. Les nouveautés terrestres arrivent par la Gare Spatiale environ tous les 26 mois (fenêtre Terre-Mars favorable).',
+      terre: 'Les <strong>souks</strong> (Marrakech, Istanbul) sont des références millénaires de marchés couverts à fonction sociale. Les <strong>Galeries Lafayette</strong> à Paris sont un exemple moderne d\'espace commercial multi-fonctions.'
     },
 
     'Gare Routière': {
-      role: 'Hub central des navettes électriques qui circulent dans les tunnels pressurisés entre tous les dômes. 6 quais, navettes toutes les 5 minutes en heure de pointe, gratuit pour tous les habitants. Permet de traverser la cité de bout en bout en 8 minutes.',
-      tech: 'Navettes 100 % autonomes (sans conducteur) propulsées par induction électromagnétique sous le rail. Capacité 20 passagers, vitesse maximale 60 km/h dans les tunnels. Système d\'appel via une application mobile depuis n\'importe quel dôme.',
-      terre: 'Inspirée du <strong>Hyperloop One</strong> (concept américain de transport à grande vitesse en tube dépressurisé) et des navettes autonomes de <strong>Navya</strong> (entreprise française pionnière, déjà déployée à Lyon et Las Vegas). Le système de réservation s\'inspire d\'<strong>Uber</strong>.'
+      role: 'Hub central des navettes électriques qui circulent dans les Tunnels Pressurisés entre tous les dômes. 6 quais. Permet de traverser la cité en quelques minutes. <strong>Service prioritaire et gratuit pour les personnes à mobilité réduite, seniors, femmes enceintes et parents avec poussette.</strong>',
+      tech: 'Navettes électriques autonomes. Réseau de tunnels souterrains pour s\'affranchir des conditions de surface.',
+      terre: '<strong>Hyperloop One</strong> et <strong>Virgin Hyperloop</strong> ont développé le concept de transport en tube dépressurisé. <strong>Navya</strong> (France) a déployé des navettes autonomes à Lyon et à Las Vegas. Le tramway moderne (Strasbourg, Bordeaux) est une référence en transport urbain propre.'
     },
 
     'Gare Spatiale': {
-      role: 'Spaceport de NEOTERRA, situé à 2 km de la cité pour des raisons de sécurité (risque d\'accident au décollage). Reçoit les navettes Terre-Mars (cargo, ravitaillement, nouveaux colons). Une rotation tous les 26 mois lors de la fenêtre de lancement Terre-Mars favorable.',
-      tech: 'Plate-forme d\'atterrissage en acier renforcé pour résister aux moteurs de descente (poussée de 100 tonnes). Tour de service avec sas d\'accès direct vers les vaisseaux. Quarantaine sanitaire pour les nouveaux arrivants (14 jours en Hôtel d\'Accueil).',
-      terre: 'Inspirée de <strong>SpaceX Starbase</strong> à Boca Chica au Texas (base de lancement Starship), du <strong>Centre Spatial Guyanais de Kourou</strong> (ESA, lance Ariane), et du <strong>Kennedy Space Center</strong> en Floride (NASA, depuis 1962).'
+      role: 'Spaceport de NEOTERRA, situé à 2 km de la cité pour des raisons de sécurité. Reçoit les navettes Terre-Mars : cargo, ravitaillement, nouveaux colons. Fenêtre de lancement favorable environ tous les 26 mois.',
+      tech: 'Plate-forme d\'atterrissage en acier renforcé. Tour de service avec sas d\'accès. Quarantaine sanitaire pour les nouveaux arrivants à l\'Hôtel d\'Accueil.',
+      terre: '<strong>SpaceX Starbase</strong> à Boca Chica (Texas) est la base de lancement du Starship, vaisseau conçu pour Mars. Le <strong>Centre Spatial Guyanais à Kourou</strong> (ESA) lance les fusées Ariane. Le <strong>Kennedy Space Center</strong> en Floride est la base historique de la NASA depuis 1962.'
     },
 
     'Ferme Expérimentale': {
-      role: 'Ferme test sur la <strong>surface martienne</strong> (pas sous dôme pressurisé comme les Dômes Agricoles). Permet d\'étudier comment adapter l\'agriculture aux conditions martiennes réelles. Objectif à long terme : cultiver en plein air sur Mars une fois l\'atmosphère terraformée.',
-      tech: 'Cultures hors-sol résistantes : variétés de blé, pommes de terre, soja modifiées pour tolérer les radiations et le froid. Petits dômes-tests transparents de 3 m de diamètre. Sondes de mesure du régolithe martien et de sa capacité à devenir un sol fertile.',
-      terre: 'Inspirée des serres de la <strong>station Concordia en Antarctique</strong> où l\'ESA teste depuis 2018 les cultures pour Mars, et des projets de <strong>l\'Université Wageningen</strong> (Pays-Bas) qui ont réussi à cultiver 10 espèces dans du régolithe martien simulé.'
+      role: 'Ferme test sur la <strong>surface martienne</strong> (pas sous dôme pressurisé comme les Dômes Agricoles). Étudie comment adapter l\'agriculture aux conditions martiennes réelles. Objectif à très long terme : cultiver en plein air si Mars est un jour terraformée.',
+      tech: 'Cultures hors-sol résistantes au froid et aux radiations. Petits dômes-tests transparents. Mesures du régolithe martien et de sa capacité à devenir un sol fertile.',
+      terre: 'La station <strong>Concordia en Antarctique</strong> abrite depuis 2018 des serres expérimentales de l\'ESA pour préparer Mars. L\'<strong>Université Wageningen</strong> (Pays-Bas) a réussi à faire pousser plusieurs espèces dans du régolithe martien simulé.'
     },
 
     'Jardin du Souvenir': {
-      role: 'Cimetière et lieu de recueillement pour rendre hommage aux pionniers martiens disparus. Espace contemplatif sous un dôme intime aux côtés de la mosquée. Pas de tombes individuelles voyantes : plaques discrètes au sol et un grand jardin commun de fleurs résistantes au froid.',
-      tech: 'Sépultures écologiques par compostage humain (technique légale en plusieurs États américains depuis 2019) : le corps est transformé en terre fertile en quelques mois, puis intégré au jardin. Système conforme aux préceptes religieux après accord des autorités spirituelles.',
-      terre: 'Inspiré du <strong>cimetière du Père-Lachaise à Paris</strong> pour son caractère jardin-promenade, et du <strong>National Memorial Arboretum britannique</strong> où chaque arbre représente une vie. Le compostage humain est légal et pratiqué dans le <strong>Washington State</strong> depuis 2019.'
+      role: 'Cimetière et lieu de recueillement. Espace contemplatif sous un dôme dédié. Sépultures discrètes et grand jardin commémoratif.',
+      tech: 'Sépultures écologiques pour limiter l\'empreinte. Plantes résistantes au froid en intérieur sous dôme. Plaques commémoratives gravées.',
+      terre: 'Le <strong>cimetière du Père-Lachaise</strong> (Paris) est emblématique du modèle cimetière-jardin du XIXᵉ siècle. Le <strong>National Memorial Arboretum</strong> (UK) consacre un arbre à chaque vie. Le <strong>compostage humain</strong> (natural organic reduction) est légal dans l\'État de Washington (USA) depuis 2019.'
     },
 
     'Bibliothèque & Médiathèque': {
-      role: 'Toute la connaissance numérisée de la Terre, accessible à tous gratuitement. ~50 000 ouvrages physiques précieux (premiers exemplaires de classiques, archives historiques), 30 millions d\'ouvrages numériques. Salles de lecture, cabines vidéo, espaces de travail collectif. Ouverte 7j/7.',
-      tech: 'Catalogue intelligent avec recommandations personnalisées par IA. Liaison sécurisée avec les grandes bibliothèques terrestres (BNF, Library of Congress) pour récupérer toute nouvelle publication. Conservation des livres physiques en atmosphère contrôlée (40 % d\'humidité, 20 °C).',
-      terre: 'Inspirée de la <strong>BNF François Mitterrand</strong> à Paris (14 millions d\'ouvrages), de la <strong>Library of Congress</strong> à Washington (la plus grande bibliothèque du monde, 173 millions d\'éléments), et de la <strong>Bibliotheca Alexandrina</strong> moderne en Égypte (renaissance de la mythique Alexandrie).'
+      role: 'Toute la connaissance numérisée de la Terre, accessible à tous gratuitement. Collection physique d\'ouvrages précieux, salles de lecture, espaces de travail.',
+      tech: 'Catalogue numérique connecté avec les grandes bibliothèques terrestres pour récupérer les nouvelles publications. Conservation des livres physiques en atmosphère contrôlée (humidité, température).',
+      terre: 'La <strong>BNF François Mitterrand</strong> à Paris conserve environ 14 millions d\'ouvrages. La <strong>Library of Congress</strong> à Washington est la plus grande bibliothèque du monde (~173 millions d\'éléments). La <strong>Bibliotheca Alexandrina</strong> moderne en Égypte fait revivre l\'esprit de la mythique Alexandrie.'
     },
 
     'Centre Culturel & Théâtre': {
-      role: 'Vie culturelle de la cité : théâtre, concerts, cinéma, expositions d\'art, conférences. 400 places dans la grande salle. Retransmissions en direct (avec délai martien) des grands événements terrestres : Festival de Cannes, JO, finales sportives, élections.',
-      tech: 'Scène modulable, hologrammes 3D pour les pièces immersives. Réseau de cinémas connectés avec les festivals terrestres. Galerie d\'art permanente sur l\'histoire de l\'exploration martienne. Ateliers d\'art pour les habitants (peinture, musique, sculpture en gravité 0,38 g — un défi !).',
-      terre: 'Inspiré du <strong>Centre Pompidou</strong> à Paris (architecture innovante et programmation pluridisciplinaire), de l\'<strong>Opéra de Sydney</strong> (icône culturelle d\'une cité), et de la <strong>Philharmonie de Hambourg</strong> pour son acoustique exceptionnelle.'
+      role: 'Vie culturelle de la cité : théâtre, concerts, cinéma, expositions, conférences. Permet aux habitants de garder un lien avec la culture terrestre malgré la distance.',
+      tech: 'Salle modulable. Retransmissions en différé d\'événements terrestres (festivals, JO, etc.) à cause du délai de communication Terre-Mars.',
+      terre: 'Le <strong>Centre Pompidou</strong> à Paris est emblématique des espaces culturels multi-fonctions. L\'<strong>Opéra de Sydney</strong> est l\'icône culturelle d\'une ville. La <strong>Philharmonie de Hambourg</strong> est une référence en acoustique.'
     },
 
     'Centre Sportif & Gymnase': {
-      role: 'Maintien de la condition physique des 5 000 habitants — vital en gravité 0,38 g (problèmes musculaires et osseux à long terme). Salle de musculation, gymnase polyvalent, terrains adaptés (basket, foot, athlétisme), piscine. Cours quotidiens obligatoires pour les enfants.',
-      tech: 'Machines à résistance pour compenser la gravité faible — chaque exercice est calibré individuellement par capteurs biométriques. Piscine pressurisée à 1 atmosphère (essentielle pour la santé osseuse). Salle de réalité virtuelle pour des entraînements immersifs (courir dans Central Park, marcher sur l\'Everest).',
-      terre: 'Inspiré de l\'<strong>INSEP de Paris</strong> (Institut National du Sport — formation des athlètes français), du <strong>US Olympic Training Center</strong> de Colorado Springs, et des protocoles de la <strong>NASA Counter Measures System</strong> qui maintient la santé des astronautes ISS en microgravité.'
+      role: 'Maintien de la condition physique des habitants — vital en gravité 0,38 g, qui entraîne progressivement perte musculaire et osseuse. Musculation, gymnase polyvalent, piscine, terrains de sport.',
+      tech: 'Machines à résistance calibrées pour compenser la gravité faible. Piscine pressurisée à 1 atmosphère (essentielle pour la santé osseuse).',
+      terre: 'L\'<strong>INSEP de Paris</strong> (Institut National du Sport) forme les athlètes français. Le <strong>US Olympic Training Center</strong> à Colorado Springs joue le même rôle aux États-Unis. La <strong>NASA</strong> a développé des protocoles de contre-mesures pour maintenir la santé des astronautes en microgravité.'
     },
 
     'Crèche': {
-      role: 'Accueille ~100 enfants de la naissance à 6 ans pendant la journée. Éducation Montessori adaptée à l\'environnement martien : sensibilisation précoce aux gestes de survie en environnement pressurisé (porter un masque rapidement, reconnaître les alarmes), motricité en gravité réduite.',
-      tech: 'Mobilier modulable et sécurisé. Sols souples pour amortir les chutes (qui sont plus fréquentes en gravité 0,38 g car les enfants apprennent l\'équilibre différemment). Petits sas pédagogiques pour entraîner les gestes de sécurité. Liaison vidéo permanente avec les parents au travail.',
-      terre: 'Inspirée des <strong>écoles Reggio Emilia</strong> en Italie (approche pédagogique mondialement reconnue depuis 1945), et des <strong>maternelles Maria Montessori</strong> qui mettent l\'accent sur l\'autonomie. Les crèches d\'<strong>Hammarby Sjöstad</strong> à Stockholm sont aussi une référence pour leur architecture moderne.'
+      role: 'Accueille les très jeunes enfants de la naissance à environ 6 ans pendant la journée. Apprentissage précoce de la motricité en gravité réduite et des règles de vie en environnement pressurisé.',
+      tech: 'Sols souples pour amortir les chutes (plus fréquentes en gravité 0,38 g). Liaison vidéo avec les parents au travail.',
+      terre: 'Les <strong>écoles Reggio Emilia</strong> en Italie (depuis 1945) sont une référence mondiale en pédagogie de la petite enfance. La <strong>méthode Maria Montessori</strong> met l\'accent sur l\'autonomie. Les <strong>crèches scandinaves</strong> (Hammarby Sjöstad à Stockholm) sont citées pour leur design moderne.'
     },
 
     'Mairie & Centre Administratif': {
-      role: 'Siège du Conseil de la cité : 12 membres élus tous les 4 ans. État civil (naissances, mariages, décès, arrivées de la Terre), démarches administratives, organisation des votes. Salle du Conseil ouverte au public pendant les sessions.',
-      tech: 'Vote électronique sécurisé pour les habitants depuis n\'importe quel terminal. Registre des arrivées et départs synchronisé avec les autorités terrestres (ONU, ESA, NASA). Diffusion en direct des séances du Conseil sur tous les écrans de la cité.',
-      terre: 'Inspirée de l\'<strong>Hôtel de Ville de Paris</strong> pour le rôle institutionnel symbolique, et du modèle de <strong>démocratie directe suisse</strong> (vote des citoyens sur les grandes décisions plusieurs fois par an). Le système numérique s\'inspire de <strong>l\'Estonie</strong>, leader mondial du gouvernement numérique (e-Estonia).'
+      role: 'Siège du Conseil de la cité (élu par les habitants). État civil (naissances, mariages, décès, arrivées de la Terre), démarches administratives, organisation des votes.',
+      tech: 'Vote électronique sécurisé. Registre synchronisé avec les autorités terrestres concernées (ONU, agences spatiales). Diffusion en direct des séances du Conseil pour la transparence.',
+      terre: 'L\'<strong>Hôtel de Ville de Paris</strong> symbolise le rôle institutionnel d\'une mairie. La <strong>démocratie directe suisse</strong> (votes citoyens fréquents sur les grandes décisions) est unique au monde. L\'<strong>Estonie</strong> est leader mondial du gouvernement numérique (e-Estonia).'
     },
 
     'Centre de Recyclage': {
-      role: 'À NEOTERRA, <strong>rien ne se perd</strong>. Tri, valorisation, retour matière. Plastiques refondus, métaux réutilisés, déchets organiques compostés pour les Dômes Agricoles, eaux usées purifiées et recyclées. Chaque habitant trie ses déchets en 6 catégories à la source.',
-      tech: 'Robots trieurs IA pour le tri fin. Incinérateurs à plasma pour les déchets non recyclables (température 5 000 °C, transforme tout en minéraux inertes). Système boucle fermée intégrale : aucun déchet ne quitte la cité, aucune ressource n\'est gaspillée.',
-      terre: 'Inspiré du <strong>modèle zéro déchet de Capannori</strong> en Italie (1ère ville européenne zéro déchet depuis 2007), des protocoles de <strong>Suez</strong> et <strong>Veolia</strong> (leaders mondiaux du recyclage), et de la <strong>NASA Closed-Loop Life Support</strong> testée sur l\'ISS depuis 20 ans.'
+      role: 'À NEOTERRA, <strong>rien ne se perd</strong>. Tri, valorisation, retour matière : plastiques refondus, métaux réutilisés, déchets organiques compostés, eaux usées purifiées.',
+      tech: 'Tri par robots et IA. Boucle fermée intégrale pour ne perdre aucune ressource.',
+      terre: '<strong>Capannori</strong> (Italie) a été la 1ʳᵉ ville européenne à viser le zéro déchet (2007). <strong>Suez</strong> et <strong>Veolia</strong> sont les leaders mondiaux du recyclage et du traitement des eaux. La <strong>NASA</strong> teste des systèmes de support-vie en boucle fermée sur l\'ISS depuis 20 ans.'
     },
 
     'Centre de Traitement de l\'Eau': {
-      role: 'L\'eau de NEOTERRA vient des <strong>glaciers polaires martiens</strong>, extraite par convois automatisés. Filtrée, purifiée, distribuée à tous les dômes via un réseau dédié. Recyclage à 95 % des eaux usées (douches, lessives, sanitaires) pour ne perdre aucune goutte.',
-      tech: 'Traitement multi-étapes : ultrafiltration, osmose inverse, désinfection UV. Système identique à celui des stations spatiales, mais à grande échelle. Capteurs IoT dans chaque robinet pour détecter les fuites instantanément. Stockage stratégique de 30 jours d\'eau en cas de problème.',
-      terre: 'Inspiré du système <strong>NEWater de Singapour</strong> (le pays recycle 40 % de son eau, modèle mondial) et du <strong>Water Recovery System de la NASA</strong> qui équipe l\'ISS depuis 2008 (recycle 93 % de l\'eau, urine comprise — testé depuis 15 ans).'
+      role: 'L\'eau de NEOTERRA vient des <strong>glaciers polaires martiens</strong>, extraite par convois automatisés. Filtrée, purifiée, distribuée à tous les dômes. Recyclage poussé des eaux usées.',
+      tech: 'Traitement multi-étapes : ultrafiltration, osmose inverse, désinfection UV. Capteurs dans le réseau pour détecter les fuites.',
+      terre: '<strong>NEWater</strong> à Singapour est un modèle mondial de recyclage de l\'eau (Singapour recycle ~40 % de son eau). Le <strong>Water Recovery System de la NASA</strong> équipe l\'ISS depuis 2008 et recycle environ 93 % de l\'eau, y compris l\'urine.'
     },
 
     'Archives Numériques': {
-      role: 'Sauvegarde redondante de toute la connaissance et l\'histoire de NEOTERRA. Archives officielles (naissances, lois, décisions du Conseil), patrimoine culturel, photos et vidéos historiques de la colonisation, productions scientifiques. <strong>Sauvegarde 3× en local + 1× sur la Terre</strong>.',
-      tech: 'Datacenters refroidis passivement par la fraîcheur du sous-sol martien (-50 °C naturellement). Stockage sur ADN synthétique pour les archives les plus précieuses (technique permettant 1 g d\'ADN = 215 pétaoctets, durée 1 000 ans+). Liaison cryptée avec un miroir terrestre au CERN.',
-      terre: 'Inspiré de l\'<strong>Internet Archive</strong> à San Francisco (préservation du web depuis 1996), de la <strong>BNF</strong> pour les archives nationales, et du <strong>Vatican Apostolic Library Digital Project</strong>. Le stockage ADN est développé par <strong>Microsoft Research</strong> et l\'<strong>Université de Washington</strong>.'
+      role: 'Sauvegarde redondante de toute la connaissance et l\'histoire de NEOTERRA. Archives officielles (état civil, lois, décisions), patrimoine culturel, photos et vidéos de la colonisation.',
+      tech: 'Datacenters refroidis passivement par la fraîcheur du sous-sol martien. Sauvegardes multiples en local et un miroir terrestre.',
+      terre: '<strong>Internet Archive</strong> (San Francisco) préserve le web depuis 1996. La <strong>BNF</strong> gère les archives nationales françaises (et le dépôt légal du Web depuis 2006). Le stockage sur ADN synthétique est étudié par <strong>Microsoft Research</strong> et l\'Université de Washington.'
     },
 
     'Tribunal de Justice': {
-      role: 'Institution juridique de NEOTERRA. 3 juges élus à temps partiel. Tranche les conflits civils entre colons, applique le <strong>Code Civil Martien</strong> (adapté du Code de l\'ONU pour l\'espace), traite les rares affaires criminelles, valide les contrats importants.',
-      tech: 'Salle d\'audience modeste mais solennelle. Greffe entièrement numérique avec horodatage cryptographique des décisions. Visioconférence avec experts terrestres si besoin (avocats spécialisés, témoignages). Médiation obligatoire avant tout procès pour résoudre à l\'amiable.',
-      terre: 'Inspiré de la <strong>Cour Internationale de Justice de La Haye</strong> pour le format multilatéral, du <strong>Conseil Constitutionnel français</strong> pour la rigueur juridique, et des principes de la <strong>Cour Européenne des Droits de l\'Homme</strong>. Le droit martien s\'inspire du <strong>Traité de l\'Espace de 1967</strong>.'
+      role: 'Institution juridique. Tranche les conflits civils entre habitants, applique le droit en vigueur, traite les rares affaires criminelles, valide les contrats importants.',
+      tech: 'Greffe numérique avec horodatage cryptographique. Médiation obligatoire avant tout procès pour résoudre à l\'amiable. Visioconférence avec experts terrestres si besoin.',
+      terre: 'La <strong>Cour Internationale de Justice à La Haye</strong> (Pays-Bas) gère les conflits entre États. Le <strong>Conseil Constitutionnel français</strong> veille au respect de la Constitution. Le <strong>Traité de l\'Espace de 1967</strong> (ONU) est le texte fondateur du droit spatial international.'
     },
 
     'Centre de Maintenance': {
-      role: 'Équipe technique de ~30 techniciens qui assure la maintenance de tous les systèmes vitaux : dômes, sas, tunnels, panneaux solaires, systèmes de pressurisation et de filtration. <strong>Sans eux, NEOTERRA s\'effondre.</strong> Disponibles 24/7, équipes en astreinte.',
-      tech: 'Diagnostics prédictifs par capteurs IoT partout dans la cité : un capteur qui détecte une fuite microscopique alerte immédiatement les équipes. Drones d\'inspection autonomes pour vérifier l\'extérieur des dômes. Stocks stratégiques de pièces critiques en permanence.',
-      terre: 'Inspiré des protocoles de <strong>maintenance prédictive de l\'ISS</strong> (NASA + Roscosmos + ESA) testés depuis 25 ans, et des standards <strong>ISO 55000</strong> de gestion d\'actifs industriels. Les techniciens sont formés sur des modèles inspirés de <strong>Boeing Tracy Service Center</strong>.'
+      role: 'Équipe technique qui assure la maintenance de tous les systèmes vitaux : dômes, sas, tunnels, panneaux solaires, systèmes de pressurisation et de filtration.',
+      tech: 'Diagnostics prédictifs par capteurs disséminés dans la cité. Drones d\'inspection pour vérifier l\'extérieur des dômes. Stocks stratégiques de pièces critiques en permanence.',
+      terre: 'Les protocoles de maintenance prédictive de l\'<strong>ISS</strong> (NASA, Roscosmos, ESA) sont éprouvés depuis 25 ans. Les normes <strong>ISO 55000</strong> régissent la gestion d\'actifs industriels au niveau international.'
+    },
+
+    'Centre de Production d\'Oxygène': {
+      role: 'Le bâtiment <strong>le plus critique</strong> de NEOTERRA. Sans lui, personne ne respire. Produit l\'oxygène pour les habitants, les sas, les combinaisons et les véhicules pressurisés.',
+      tech: 'Utilise le procédé éprouvé par <strong>MOXIE</strong> — l\'instrument que la NASA a testé avec succès sur le rover Perseverance depuis 2021 : électrolyse à haute température qui sépare le CO₂ de l\'atmosphère martienne (95 % CO₂) en oxygène et monoxyde de carbone. Industrialisé pour NEOTERRA.',
+      terre: '<strong>MOXIE</strong> (Mars Oxygen In-Situ Resource Utilization Experiment) est l\'expérience NASA qui a produit pour la première fois de l\'oxygène sur Mars en avril 2021. Le procédé d\'électrolyse à haute température est étudié au <strong>MIT</strong> et au <strong>CEA</strong> en France.'
     },
 
     'Atelier d\'Imprimerie 3D & Fabrication': {
-      role: 'Produit toutes les pièces détachées, outils, équipements et structures dont la cité a besoin. Sur Mars, <strong>impossible d\'attendre une livraison de la Terre</strong> (26 mois entre deux fenêtres de lancement). Tout est fabriqué sur place ou par les Hangar Robotique.',
-      tech: 'Imprimantes 3D métal (poudre de fer extraite sur Mars + laser) et plastique (matière recyclée par le Centre de Recyclage). Capable de produire des composants jusqu\'à 2 m de long. Base de données de 100 000 modèles 3D prêts à l\'impression, synchronisée avec la Terre.',
-      terre: 'Inspiré de <strong>Relativity Space</strong> en Californie (entreprise qui imprime des fusées entières en 3D), d\'<strong>ICON</strong> au Texas (impression 3D de maisons, partenaire NASA pour Mars), et de <strong>Markforged</strong> (impression 3D métal industrielle).'
+      role: 'Produit les pièces détachées, outils et équipements dont la cité a besoin. Sur Mars, il est impossible d\'attendre une livraison de la Terre (26 mois entre deux fenêtres de lancement).',
+      tech: 'Imprimantes 3D métal (poudre métallique + laser) et plastique (matière recyclée par le Centre de Recyclage). Base de données de modèles 3D synchronisée avec la Terre.',
+      terre: '<strong>Relativity Space</strong> (USA) imprime des fusées entières en 3D. <strong>ICON</strong> (Texas) imprime des maisons en béton et travaille avec la NASA sur des habitats martiens (projet Mars Dune Alpha). <strong>Markforged</strong> est une référence en impression 3D métal industrielle.'
     },
 
     'Centre d\'Élevage & Pisciculture': {
-      role: 'Source de protéines animales pour les 5 000 habitants — les Dômes Agricoles fournissent les légumes, ce centre fournit les <strong>poissons</strong> (tilapias, truites), les <strong>œufs</strong> (poules), et la <strong>viande</strong> (lapins). Régime alimentaire complet sans dépendre de la Terre.',
-      tech: 'Aquaponie en boucle fermée : les déjections des poissons fertilisent des plantes qui nettoient l\'eau qui retourne aux poissons. Élevage de poules sous LED (cycle jour-nuit adapté à 24 h, pas 24 h 37). Lapins en clapiers individuels pour limiter les maladies. Conformité halal pour les abattages.',
-      terre: 'Inspiré des fermes d\'aquaponie commerciale comme <strong>Superior Fresh</strong> au Wisconsin (la plus grande au monde, élevage poisson + légumes en boucle), et des protocoles de <strong>l\'Université de Wageningen</strong> aux Pays-Bas (référence mondiale en agronomie circulaire).'
+      role: 'Source complète de protéines animales pour la cité : élevages <strong>bovin, caprin, ovin, équin</strong>, volailles (poules, canards), lapins, pisciculture (tilapias, truites), plus élevage d\'insectes utiles. Complète les Dômes Agricoles pour un régime alimentaire complet sans dépendre de la Terre.',
+      tech: 'Étables verticales pressurisées avec accès à un dôme pâturage pour les grands animaux. <strong>Aquaponie en boucle fermée</strong> pour les poissons — les déjections fertilisent des plantes qui filtrent l\'eau. Élevage d\'insectes utiles : <strong>abeilles</strong> pour la pollinisation des Dômes Agricoles (et miel + cire), <strong>coccinelles et insectes prédateurs</strong> pour la lutte biologique sans pesticides, <strong>vers à soie</strong> pour la production de textile naturel. Abattage conforme aux traditions religieuses (halal, casher).',
+      terre: 'La <strong>ferme verticale de 26 étages de Zhongxin Kaiwei</strong> en Chine (Hubei, ouverte 2022) pour l\'élevage en hauteur. La <strong>Floating Farm de Rotterdam</strong> (Pays-Bas, depuis 2019) pour l\'élevage laitier en milieu urbain dense. <strong>Superior Fresh</strong> (Wisconsin, USA) est leader mondial en aquaponie. L\'<strong>Université Wageningen</strong> (Pays-Bas) est la référence en agronomie circulaire et alimentation durable.'
     },
 
     'Hangar Robotique': {
-      role: 'Abrite, recharge et entretient les <strong>~200 robots</strong> autonomes de NEOTERRA. Ces robots ont construit la cité avant l\'arrivée des humains (entre 2045 et 2049), et continuent maintenant à étendre les structures, faire la maintenance extérieure et explorer les environs.',
-      tech: 'Robots à 4 ou 6 roues pour le terrain accidenté, certains à pattes pour les zones rocheuses. Recharge par induction sans contact via le sol du hangar. Diagnostics et réparations par les techniciens du Centre de Maintenance. Communication 24/7 par réseau radio dédié.',
-      terre: 'Inspiré des robots de <strong>Boston Dynamics</strong> (Atlas, Spot), des rovers martiens de la NASA (Curiosity, Perseverance, Sojourner), et des projets <strong>ICON Olympus</strong> qui développe des robots de construction autonomes pour bases lunaires et martiennes pour la NASA.'
+      role: 'Abrite, recharge et entretient <strong>toute la flotte de robots et de drones de NEOTERRA</strong> : robots de construction qui ont bâti la cité avant l\'arrivée des humains, robots livreurs intérieurs, et <strong>drones d\'observation</strong> qui surveillent les dômes, les pipelines et l\'extérieur de la cité.',
+      tech: 'Robots à roues ou à pattes selon le terrain. Recharge par induction. Diagnostics et réparations par les techniciens du Centre de Maintenance.',
+      terre: '<strong>Boston Dynamics</strong> (USA) développe les robots quadrupèdes (Spot) et humanoïdes (Atlas) les plus avancés au monde. Les rovers martiens de la NASA (<strong>Sojourner 1997</strong>, <strong>Curiosity 2012</strong>, <strong>Perseverance 2021</strong>) sont les précurseurs directs de ces robots. <strong>ICON</strong> travaille sur des robots imprimeurs 3D pour bâtir des habitats martiens. L\'<strong>hélicoptère Ingenuity de la NASA</strong> a réalisé 72 vols sur Mars entre 2021 et 2024, démontrant que le vol motorisé est possible dans l\'atmosphère martienne (160× moins dense que celle de la Terre).'
     },
 
     'Observatoire Astronomique': {
-      role: 'Télescope géant martien profitant de l\'atmosphère ténue (<strong>160 fois moins dense</strong> que celle de la Terre). Vision exceptionnelle de l\'espace profond, sans pollution lumineuse ni perturbation atmosphérique. Recherche d\'exoplanètes habitables, étude des galaxies lointaines.',
-      tech: 'Miroir primaire de 8 m de diamètre (équivalent au VLT de l\'ESO en Antarctique). Capteurs CCD ultra-sensibles refroidis à -200 °C par le froid martien naturel. Coupole avec ouverture motorisée résistant aux tempêtes de poussière. Données envoyées en temps réel à la Terre.',
-      terre: 'Inspiré du <strong>Very Large Telescope (VLT) de l\'ESO</strong> à Cerro Paranal au Chili (4 télescopes de 8,2 m), de l\'<strong>Atacama Large Millimeter Array (ALMA)</strong>, et de l\'observatoire <strong>Mauna Kea Hawaii</strong> (l\'un des meilleurs sites d\'observation terrestre).'
+      role: 'Télescope qui profite de l\'<strong>atmosphère ténue de Mars</strong> (~160× moins dense que celle de la Terre) pour observer le ciel sans la diffusion atmosphérique habituelle. Recherche d\'exoplanètes, étude des galaxies lointaines.',
+      tech: 'Grand miroir primaire. Capteurs CCD ultra-sensibles refroidis par le froid martien naturel. Coupole avec ouverture motorisée résistant aux tempêtes de poussière.',
+      terre: 'Le <strong>Very Large Telescope (VLT) de l\'ESO</strong> à Cerro Paranal (Chili) regroupe 4 télescopes de 8,2 m. <strong>ALMA</strong> (Atacama Large Millimeter Array, Chili) observe les ondes submillimétriques. <strong>Mauna Kea</strong> (Hawaii, 4 200 m d\'altitude) est l\'un des meilleurs sites d\'observation terrestre.'
     },
 
     'Centre de Santé Mentale': {
-      role: 'L\'isolement martien — loin de la Terre, sous dôme pressurisé, communication différée de 4 à 24 min — est un <strong>défi psychologique majeur</strong> pour les colons. Psychologues, thérapeutes, groupes de parole, ateliers de méditation. Soutien préventif obligatoire pour tous les nouveaux arrivants.',
-      tech: 'Salles de méditation insonorisées avec projections immersives de paysages terrestres (forêts, océans, montagnes). Téléconsultations avec spécialistes terrestres malgré le délai. Programme de groupe inspiré du <strong>« Earth-Mars Communication Therapy »</strong> développé par la NASA.',
-      terre: 'Inspiré des recherches du <strong>NASA Human Research Program</strong> sur les effets psychologiques des missions spatiales longue durée, et des études de la <strong>station Concordia en Antarctique</strong> (analogue martien terrestre) menées par l\'ESA depuis 2005. Méthodes de méditation issues du <strong>MBSR (Mindfulness-Based Stress Reduction)</strong> de Jon Kabat-Zinn.'
+      role: 'L\'isolement martien — loin de la Terre, sous dôme pressurisé, communication différée de 4 à 24 minutes — est un défi psychologique réel pour les colons. Psychologues, thérapeutes, groupes de parole, ateliers de méditation.',
+      tech: 'Salles de méditation avec projections immersives de paysages terrestres. Téléconsultations avec spécialistes terrestres malgré le délai. Programmes de soutien préventif.',
+      terre: 'Le <strong>NASA Human Research Program</strong> étudie depuis longtemps les effets psychologiques des missions spatiales longue durée. La station <strong>Concordia en Antarctique</strong> sert d\'analogue martien pour l\'ESA. La méditation <strong>MBSR</strong> (Mindfulness-Based Stress Reduction), développée par Jon Kabat-Zinn (1979), est validée scientifiquement.'
     },
 
     'Hôtel d\'Accueil': {
-      role: 'Premier toit des arrivants de la Terre, juste après l\'atterrissage à la Gare Spatiale. Période d\'adaptation obligatoire de 14 jours : adaptation à la gravité 0,38 g, formation aux protocoles de survie (utiliser un sas, porter un masque d\'urgence), affectation à un logement permanent.',
-      tech: '~50 chambres confortables avec vue sur la cité. Salles de simulation pour s\'entraîner aux gestes de sécurité. Coachs d\'adaptation pour accompagner les nouveaux dans leur changement de vie. Tests médicaux quotidiens pour détecter les problèmes liés à la transition gravitationnelle.',
-      terre: 'Inspiré du modèle des <strong>centres d\'accueil pour astronautes au Johnson Space Center</strong> de la NASA (Houston), des <strong>auberges d\'expatriés diplomatiques internationaux</strong>, et du programme d\'<strong>acclimatation des chercheurs en Antarctique</strong> (transition douce entre arrivée et premier hivernage).'
+      role: 'Premier toit des arrivants de la Terre, juste après l\'atterrissage à la Gare Spatiale. Période d\'adaptation : ajustement à la gravité 0,38 g, formation aux protocoles de survie (utiliser un sas, porter un masque d\'urgence), évaluation médicale, affectation à un logement permanent.',
+      tech: 'Chambres confortables avec vue sur la cité. Salles de simulation pour s\'entraîner aux gestes de sécurité. Suivi médical quotidien pour détecter les problèmes liés à la transition gravitationnelle.',
+      terre: 'Le <strong>Johnson Space Center</strong> de la NASA (Houston) accueille les astronautes en formation. Les programmes d\'acclimatation des chercheurs en <strong>Antarctique</strong> (notamment Concordia) sont un modèle pour la transition d\'environnement extrême. Le programme <strong>Mars500</strong> (2010-2011, Russie) a simulé une mission martienne de 520 jours d\'isolement.'
     }
   };
 
