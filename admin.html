@@ -130,6 +130,57 @@
       .action-bar { padding: 12px 14px; gap: 8px; }
       .action-btn { font-size: 0.6rem; padding: 10px 14px; letter-spacing: 0.15em; }
     }
+
+    /* ════ LIVRE D'OR ════ */
+    .lor-config { background: rgba(244,200,122,0.04); border: 1px dashed var(--gold-line); padding: 16px; margin-bottom: 24px; }
+    .lor-config-grid { display: grid; grid-template-columns: 220px 1fr; gap: 10px 16px; align-items: center; }
+    .lor-config small { color: var(--gold-deep); font-family: monospace; font-size: 0.78rem; }
+    .lor-pat-status { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.25em; padding: 5px 12px; border: 1px solid var(--gold-line); display: inline-block; margin-left: 10px; }
+    .lor-pat-status.ok { color: var(--green-ok); border-color: var(--green-ok); }
+    .lor-pat-status.ko { color: var(--orange-warn); border-color: var(--orange-warn); }
+
+    .lor-msg-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .lor-msg-card { background: rgba(15,15,28,0.7); border: 1px solid var(--gold-line); padding: 14px 18px; display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: start; }
+    .lor-msg-card.pending { border-color: var(--orange-warn); background: rgba(244,168,90,0.04); }
+    .lor-msg-card.deleted { opacity: 0.45; border-style: dashed; }
+    .lor-msg-meta { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.15em; margin-bottom: 6px; }
+    .lor-msg-author { color: var(--gold-bright); font-weight: 700; }
+    .lor-msg-role { color: var(--gold-light); border: 1px solid var(--gold-line); padding: 2px 8px; font-size: 0.6rem; }
+    .lor-msg-date { color: var(--gold-deep); }
+    .lor-msg-tag { font-size: 0.6rem; padding: 2px 8px; border: 1px solid; }
+    .lor-msg-tag.pending { color: var(--orange-warn); border-color: var(--orange-warn); }
+    .lor-msg-tag.deleted { color: var(--red-err); border-color: var(--red-err); }
+    .lor-msg-text { color: var(--gold-pale); font-family: var(--font-decorative); font-style: italic; font-size: 0.95rem; line-height: 1.5; }
+    .lor-msg-actions { display: flex; gap: 6px; }
+    .lor-mini-btn { font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.15em; padding: 5px 10px; background: transparent; color: var(--gold-light); border: 1px solid var(--gold-line); cursor: pointer; text-transform: uppercase; }
+    .lor-mini-btn:hover { border-color: var(--gold-bright); color: var(--gold-bright); }
+    .lor-mini-btn.danger { color: var(--red-err); border-color: rgba(255,107,107,0.4); }
+    .lor-mini-btn.danger:hover { border-color: var(--red-err); }
+
+    .lor-empty { padding: 30px; text-align: center; color: var(--gold-deep); font-style: italic; border: 1px dashed var(--gold-line); }
+
+    .lor-add { background: rgba(15,15,28,0.7); border: 1px solid var(--gold-line); padding: 18px; margin-bottom: 24px; }
+    .lor-add-tabs { display: flex; gap: 0; margin-bottom: 16px; border-bottom: 1px solid var(--gold-line); }
+    .lor-tab-btn { font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.22em; padding: 10px 18px; cursor: pointer; background: transparent; color: var(--gold-deep); border: none; border-bottom: 2px solid transparent; text-transform: uppercase; }
+    .lor-tab-btn.active { color: var(--gold-bright); border-bottom-color: var(--gold-bright); }
+    .lor-tab-pane { display: none; }
+    .lor-tab-pane.active { display: block; }
+    .lor-paste-area { width: 100%; min-height: 140px; padding: 12px; background: rgba(5,5,16,0.6); border: 1px solid var(--gold-line); color: var(--gold-pale); font-family: monospace; font-size: 0.85rem; resize: vertical; }
+    .lor-paste-area:focus { outline: none; border-color: var(--gold-bright); }
+    .lor-action-row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+    .lor-form-grid { display: grid; grid-template-columns: 120px 1fr; gap: 10px 16px; align-items: center; }
+    .lor-form-grid textarea { min-height: 90px; resize: vertical; }
+    .lor-form-grid label { font-family: var(--font-decorative); font-size: 0.95rem; color: var(--gold-pale); }
+
+    .lor-publish-row { display: flex; gap: 10px; flex-wrap: wrap; padding: 16px; background: rgba(244,200,122,0.04); border: 1px solid var(--gold-line); }
+    .lor-status-line { font-family: monospace; font-size: 0.85rem; color: var(--gold-deep); margin-top: 10px; }
+    .lor-changes-summary { padding: 10px 14px; background: rgba(244,168,90,0.08); border-left: 3px solid var(--orange-warn); margin-bottom: 12px; font-family: monospace; font-size: 0.85rem; color: var(--orange-warn); }
+    .lor-changes-summary strong { color: var(--gold-bright); }
+
+    @media (max-width: 720px) {
+      .lor-config-grid, .lor-form-grid { grid-template-columns: 1fr; }
+      .lor-msg-card { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -226,6 +277,113 @@
         </div>
         <div id="video-groups"></div>
       </div>
+
+      <div class="section">
+        <div class="section-title">
+          <span class="section-title-icon">📝</span><span>Livre d'or — Modération</span>
+        </div>
+
+        <!-- CONFIG GitHub -->
+        <div class="page-group collapsed" id="lor-config-group">
+          <div class="page-group-header">
+            <div class="page-group-title"><span class="icon">⚙</span>Configuration GitHub</div>
+            <div class="page-group-progress" id="lor-pat-progress">⌃</div>
+          </div>
+          <div class="page-group-body">
+            <div class="lor-config">
+              <div class="lor-config-grid">
+                <div class="slot-label">Repo (owner/name)</div>
+                <input type="text" id="lor-repo" class="slot-input" placeholder="harounjelassi/NeoTerra-2050" value="harounjelassi/NeoTerra-2050">
+                <div class="slot-label">Chemin du JSON</div>
+                <input type="text" id="lor-path" class="slot-input" value="data/livre-or.json">
+                <div class="slot-label">Branche</div>
+                <input type="text" id="lor-branch" class="slot-input" value="main">
+                <div class="slot-label">
+                  GitHub Personal Access Token
+                  <span class="lor-pat-status ko" id="lor-pat-status">NON CONFIGURÉ</span>
+                </div>
+                <div>
+                  <input type="password" id="lor-pat" class="slot-input" placeholder="ghp_••••••••••••••••••••••••••••••••••••">
+                  <small style="display:block;margin-top:6px;">
+                    Stocké uniquement dans ton navigateur. Crée-en un sur
+                    <a href="https://github.com/settings/tokens/new?scopes=repo&description=NeoTerra+Admin" target="_blank" style="color:var(--gold-light);">github.com/settings/tokens</a>
+                    avec le scope <code>repo</code>.
+                  </small>
+                </div>
+              </div>
+              <div class="lor-action-row">
+                <button class="action-btn" id="lor-save-config" type="button">💾 Sauvegarder la config</button>
+                <button class="action-btn" id="lor-test-pat" type="button">🔑 Tester le PAT</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LISTE DES MESSAGES PUBLIÉS -->
+        <div class="page-group" style="margin-top:24px;">
+          <div class="page-group-header" style="cursor:default;">
+            <div class="page-group-title"><span class="icon">📋</span>Messages publiés <span style="color:var(--gold-deep);margin-left:10px;" id="lor-msg-count">(chargement…)</span></div>
+            <button class="lor-mini-btn" id="lor-reload" type="button">🔄 Recharger</button>
+          </div>
+          <div class="page-group-body" style="padding: 16px;">
+            <div id="lor-msg-list" class="lor-msg-list"><div class="lor-empty">Chargement…</div></div>
+          </div>
+        </div>
+
+        <!-- AJOUT D'UN MESSAGE -->
+        <div class="lor-add">
+          <div class="lor-add-tabs">
+            <button class="lor-tab-btn active" data-lor-tab="paste" type="button">📥 Coller email Tally</button>
+            <button class="lor-tab-btn" data-lor-tab="manual" type="button">✍ Formulaire manuel</button>
+          </div>
+
+          <div class="lor-tab-pane active" data-lor-pane="paste">
+            <p style="color:var(--gold-pale);font-size:0.9rem;margin-bottom:12px;">
+              Colle le contenu de l'email reçu de Tally — le système extrait automatiquement les champs.
+            </p>
+            <textarea class="lor-paste-area" id="lor-paste" placeholder="Copie-colle ici le corps de l'email Tally..."></textarea>
+            <div class="lor-action-row">
+              <button class="action-btn primary" id="lor-parse-email" type="button">🔍 Extraire les champs</button>
+              <button class="action-btn" id="lor-clear-paste" type="button">↺ Effacer</button>
+            </div>
+          </div>
+
+          <div class="lor-tab-pane" data-lor-pane="manual">
+            <div class="lor-form-grid">
+              <label for="lor-new-nom">Nom</label>
+              <input type="text" id="lor-new-nom" class="slot-input" placeholder="Pierre Durand">
+              <label for="lor-new-role">Rôle</label>
+              <select id="lor-new-role" class="slot-input">
+                <option value="Jury">Jury</option>
+                <option value="Professeur">Professeur</option>
+                <option value="Famille">Famille</option>
+                <option value="Camarade">Camarade</option>
+                <option value="Autre">Autre</option>
+              </select>
+              <label for="lor-new-date">Date</label>
+              <input type="date" id="lor-new-date" class="slot-input">
+              <label for="lor-new-message">Message</label>
+              <textarea id="lor-new-message" class="slot-input" rows="4" placeholder="Le message du visiteur..."></textarea>
+            </div>
+            <div class="lor-action-row">
+              <button class="action-btn primary" id="lor-add-msg" type="button">+ Ajouter à la file</button>
+              <button class="action-btn" id="lor-clear-form" type="button">↺ Effacer</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ZONE DE PUBLICATION -->
+        <div id="lor-changes-summary" class="lor-changes-summary" style="display:none;"></div>
+
+        <div class="lor-publish-row">
+          <button class="action-btn primary" id="lor-publish" type="button" disabled>🚀 Publier sur GitHub</button>
+          <button class="action-btn" id="lor-download" type="button">⬇ Télécharger le JSON</button>
+          <button class="action-btn" id="lor-copy" type="button">📋 Copier le JSON</button>
+          <button class="action-btn warn" id="lor-revert" type="button" disabled>↺ Annuler les changements</button>
+        </div>
+        <div class="lor-status-line" id="lor-status"></div>
+      </div>
+
     </main>
 
     <div class="action-bar">
@@ -631,12 +789,356 @@
       toast('👁 Aperçu mis à jour', 'success');
     });
 
+    /* ════════════════════ LIVRE D'OR — MODÉRATION ════════════════════ */
+    const LOR_KEYS = {
+      pat: 'NEOTERRA_LOR_PAT',
+      repo: 'NEOTERRA_LOR_REPO',
+      path: 'NEOTERRA_LOR_PATH',
+      branch: 'NEOTERRA_LOR_BRANCH',
+    };
+    const lorState = {
+      messages: [],     // état "côté GitHub" (fetched)
+      pending: [],      // état "côté local" (modifié)
+      sha: null,        // SHA du fichier GitHub pour le commit
+      loaded: false,
+    };
+
+    function lorLoadConfig() {
+      const repo = localStorage.getItem(LOR_KEYS.repo) || 'harounjelassi/NeoTerra-2050';
+      const path = localStorage.getItem(LOR_KEYS.path) || 'data/livre-or.json';
+      const branch = localStorage.getItem(LOR_KEYS.branch) || 'main';
+      const pat = localStorage.getItem(LOR_KEYS.pat) || '';
+      document.getElementById('lor-repo').value = repo;
+      document.getElementById('lor-path').value = path;
+      document.getElementById('lor-branch').value = branch;
+      document.getElementById('lor-pat').value = pat;
+      lorUpdatePatStatus(pat ? 'set' : 'none');
+    }
+    function lorSaveConfig() {
+      localStorage.setItem(LOR_KEYS.repo, document.getElementById('lor-repo').value.trim());
+      localStorage.setItem(LOR_KEYS.path, document.getElementById('lor-path').value.trim());
+      localStorage.setItem(LOR_KEYS.branch, document.getElementById('lor-branch').value.trim());
+      localStorage.setItem(LOR_KEYS.pat, document.getElementById('lor-pat').value.trim());
+      lorUpdatePatStatus(document.getElementById('lor-pat').value.trim() ? 'set' : 'none');
+      toast('💾 Config livre d\'or sauvegardée', 'success');
+    }
+    function lorUpdatePatStatus(s) {
+      const el = document.getElementById('lor-pat-status');
+      if (s === 'ok') { el.textContent = '✓ VALIDE'; el.className = 'lor-pat-status ok'; }
+      else if (s === 'set') { el.textContent = 'CONFIGURÉ'; el.className = 'lor-pat-status'; }
+      else if (s === 'err') { el.textContent = '✗ INVALIDE'; el.className = 'lor-pat-status ko'; }
+      else { el.textContent = 'NON CONFIGURÉ'; el.className = 'lor-pat-status ko'; }
+    }
+    function lorGetConfig() {
+      return {
+        repo:   document.getElementById('lor-repo').value.trim(),
+        path:   document.getElementById('lor-path').value.trim(),
+        branch: document.getElementById('lor-branch').value.trim(),
+        pat:    document.getElementById('lor-pat').value.trim(),
+      };
+    }
+
+    async function lorFetchMessages() {
+      const cfg = lorGetConfig();
+      if (!cfg.repo || !cfg.path) { toast('⚠ Repo/Path manquant', 'error'); return; }
+      document.getElementById('lor-msg-list').innerHTML = '<div class="lor-empty">Chargement…</div>';
+      try {
+        // Utilise l'API GitHub pour avoir le SHA (et donc pouvoir commit)
+        const url = 'https://api.github.com/repos/' + cfg.repo + '/contents/' + cfg.path + '?ref=' + encodeURIComponent(cfg.branch);
+        const headers = cfg.pat ? { 'Authorization': 'token ' + cfg.pat } : {};
+        const r = await fetch(url, { headers });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const data = await r.json();
+        lorState.sha = data.sha;
+        const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+        const msgs = JSON.parse(content);
+        if (!Array.isArray(msgs)) throw new Error('Format JSON invalide');
+        lorState.messages = msgs;
+        lorState.pending = JSON.parse(JSON.stringify(msgs)); // deep copy
+        lorState.loaded = true;
+        lorRender();
+      } catch (e) {
+        lorState.loaded = false;
+        lorState.messages = [];
+        lorState.pending = [];
+        document.getElementById('lor-msg-list').innerHTML =
+          '<div class="lor-empty">⚠ Impossible de charger : ' + e.message + '<br><small>Vérifie le repo/path/PAT et clique sur 🔄 Recharger.</small></div>';
+        document.getElementById('lor-msg-count').textContent = '(erreur)';
+      }
+    }
+
+    function lorRender() {
+      const list = document.getElementById('lor-msg-list');
+      const pendingChanges = JSON.stringify(lorState.pending) !== JSON.stringify(lorState.messages);
+
+      // Compteur
+      const totalNow = lorState.pending.length;
+      document.getElementById('lor-msg-count').textContent = '(' + totalNow + ')';
+
+      // Liste
+      if (totalNow === 0) {
+        list.innerHTML = '<div class="lor-empty">Aucun message publié pour l\'instant.</div>';
+      } else {
+        // Tri par date décroissante
+        const sorted = lorState.pending.slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        list.innerHTML = sorted.map((m, idx) => {
+          const realIdx = lorState.pending.indexOf(m);
+          const wasPublished = lorState.messages.some(o => o.nom === m.nom && o.date === m.date && o.message === m.message);
+          const tag = wasPublished ? '' : '<span class="lor-msg-tag pending">À PUBLIER</span>';
+          const dateFmt = m.date ? new Date(m.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+          return '<div class="lor-msg-card' + (wasPublished ? '' : ' pending') + '">' +
+                 '  <div>' +
+                 '    <div class="lor-msg-meta">' +
+                 '      <span class="lor-msg-author">' + lorEscape(m.nom || 'Anonyme') + '</span>' +
+                 (m.role ? '<span class="lor-msg-role">' + lorEscape(m.role) + '</span>' : '') +
+                 '      <span class="lor-msg-date">' + dateFmt + '</span>' +
+                 tag +
+                 '    </div>' +
+                 '    <div class="lor-msg-text">« ' + lorEscape(m.message || '') + ' »</div>' +
+                 '  </div>' +
+                 '  <div class="lor-msg-actions">' +
+                 '    <button class="lor-mini-btn danger" data-lor-del="' + realIdx + '" type="button">✕ SUPPRIMER</button>' +
+                 '  </div>' +
+                 '</div>';
+        }).join('');
+
+        // Bind les boutons supprimer
+        list.querySelectorAll('[data-lor-del]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = parseInt(btn.dataset.lorDel, 10);
+            const msg = lorState.pending[idx];
+            if (confirm('Supprimer le message de "' + (msg.nom || '?') + '" ?')) {
+              lorState.pending.splice(idx, 1);
+              lorRender();
+            }
+          });
+        });
+      }
+
+      // Résumé des changements
+      const summary = document.getElementById('lor-changes-summary');
+      if (pendingChanges) {
+        const added = lorState.pending.filter(p => !lorState.messages.some(m => m.nom === p.nom && m.date === p.date && m.message === p.message));
+        const removed = lorState.messages.filter(m => !lorState.pending.some(p => p.nom === m.nom && p.date === m.date && p.message === m.message));
+        let txt = '';
+        if (added.length) txt += '<strong>+' + added.length + '</strong> à ajouter';
+        if (added.length && removed.length) txt += ' · ';
+        if (removed.length) txt += '<strong>−' + removed.length + '</strong> à supprimer';
+        summary.innerHTML = txt + ' — clique « Publier sur GitHub » pour appliquer.';
+        summary.style.display = 'block';
+        document.getElementById('lor-publish').disabled = !lorGetConfig().pat;
+        document.getElementById('lor-revert').disabled = false;
+      } else {
+        summary.style.display = 'none';
+        document.getElementById('lor-publish').disabled = true;
+        document.getElementById('lor-revert').disabled = true;
+      }
+    }
+
+    function lorEscape(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function lorAddMessage(msg) {
+      // Validation
+      if (!msg.nom || !msg.message) {
+        toast('⚠ Nom et message obligatoires', 'error');
+        return false;
+      }
+      if (!msg.date) msg.date = new Date().toISOString().slice(0, 10);
+      // Ajoute en haut
+      lorState.pending.unshift({
+        nom: msg.nom.trim(),
+        role: (msg.role || 'Autre').trim(),
+        date: msg.date,
+        message: msg.message.trim(),
+      });
+      lorRender();
+      toast('✅ Message ajouté à la file', 'success');
+      return true;
+    }
+
+    function lorParseEmail(text) {
+      // Cherche les patterns "Nom: X", "Email: X", "Rôle: X", "Message: X"
+      // Tally email format may vary; on est tolérants
+      const out = {};
+      const patterns = [
+        { key: 'nom',     re: /(?:votre\s+)?nom\s*[:=]\s*(.+?)(?:\n|$)/i },
+        { key: 'email',   re: /(?:votre\s+)?email\s*[:=]\s*(.+?)(?:\n|$)/i },
+        { key: 'role',    re: /(?:votre\s+)?r[oô]le\s*[:=]\s*(.+?)(?:\n|$)/i },
+        { key: 'message', re: /(?:votre\s+)?message\s*[:=]\s*([\s\S]+?)(?:\n\n|\n\s*--|\s*$)/i },
+      ];
+      patterns.forEach(p => {
+        const m = text.match(p.re);
+        if (m) out[p.key] = m[1].trim();
+      });
+      return out;
+    }
+
+    async function lorPublish() {
+      const cfg = lorGetConfig();
+      if (!cfg.pat) { toast('⚠ PAT GitHub manquant', 'error'); return; }
+      if (!confirm('Publier ' + lorState.pending.length + ' message(s) sur GitHub ?')) return;
+
+      document.getElementById('lor-status').textContent = '⏳ Commit en cours…';
+      try {
+        const newContent = JSON.stringify(lorState.pending, null, 2) + '\n';
+        const encoded = btoa(unescape(encodeURIComponent(newContent)));
+        const url = 'https://api.github.com/repos/' + cfg.repo + '/contents/' + cfg.path;
+        const body = {
+          message: 'admin: maj livre d\'or (' + lorState.pending.length + ' messages)',
+          content: encoded,
+          branch: cfg.branch,
+        };
+        if (lorState.sha) body.sha = lorState.sha;
+
+        const r = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'token ' + cfg.pat,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github+json',
+          },
+          body: JSON.stringify(body),
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.message || 'HTTP ' + r.status);
+
+        lorState.sha = data.content.sha;
+        lorState.messages = JSON.parse(JSON.stringify(lorState.pending));
+        document.getElementById('lor-status').textContent = '✅ Publié — commit ' + data.commit.sha.substring(0,7) + ' (le site sera mis à jour dans ~30 sec)';
+        lorRender();
+        toast('🚀 Publié sur GitHub', 'success');
+      } catch (e) {
+        document.getElementById('lor-status').textContent = '❌ Échec : ' + e.message;
+        toast('Échec publication : ' + e.message, 'error');
+      }
+    }
+
+    function lorDownloadJson() {
+      const content = JSON.stringify(lorState.pending, null, 2) + '\n';
+      const blob = new Blob([content], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'livre-or.json'; a.click();
+      URL.revokeObjectURL(url);
+      toast('⬇ livre-or.json téléchargé', 'success');
+    }
+
+    async function lorCopyJson() {
+      const content = JSON.stringify(lorState.pending, null, 2);
+      try {
+        await navigator.clipboard.writeText(content);
+        toast('📋 JSON copié', 'success');
+      } catch {
+        toast('Copie échouée', 'error');
+      }
+    }
+
+    async function lorTestPat() {
+      const cfg = lorGetConfig();
+      if (!cfg.pat) { lorUpdatePatStatus('none'); toast('⚠ Renseigne d\'abord un PAT', 'error'); return; }
+      try {
+        const r = await fetch('https://api.github.com/repos/' + cfg.repo, { headers: { 'Authorization': 'token ' + cfg.pat } });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        lorUpdatePatStatus('ok');
+        toast('🔑 PAT valide — accès au repo confirmé', 'success');
+      } catch (e) {
+        lorUpdatePatStatus('err');
+        toast('PAT invalide ou pas d\'accès : ' + e.message, 'error');
+      }
+    }
+
+    function lorInit() {
+      // Config par défaut
+      lorLoadConfig();
+      document.getElementById('lor-new-date').value = new Date().toISOString().slice(0, 10);
+
+      // Toggle config panel
+      document.querySelector('#lor-config-group .page-group-header').addEventListener('click', function() {
+        this.parentElement.classList.toggle('collapsed');
+      });
+
+      // Tabs paste / manuel
+      document.querySelectorAll('.lor-tab-btn').forEach(b => {
+        b.addEventListener('click', () => {
+          document.querySelectorAll('.lor-tab-btn').forEach(x => x.classList.remove('active'));
+          document.querySelectorAll('.lor-tab-pane').forEach(x => x.classList.remove('active'));
+          b.classList.add('active');
+          document.querySelector('[data-lor-pane="' + b.dataset.lorTab + '"]').classList.add('active');
+        });
+      });
+
+      // Boutons
+      document.getElementById('lor-save-config').addEventListener('click', lorSaveConfig);
+      document.getElementById('lor-test-pat').addEventListener('click', lorTestPat);
+      document.getElementById('lor-reload').addEventListener('click', lorFetchMessages);
+      document.getElementById('lor-publish').addEventListener('click', lorPublish);
+      document.getElementById('lor-download').addEventListener('click', lorDownloadJson);
+      document.getElementById('lor-copy').addEventListener('click', lorCopyJson);
+      document.getElementById('lor-revert').addEventListener('click', () => {
+        if (confirm('Annuler toutes les modifications locales ?')) {
+          lorState.pending = JSON.parse(JSON.stringify(lorState.messages));
+          lorRender();
+        }
+      });
+
+      // Email parse
+      document.getElementById('lor-parse-email').addEventListener('click', () => {
+        const text = document.getElementById('lor-paste').value;
+        if (!text.trim()) { toast('⚠ Colle d\'abord le contenu de l\'email', 'error'); return; }
+        const parsed = lorParseEmail(text);
+        if (!parsed.nom && !parsed.message) {
+          toast('⚠ Impossible d\'extraire les champs — utilise le formulaire manuel', 'error');
+          return;
+        }
+        // Auto-fill du formulaire manuel
+        document.getElementById('lor-new-nom').value = parsed.nom || '';
+        document.getElementById('lor-new-role').value = parsed.role || 'Autre';
+        document.getElementById('lor-new-message').value = parsed.message || '';
+        // Switch sur l'onglet manuel
+        document.querySelector('[data-lor-tab="manual"]').click();
+        toast('✅ Champs extraits — vérifie et ajoute', 'success');
+      });
+      document.getElementById('lor-clear-paste').addEventListener('click', () => {
+        document.getElementById('lor-paste').value = '';
+      });
+      document.getElementById('lor-add-msg').addEventListener('click', () => {
+        const msg = {
+          nom: document.getElementById('lor-new-nom').value,
+          role: document.getElementById('lor-new-role').value,
+          date: document.getElementById('lor-new-date').value,
+          message: document.getElementById('lor-new-message').value,
+        };
+        if (lorAddMessage(msg)) {
+          // Reset form
+          document.getElementById('lor-new-nom').value = '';
+          document.getElementById('lor-new-message').value = '';
+          document.getElementById('lor-new-date').value = new Date().toISOString().slice(0, 10);
+          document.getElementById('lor-paste').value = '';
+        }
+      });
+      document.getElementById('lor-clear-form').addEventListener('click', () => {
+        document.getElementById('lor-new-nom').value = '';
+        document.getElementById('lor-new-message').value = '';
+        document.getElementById('lor-new-date').value = new Date().toISOString().slice(0, 10);
+      });
+
+      // Premier chargement
+      lorFetchMessages();
+    }
+
     /* ════════════════════ INIT ════════════════════ */
     function initApp() {
       renderVideoGroups();
       const draft = loadDraft();
       if (draft) { populateInputs(draft); toast('📝 Brouillon restauré'); }
       else { populateInputs(window.NEOTERRA_CONFIG); }
+      lorInit();
     }
     if (isLoggedIn()) showApp();
   </script>
