@@ -150,6 +150,7 @@
     .lor-msg-tag { font-size: 0.6rem; padding: 2px 8px; border: 1px solid; }
     .lor-msg-tag.pending { color: var(--orange-warn); border-color: var(--orange-warn); }
     .lor-msg-tag.deleted { color: var(--red-err); border-color: var(--red-err); }
+    .lor-msg-stars { color: var(--gold-bright); letter-spacing: 2px; font-size: 0.95rem; }
     .lor-msg-text { color: var(--gold-pale); font-family: var(--font-decorative); font-style: italic; font-size: 0.95rem; line-height: 1.5; }
     .lor-msg-actions { display: flex; gap: 6px; }
     .lor-mini-btn { font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.15em; padding: 5px 10px; background: transparent; color: var(--gold-light); border: 1px solid var(--gold-line); cursor: pointer; text-transform: uppercase; }
@@ -362,6 +363,15 @@
               </select>
               <label for="lor-new-date">Date</label>
               <input type="date" id="lor-new-date" class="slot-input">
+              <label for="lor-new-rating">Note ⭐</label>
+              <select id="lor-new-rating" class="slot-input">
+                <option value="">— (aucune note)</option>
+                <option value="1">★ ☆ ☆ ☆ ☆ (1)</option>
+                <option value="2">★ ★ ☆ ☆ ☆ (2)</option>
+                <option value="3">★ ★ ★ ☆ ☆ (3)</option>
+                <option value="4">★ ★ ★ ★ ☆ (4)</option>
+                <option value="5">★ ★ ★ ★ ★ (5)</option>
+              </select>
               <label for="lor-new-message">Message</label>
               <textarea id="lor-new-message" class="slot-input" rows="4" placeholder="Le message du visiteur..."></textarea>
             </div>
@@ -886,12 +896,14 @@
           const wasPublished = lorState.messages.some(o => o.nom === m.nom && o.date === m.date && o.message === m.message);
           const tag = wasPublished ? '' : '<span class="lor-msg-tag pending">À PUBLIER</span>';
           const dateFmt = m.date ? new Date(m.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+          const stars = lorRenderStars(m.rating);
           return '<div class="lor-msg-card' + (wasPublished ? '' : ' pending') + '">' +
                  '  <div>' +
                  '    <div class="lor-msg-meta">' +
                  '      <span class="lor-msg-author">' + lorEscape(m.nom || 'Anonyme') + '</span>' +
                  (m.role ? '<span class="lor-msg-role">' + lorEscape(m.role) + '</span>' : '') +
                  '      <span class="lor-msg-date">' + dateFmt + '</span>' +
+                 stars +
                  tag +
                  '    </div>' +
                  '    <div class="lor-msg-text">« ' + lorEscape(m.message || '') + ' »</div>' +
@@ -943,6 +955,15 @@
         .replace(/"/g, '&quot;');
     }
 
+    function lorRenderStars(rating) {
+      const r = parseInt(rating, 10);
+      if (!r || r < 1 || r > 5) return '';
+      let s = '<span class="lor-msg-stars" title="Note ' + r + '/5">';
+      for (let i = 1; i <= 5; i++) s += (i <= r) ? '★' : '☆';
+      s += '</span>';
+      return s;
+    }
+
     function lorAddMessage(msg) {
       // Validation
       if (!msg.nom || !msg.message) {
@@ -951,31 +972,86 @@
       }
       if (!msg.date) msg.date = new Date().toISOString().slice(0, 10);
       // Ajoute en haut
-      lorState.pending.unshift({
+      const entry = {
         nom: msg.nom.trim(),
         role: (msg.role || 'Autre').trim(),
         date: msg.date,
         message: msg.message.trim(),
-      });
+      };
+      // Note optionnelle (1-5)
+      if (msg.rating) {
+        const r = parseInt(msg.rating, 10);
+        if (r >= 1 && r <= 5) entry.rating = r;
+      }
+      lorState.pending.unshift(entry);
       lorRender();
       toast('✅ Message ajouté à la file', 'success');
       return true;
     }
 
     function lorParseEmail(text) {
-      // Cherche les patterns "Nom: X", "Email: X", "Rôle: X", "Message: X"
-      // Tally email format may vary; on est tolérants
-      const out = {};
-      const patterns = [
-        { key: 'nom',     re: /(?:votre\s+)?nom\s*[:=]\s*(.+?)(?:\n|$)/i },
-        { key: 'email',   re: /(?:votre\s+)?email\s*[:=]\s*(.+?)(?:\n|$)/i },
-        { key: 'role',    re: /(?:votre\s+)?r[oô]le\s*[:=]\s*(.+?)(?:\n|$)/i },
-        { key: 'message', re: /(?:votre\s+)?message\s*[:=]\s*([\s\S]+?)(?:\n\n|\n\s*--|\s*$)/i },
+      // Tally envoie son email avec un format "label\nvaleur" (sur 2 lignes).
+      // On gère AUSSI le format "label: valeur" (sur 1 ligne) et les labels Tally non renommés ("Untitled X field").
+      const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+
+      // Patterns de labels (regex sur la ligne entière, sans deux-points final)
+      const labelMatchers = [
+        // Préférés : labels personnalisés en français
+        { re: /^(?:votre\s+)?nom\s*$/i,         key: 'nom' },
+        { re: /^(?:votre\s+)?email\s*$/i,       key: 'email' },
+        { re: /^(?:votre\s+)?r[oô]le\s*$/i,     key: 'role' },
+        { re: /^(?:votre\s+)?message\s*$/i,     key: 'message' },
+        // Fallback : labels génériques Tally
+        { re: /^untitled\s+email\s+field\s*$/i,       key: 'email' },
+        { re: /^untitled\s+long\s+answer\s+field\s*$/i, key: 'message' },
+        { re: /^untitled\s+(?:dropdown|select|multiple\s+choice)\s*$/i, key: 'role' },
+        { re: /^untitled\s+short\s+answer\s+field\s*$/i, key: 'positional' }, // ambigu — utilisé en ordre (nom puis rôle)
       ];
-      patterns.forEach(p => {
-        const m = text.match(p.re);
-        if (m) out[p.key] = m[1].trim();
-      });
+
+      // Pattern inline : "Label: valeur" ou "Label = valeur"
+      const inlineRe = /^((?:votre\s+)?(?:nom|email|r[oô]le|message))\s*[:=]\s*(.+)$/i;
+
+      const out = {};
+      let shortAnswerCount = 0;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+
+        // 1) Inline format
+        const im = line.match(inlineRe);
+        if (im) {
+          const lab = im[1].toLowerCase().replace(/^votre\s+/i, '');
+          if (lab.startsWith('nom'))      out.nom      = out.nom      || im[2].trim();
+          else if (lab.startsWith('email')) out.email  = out.email    || im[2].trim();
+          else if (/r[oô]le/.test(lab))   out.role     = out.role     || im[2].trim();
+          else if (lab.startsWith('msg') || lab.startsWith('message')) out.message = out.message || im[2].trim();
+          continue;
+        }
+
+        // 2) Two-line format (label sur une ligne, valeur sur la suivante)
+        let matched = null;
+        for (const m of labelMatchers) {
+          if (m.re.test(line)) { matched = m; break; }
+        }
+        if (matched && lines[i + 1]) {
+          let key = matched.key;
+          // Cas ambigu : "Untitled short answer field" → ordre positionnel : 1er = nom, 2e = rôle
+          if (key === 'positional') {
+            shortAnswerCount++;
+            key = (shortAnswerCount === 1) ? 'nom' : 'role';
+          }
+          if (!out[key]) out[key] = lines[i + 1];
+          i++; // saute la ligne valeur
+          continue;
+        }
+
+        // 3) Rating : ligne se terminant par "?" suivie d'un chiffre 1-5
+        if (/\?\s*$/.test(line) && lines[i + 1] && /^[1-5]$/.test(lines[i + 1].trim())) {
+          out.rating = parseInt(lines[i + 1].trim(), 10);
+          i++; // saute la valeur
+        }
+      }
+
       return out;
     }
 
@@ -1100,6 +1176,7 @@
         document.getElementById('lor-new-nom').value = parsed.nom || '';
         document.getElementById('lor-new-role').value = parsed.role || 'Autre';
         document.getElementById('lor-new-message').value = parsed.message || '';
+        document.getElementById('lor-new-rating').value = parsed.rating ? String(parsed.rating) : '';
         // Switch sur l'onglet manuel
         document.querySelector('[data-lor-tab="manual"]').click();
         toast('✅ Champs extraits — vérifie et ajoute', 'success');
@@ -1113,11 +1190,13 @@
           role: document.getElementById('lor-new-role').value,
           date: document.getElementById('lor-new-date').value,
           message: document.getElementById('lor-new-message').value,
+          rating: document.getElementById('lor-new-rating').value,
         };
         if (lorAddMessage(msg)) {
           // Reset form
           document.getElementById('lor-new-nom').value = '';
           document.getElementById('lor-new-message').value = '';
+          document.getElementById('lor-new-rating').value = '';
           document.getElementById('lor-new-date').value = new Date().toISOString().slice(0, 10);
           document.getElementById('lor-paste').value = '';
         }
@@ -1125,6 +1204,7 @@
       document.getElementById('lor-clear-form').addEventListener('click', () => {
         document.getElementById('lor-new-nom').value = '';
         document.getElementById('lor-new-message').value = '';
+        document.getElementById('lor-new-rating').value = '';
         document.getElementById('lor-new-date').value = new Date().toISOString().slice(0, 10);
       });
 

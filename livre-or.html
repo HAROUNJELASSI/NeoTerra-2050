@@ -125,6 +125,7 @@
     .message-author { font-family: var(--font-decorative); font-size: 1.1rem; color: var(--gold-bright); font-weight: 500; }
     .message-role { display: inline-block; font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.18em; padding: 3px 9px; border: 1px solid var(--gold-line); border-radius: 3px; color: var(--gold-light); margin-left: 10px; vertical-align: middle; }
     .message-date { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gold-deep); }
+    .message-stars { color: var(--gold-bright); letter-spacing: 3px; font-size: 1.05rem; margin-top: 6px; display: inline-block; }
     .message-text { color: var(--starlight); font-size: 1.02rem; line-height: 1.7; font-style: italic; }
 
     .empty-state { text-align: center; padding: 60px 24px; color: var(--gold-deep); font-style: italic; font-size: 1.1rem; }
@@ -253,6 +254,13 @@
           const card = document.createElement('article');
           card.className = 'message-card';
           const dateFmt = m.date ? new Date(m.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+          let stars = '';
+          const r = parseInt(m.rating, 10);
+          if (r >= 1 && r <= 5) {
+            let s = '';
+            for (let i = 1; i <= 5; i++) s += (i <= r) ? '★' : '☆';
+            stars = `<div class="message-stars" title="Note ${r}/5">${s}</div>`;
+          }
           card.innerHTML = `
             <div class="message-header">
               <div>
@@ -261,6 +269,7 @@
               </div>
               <span class="message-date">${dateFmt}</span>
             </div>
+            ${stars}
             <p class="message-text">${escapeHtml(m.message || '')}</p>
           `;
           list.appendChild(card);
