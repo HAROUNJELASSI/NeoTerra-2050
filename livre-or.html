@@ -132,6 +132,16 @@
 
     .loading { text-align: center; padding: 40px; color: var(--gold-deep); font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.3em; }
 
+    .load-more-container { text-align: center; margin-top: 36px; }
+    .load-more-btn {
+      display: inline-block; background: transparent; color: var(--gold-light);
+      border: 1px solid var(--gold-line-mid); padding: 14px 32px;
+      font-family: var(--font-display); font-size: 0.72rem; letter-spacing: 0.28em;
+      text-transform: uppercase; cursor: pointer; transition: all 0.3s;
+    }
+    .load-more-btn:hover { background: rgba(244,200,122,0.08); border-color: var(--gold-bright); color: var(--gold-bright); transform: translateY(-1px); }
+    .msg-counter { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.22em; color: var(--gold-deep); margin-top: 14px; }
+
     footer { border-top: 1px solid var(--gold-line); padding: 50px 24px; text-align: center; background: rgba(5, 5, 16, 0.6); position: relative; z-index: 10; }
     .footer-author { font-family: var(--font-decorative); font-size: 1.15rem; letter-spacing: 0.2em; color: var(--gold-light); margin-bottom: 10px; font-weight: 500; }
     .footer-divider { width: 80px; height: 1px; background: var(--gold-line-mid); margin: 14px auto 16px; position: relative; }
@@ -232,7 +242,60 @@
   <script src="https://tally.so/widgets/embed.js"></script>
 
   <script>
-    // Charge les messages depuis le JSON et les affiche
+    // Charge les messages depuis le JSON et les affiche avec pagination (10 par page)
+    const PAGE_SIZE = 10;
+    let allMessages = [];
+    let displayedCount = 0;
+    let messagesListEl = null;
+
+    function createCard(m) {
+      const card = document.createElement('article');
+      card.className = 'message-card';
+      const dateFmt = m.date ? new Date(m.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+      let stars = '';
+      const r = parseInt(m.rating, 10);
+      if (r >= 1 && r <= 5) {
+        let s = '';
+        for (let i = 1; i <= 5; i++) s += (i <= r) ? '★' : '☆';
+        stars = `<div class="message-stars" title="Note ${r}/5">${s}</div>`;
+      }
+      card.innerHTML = `
+        <div class="message-header">
+          <div>
+            <span class="message-author">${escapeHtml(m.nom || 'Anonyme')}</span>
+            ${m.role ? `<span class="message-role">${escapeHtml(m.role)}</span>` : ''}
+          </div>
+          <span class="message-date">${dateFmt}</span>
+        </div>
+        ${stars}
+        <p class="message-text">${escapeHtml(m.message || '')}</p>
+      `;
+      return card;
+    }
+
+    function renderNextBatch() {
+      const next = allMessages.slice(displayedCount, displayedCount + PAGE_SIZE);
+      next.forEach(m => messagesListEl.appendChild(createCard(m)));
+      displayedCount += next.length;
+      updateLoadMoreUi();
+    }
+
+    function updateLoadMoreUi() {
+      const btn = document.getElementById('load-more-btn');
+      const counter = document.getElementById('msg-counter');
+      const total = allMessages.length;
+      if (counter) counter.textContent = displayedCount + ' / ' + total + ' message' + (total > 1 ? 's' : '') + ' affichés';
+      if (!btn) return;
+      if (displayedCount >= total) {
+        btn.style.display = 'none';
+      } else {
+        const remaining = total - displayedCount;
+        const next = Math.min(PAGE_SIZE, remaining);
+        btn.style.display = 'inline-block';
+        btn.textContent = '↓ Voir ' + next + ' message' + (next > 1 ? 's' : '') + ' de plus';
+      }
+    }
+
     (async function() {
       const container = document.getElementById('messages-container');
       try {
@@ -247,35 +310,26 @@
 
         // Tri par date décroissante (le plus récent en premier)
         messages.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        allMessages = messages;
 
-        const list = document.createElement('div');
-        list.className = 'messages-list';
-        messages.forEach(m => {
-          const card = document.createElement('article');
-          card.className = 'message-card';
-          const dateFmt = m.date ? new Date(m.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
-          let stars = '';
-          const r = parseInt(m.rating, 10);
-          if (r >= 1 && r <= 5) {
-            let s = '';
-            for (let i = 1; i <= 5; i++) s += (i <= r) ? '★' : '☆';
-            stars = `<div class="message-stars" title="Note ${r}/5">${s}</div>`;
-          }
-          card.innerHTML = `
-            <div class="message-header">
-              <div>
-                <span class="message-author">${escapeHtml(m.nom || 'Anonyme')}</span>
-                ${m.role ? `<span class="message-role">${escapeHtml(m.role)}</span>` : ''}
-              </div>
-              <span class="message-date">${dateFmt}</span>
-            </div>
-            ${stars}
-            <p class="message-text">${escapeHtml(m.message || '')}</p>
-          `;
-          list.appendChild(card);
-        });
+        // Crée la structure DOM
         container.innerHTML = '';
-        container.appendChild(list);
+        messagesListEl = document.createElement('div');
+        messagesListEl.className = 'messages-list';
+        container.appendChild(messagesListEl);
+
+        const loadMoreContainer = document.createElement('div');
+        loadMoreContainer.className = 'load-more-container';
+        loadMoreContainer.innerHTML =
+          '<button id="load-more-btn" class="load-more-btn" type="button"></button>' +
+          '<div id="msg-counter" class="msg-counter"></div>';
+        container.appendChild(loadMoreContainer);
+
+        // Premier batch
+        renderNextBatch();
+
+        // Bind bouton
+        document.getElementById('load-more-btn').addEventListener('click', renderNextBatch);
 
       } catch (err) {
         container.innerHTML = '<div class="empty-state">Aucun message pour le moment. Soyez le premier à en laisser un !</div>';
