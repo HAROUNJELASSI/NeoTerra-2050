@@ -398,7 +398,8 @@
 
     <div class="action-bar">
       <button class="action-btn" id="btn-save-local" title="Applique dans CE navigateur seulement (test)">💾 Tester en local</button>
-      <button class="action-btn primary" id="btn-download" title="Télécharge le fichier à pousser sur GitHub">⬇ Télécharger videos-config.js</button>
+      <button class="action-btn primary" id="btn-publish-github" title="Commit direct sur GitHub via l'API (utilise le PAT configuré dans la section Livre d'or)">🚀 Publier sur GitHub</button>
+      <button class="action-btn" id="btn-download" title="Télécharge le fichier à pousser sur GitHub manuellement">⬇ Télécharger videos-config.js</button>
       <button class="action-btn" id="btn-copy" title="Copie dans le presse-papier">📋 Copier le JSON</button>
       <button class="action-btn warn" id="btn-reset" title="Efface le brouillon local">🔄 Reset</button>
     </div>
@@ -698,6 +699,83 @@
       sessionStorage.removeItem('NEOTERRA_BANNER_DISMISSED');
       toast('✅ Brouillon appliqué localement', 'success');
     });
+    /* ════════════════════ PUBLICATION videos-config.js sur GitHub ════════════════════ */
+    async function publishVideosConfigToGitHub() {
+      // Réutilise le PAT et la config GitHub configurés dans la section Livre d'or
+      const cfg = (typeof lorGetConfig === 'function') ? lorGetConfig() : {
+        repo: localStorage.getItem('NEOTERRA_LOR_REPO') || 'harounjelassi/NeoTerra-2050',
+        branch: localStorage.getItem('NEOTERRA_LOR_BRANCH') || 'main',
+        pat: localStorage.getItem('NEOTERRA_LOR_PAT') || '',
+      };
+      const path = 'videos-config.js';
+
+      if (!cfg.pat) {
+        toast('⚠ PAT GitHub manquant — configure-le dans la section Livre d\'or (en bas)', 'error');
+        return;
+      }
+      if (!cfg.repo) {
+        toast('⚠ Repo GitHub manquant — section Livre d\'or → Configuration GitHub', 'error');
+        return;
+      }
+
+      if (!confirm('Publier videos-config.js sur ' + cfg.repo + ' (branche ' + cfg.branch + ') ?\n\nLe site sera mis à jour dans ~30 secondes.')) return;
+
+      const btn = document.getElementById('btn-publish-github');
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = '⏳ Publication…';
+
+      try {
+        const content = generateConfigFile();
+        const encoded = btoa(unescape(encodeURIComponent(content)));
+
+        // 1) Récupère le SHA actuel du fichier (pour pouvoir le mettre à jour)
+        let sha = null;
+        try {
+          const rGet = await fetch(
+            'https://api.github.com/repos/' + cfg.repo + '/contents/' + path + '?ref=' + encodeURIComponent(cfg.branch),
+            { headers: { 'Authorization': 'token ' + cfg.pat } }
+          );
+          if (rGet.ok) {
+            const data = await rGet.json();
+            sha = data.sha;
+          }
+        } catch (e) { /* fichier inexistant : on crée */ }
+
+        // 2) PUT pour commit
+        const body = {
+          message: 'admin: maj videos-config.js (videos + GA + banner)',
+          content: encoded,
+          branch: cfg.branch,
+        };
+        if (sha) body.sha = sha;
+
+        const rPut = await fetch(
+          'https://api.github.com/repos/' + cfg.repo + '/contents/' + path,
+          {
+            method: 'PUT',
+            headers: {
+              'Authorization': 'token ' + cfg.pat,
+              'Content-Type': 'application/json',
+              'Accept': 'application/vnd.github+json',
+            },
+            body: JSON.stringify(body),
+          }
+        );
+        const data = await rPut.json();
+        if (!rPut.ok) throw new Error(data.message || 'HTTP ' + rPut.status);
+
+        toast('🚀 Publié — commit ' + data.commit.sha.substring(0, 7) + ' · site MAJ dans ~30 sec', 'success');
+      } catch (e) {
+        toast('❌ Échec : ' + e.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    }
+
+    document.getElementById('btn-publish-github').addEventListener('click', publishVideosConfigToGitHub);
+
     document.getElementById('btn-download').addEventListener('click', function() {
       const content = generateConfigFile();
       const blob = new Blob([content], { type: 'application/javascript' });
