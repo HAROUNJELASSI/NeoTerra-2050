@@ -1,91 +1,67 @@
 /*
  * NEOTERRA 2050 — Configuration centrale
- * ─────────────────────────────────────────────────────────
- * Ce fichier contient :
- *   - L'ID Google Analytics utilisé sur les 6 pages du site
- *   - Les 31 IDs YouTube des vidéos du projet
- *
- * Pour modifier ce fichier, utilise admin.html (recommandé)
- * ou édite directement les valeurs ci-dessous puis pousse sur GitHub.
+ * Généré par admin.html le 26/05/2026 12:45:45
  */
 window.NEOTERRA_CONFIG = {
 
-  /* ─────────────────────────────────────────────────────────
-   * GOOGLE ANALYTICS
-   * ID de mesure GA4. Format : G-XXXXXXXXXX
-   * ───────────────────────────────────────────────────────── */
+  /* Google Analytics */
   analytics: 'G-HV8B1Q54YP',
 
-  /* ─────────────────────────────────────────────────────────
-   * BANNIÈRE GLOBALE
-   * Affichée en haut de toutes les pages du site.
-   *   - enabled    : true/false → afficher ou non
-   *   - mode       : 'countdown' (compte à rebours) ou 'message' (texte fixe)
-   *   - targetDate : date cible ISO pour le countdown
-   *   - message    : texte affiché
-   *   - style      : 'info' (bleu) | 'warning' (jaune) | 'success' (vert)
-   * ───────────────────────────────────────────────────────── */
+  /* Bannière globale */
   banner: {
     enabled: true,
     mode: 'countdown',
-    targetDate: '2026-05-29T08:00:00',
-    message: 'Présentation officielle le 29 mai 2026',
-    style: 'info'
+    targetDate: '2026-05-30T08:00:00',
+    message: '',
+    style: 'danger'
   },
 
-  /* ─────────────────────────────────────────────────────────
-   * VIDÉOS YOUTUBE
-   * Chaque clé est un emplacement vidéo dans le site.
-   * La valeur est l'ID de la vidéo YouTube (les 11 caractères
-   * dans l'URL : https://youtube.com/watch?v=ICI_LES_11_CARS)
-   * Laisser '' (vide) → un placeholder "Vidéo à venir" s'affiche.
-   * ───────────────────────────────────────────────────────── */
+  /* Vidéos YouTube */
   videos: {
 
     /* ── index.html ── */
-    'index-intro':                 '',
+    'index-intro':                     'IscFbt_vCxY',
 
     /* ── projet.html ── */
-    'projet-intro':                '',
+    'projet-intro':                    'IscFbt_vCxY',
 
-    /* ── mars.html (5 onglets) ── */
-    'mars-apercu':                 '',
-    'mars-climat':                 '',
-    'mars-paysages':               '',
-    'mars-eau':                    '',
-    'mars-colonisation':           '',
+    /* ── mars.html ── */
+    'mars-apercu':                     'IscFbt_vCxY',
+    'mars-climat':                     'IscFbt_vCxY',
+    'mars-paysages':                   'IscFbt_vCxY',
+    'mars-eau':                        'IscFbt_vCxY',
+    'mars-colonisation':               'IscFbt_vCxY',
 
-    /* ── cite.html (5 onglets) ── */
-    'cite-plan':                   '',
-    'cite-chiffres':               '',
-    'cite-vision':                 '',
-    'cite-batiments':              '',
-    'cite-construction':           '',
+    /* ── cite.html ── */
+    'cite-plan':                       'IscFbt_vCxY',
+    'cite-chiffres':                   'IscFbt_vCxY',
+    'cite-vision':                     'IscFbt_vCxY',
+    'cite-batiments':                  'IscFbt_vCxY',
+    'cite-construction':               'IscFbt_vCxY',
 
+    /* ── maquette.html ── */
+    'maquette-construction':           'IscFbt_vCxY',
+    'maquette-visite':                 'IscFbt_vCxY',
 
-    /* ── maquette.html (2 vidéos) ── */
-    'maquette-construction':       '',
-    'maquette-visite':             '',
-
-    /* ── technologie.html (16 cartes) ── */
-    'technologie-logement':        '',
-    'technologie-education':       '',
-    'technologie-energie':         '',
-    'technologie-eau':             '',
-    'technologie-air':             '',
-    'technologie-agriculture':     '',
-    'technologie-communication':   '',
-    'technologie-transports':      '',
-    'technologie-recyclage':       '',
-    'technologie-medecine':        '',
-    'technologie-construction-ia': '',
-    'technologie-securite':        '',
-    'technologie-sport':           '',
-    'technologie-culture':         '',
-    'technologie-terraforming':    '',
-    'technologie-cohabitation':    '',
+    /* ── technologie.html ── */
+    'technologie-logement':            'IscFbt_vCxY',
+    'technologie-education':           'IscFbt_vCxY',
+    'technologie-energie':             'IscFbt_vCxY',
+    'technologie-eau':                 'IscFbt_vCxY',
+    'technologie-air':                 'IscFbt_vCxY',
+    'technologie-agriculture':         'IscFbt_vCxY',
+    'technologie-communication':       'IscFbt_vCxY',
+    'technologie-transports':          'IscFbt_vCxY',
+    'technologie-recyclage':           'IscFbt_vCxY',
+    'technologie-medecine':            'IscFbt_vCxY',
+    'technologie-construction-ia':     'IscFbt_vCxY',
+    'technologie-securite':            'IscFbt_vCxY',
+    'technologie-sport':               'IscFbt_vCxY',
+    'technologie-culture':             'IscFbt_vCxY',
+    'technologie-terraforming':        'IscFbt_vCxY',
+    'technologie-cohabitation':        'IscFbt_vCxY',
 
     /* ── architecte.html ── */
-    'architecte-intro':            ''
+    'architecte-intro':                'IscFbt_vCxY'
   }
 };
