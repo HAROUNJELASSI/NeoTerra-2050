@@ -1,6 +1,6 @@
 /*
  * NEOTERRA 2050 — Configuration centrale
- * Généré par admin.html le 27/05/2026 12:52:46
+ * Généré par admin.html le 27/05/2026 12:55:05
  */
 window.NEOTERRA_CONFIG = {
 
