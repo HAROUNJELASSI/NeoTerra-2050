@@ -1,6 +1,6 @@
 /*
  * NEOTERRA 2050 — Configuration centrale
- * Généré par admin.html le 31/05/2026 12:05:43
+ * Généré par admin.html le 31/05/2026 17:28:03
  */
 window.NEOTERRA_CONFIG = {
 
@@ -29,7 +29,7 @@ window.NEOTERRA_CONFIG = {
     'mars-apercu':                     'Ok3Lkbx-pFo',
     'mars-climat':                     'G4Qt0HrSdYk',
     'mars-paysages':                   'D787OBD-Ofg',
-    'mars-eau':                        '6p2GceomVik',
+    'mars-eau':                        '4M6x08HUT_4',
     'mars-colonisation':               '6p2GceomVik',
 
     /* ── cite.html ── */
