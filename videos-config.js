@@ -1,6 +1,6 @@
 /*
  * NEOTERRA 2050 — Configuration centrale
- * Généré par admin.html le 31/05/2026 17:41:17
+ * Généré par admin.html le 31/05/2026 20:50:56
  */
 window.NEOTERRA_CONFIG = {
 
@@ -33,7 +33,7 @@ window.NEOTERRA_CONFIG = {
     'mars-colonisation':               's-omxrDoS0s',
 
     /* ── cite.html ── */
-    'cite-plan':                       'IscFbt_vCxY',
+    'cite-plan':                       'r9JcVqLYL24',
     'cite-chiffres':                   'IscFbt_vCxY',
     'cite-vision':                     'IscFbt_vCxY',
     'cite-batiments':                  'IscFbt_vCxY',
