@@ -207,8 +207,6 @@
     }
 
     .hud-status .dim { color: var(--gold-deep); margin-left: 4px; }
-    .hud-back { color: var(--gold-light); text-decoration: none; transition: color 0.3s; }
-    .hud-back:hover { color: var(--gold-bright); }
 
     @media (max-width: 720px) {
       .hud-top { top: 120px; padding: 10px 16px; font-size: 0.5rem; letter-spacing: 0.15em; }
@@ -1002,7 +1000,6 @@
     <div class="hud-top-left">
       <span class="hud-dot"></span>
       <span>NEOTERRA · SECTEUR α</span>
-      <a href="livre-or.html" class="hud-back" style="margin-left:18px;">📖 LIVRE D'OR</a>
     </div>
     <div class="hud-top-right">
       <span class="hud-status">LAT<span class="dim">18.4°N</span></span>
@@ -1023,6 +1020,18 @@
         une cité martienne pensée pour répondre aux 7 grandes problématiques
         des villes du XXIᵉ siècle, par la science et la foi.
       </p>
+    </section>
+
+    <!-- ============ VIDEO PRESENTATION ============ -->
+    <section class="video-section">
+      <h2 class="proj-section-title">Découvrir le projet</h2>
+      <div class="video-wrapper">
+        <div data-video-slot="projet-intro" data-video-label="Présentation du projet" style="position: relative; padding-bottom: 56.25%; height: 0; background: var(--space-deep); border: 1px solid rgba(244, 200, 122, 0.25); overflow: hidden;"></div>
+        <span class="video-frame tl"></span>
+        <span class="video-frame tr"></span>
+        <span class="video-frame bl"></span>
+        <span class="video-frame br"></span>
+      </div>
     </section>
 
     <!-- ============ CITATION ÉNONCÉ ============ -->
