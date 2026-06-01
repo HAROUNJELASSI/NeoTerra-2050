@@ -1,6 +1,6 @@
 /*
  * NEOTERRA 2050 — Configuration centrale
- * Généré par admin.html le 01/06/2026 19:43:21
+ * Généré par admin.html le 01/06/2026 19:58:54
  */
 window.NEOTERRA_CONFIG = {
 
@@ -36,7 +36,7 @@ window.NEOTERRA_CONFIG = {
     'cite-plan':                       'mV2idtPkgbw',
     'cite-chiffres':                   'IubR13vCxCw',
     'cite-vision':                     'lxx6VbnSMpo',
-    'cite-batiments':                  'IscFbt_vCxY',
+    'cite-batiments':                  'ZVDLXUo9LrU',
     'cite-construction':               'IscFbt_vCxY',
 
     /* ── maquette.html ── */
