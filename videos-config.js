@@ -1,6 +1,6 @@
 /*
  * NEOTERRA 2050 — Configuration centrale
- * Généré par admin.html le 01/06/2026 20:26:26
+ * Généré par admin.html le 02/06/2026 19:53:46
  */
 window.NEOTERRA_CONFIG = {
 
@@ -62,6 +62,6 @@ window.NEOTERRA_CONFIG = {
     'technologie-cohabitation':        'IscFbt_vCxY',
 
     /* ── architecte.html ── */
-    'architecte-intro':                'IscFbt_vCxY'
+    'architecte-intro':                'A2LiCHTceew'
   }
 };
