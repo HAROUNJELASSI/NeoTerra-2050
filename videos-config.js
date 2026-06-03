@@ -1,6 +1,6 @@
 /*
  * NEOTERRA 2050 — Configuration centrale
- * Généré par admin.html le 02/06/2026 20:33:33
+ * Généré par admin.html le 03/06/2026 11:18:27
  */
 window.NEOTERRA_CONFIG = {
 
@@ -44,7 +44,7 @@ window.NEOTERRA_CONFIG = {
     'maquette-visite':                 'JeYzO9eo7Dc',
 
     /* ── technologie.html ── */
-    'technologie-logement':            'IscFbt_vCxY',
+    'technologie-logement':            '0xVTQDmsZX0',
     'technologie-education':           'IscFbt_vCxY',
     'technologie-energie':             'IscFbt_vCxY',
     'technologie-eau':                 'IscFbt_vCxY',
